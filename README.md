@@ -16,7 +16,8 @@ A lightweight and straightforward OpenGL-based rendering engine designed for edu
 - **C++ Compiler**: Requires a C++11 compatible compiler.
 - **OpenGL**: Version 3.3 or higher.
 - **GLFW**: For window and input management.
-- **GLAD**: For OpenGL function loading.
+- **GLM**: For vector math.(included)
+- **GLAD**: For OpenGL function loading.(included)
 ### Installation
 
 1. **Clone the repository**
