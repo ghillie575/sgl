@@ -12,7 +12,8 @@ void Window::framebuffer_size_callback(GLFWwindow *window, int width, int height
 {
         glViewport(0, 0, width, height);
 }
-Object& Window::getObject(int id){
+Object &Window::getObject(int id)
+{
         return objects[id];
 }
 void Window::Init()
@@ -21,18 +22,18 @@ void Window::Init()
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        const GLFWvidmode * mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        window = glfwCreateWindow(width,height, title, NULL, NULL);
+        const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        window = glfwCreateWindow(width, height, title, NULL, NULL);
         if (window == NULL)
         {
-                std::cout << "Engine init failed:\nFailed to create GLFW window\nat:Window::Init()" << std::endl;
+                std::cout << "Engine init failed:\nFailed to create GLFW window\nat Window::Init()" << std::endl;
                 glfwTerminate();
                 exit(-1);
         }
         glfwMakeContextCurrent(window);
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {
-                std::cout << "Engine init failed:\nFailed to initialize GLAD\nat:Window::Init()" << std::endl;
+                std::cout << "Engine init failed:\nFailed to initialize GLAD\nat Window::Init()" << std::endl;
                 exit(-1);
         }
 }
@@ -46,15 +47,19 @@ void Window::start()
                 glClear(GL_COLOR_BUFFER_BIT);
                 for (int i = 0; i < objects.size(); i++)
                 {
-                     objects[i].render();   
+                        objects[i].render();
                 }
-                
 
                 update(this);
                 glfwSwapBuffers(window);
                 glfwPollEvents();
         }
+        for (int i = 0; i < objects.size(); i++)
+        {
+                objects[i].freeResources();
+        }
         glfwTerminate();
+        
         return;
 }
 void Window::setUpdate(void (*func)(Window *window))
@@ -67,7 +72,7 @@ void Window::setInputProcess(void (*func)(Window *window))
 }
 void Window::regObject(Object obj)
 {
-         
+
         obj.build();
-        objects.insert(objects.begin(),obj);
+        objects.insert(objects.begin(), obj);
 }
