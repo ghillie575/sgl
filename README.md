@@ -6,7 +6,6 @@ A lightweight and straightforward OpenGL-based rendering engine designed for edu
 
 - **Basic Rendering**: Render simple 3D objects like cubes, spheres, and planes.
 - **Shader Support**: Easy management of vertex and fragment shaders.
-- **Texture Loading**: Load and apply textures to 3D objects.
 - **Camera Control**: Basic camera movement, including rotation and zoom.
 - **Lighting**: Simple lighting models to illuminate 3D scenes.
 
@@ -18,8 +17,6 @@ A lightweight and straightforward OpenGL-based rendering engine designed for edu
 - **OpenGL**: Version 3.3 or higher.
 - **GLFW**: For window and input management.
 - **GLAD**: For OpenGL function loading.
-- **SOIL**: For texture loading.
-
 ### Installation
 
 1. **Clone the repository**
