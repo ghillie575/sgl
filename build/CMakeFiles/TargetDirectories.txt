@@ -1,0 +1,3 @@
+/media/mikhail/Files/Projects/xAndo/build/CMakeFiles/XandO.dir
+/media/mikhail/Files/Projects/xAndo/build/CMakeFiles/edit_cache.dir
+/media/mikhail/Files/Projects/xAndo/build/CMakeFiles/rebuild_cache.dir

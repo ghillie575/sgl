@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.5.0)
+project(XandO VERSION 0.1.0 LANGUAGES C CXX)
+find_package(OpenGL REQUIRED)
+find_package(glfw3 REQUIRED)
+
+include_directories(${OPENGL_INCLUDE_DIR})
+add_executable(XandO main.cpp ${CMAKE_SOURCE_DIR}/src/shader.cpp ${CMAKE_SOURCE_DIR}/src/glad.c ${CMAKE_SOURCE_DIR}/src/window.cpp ${CMAKE_SOURCE_DIR}/src/object.cpp )
+target_include_directories(XandO PRIVATE ${CMAKE_SOURCE_DIR}/include)
+target_link_libraries(XandO glfw)
+target_link_libraries(XandO OpenGL::GL)
