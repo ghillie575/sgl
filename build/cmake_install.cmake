@@ -1,4 +1,4 @@
-# Install script for directory: /media/mikhail/Files/Projects/xAndo
+# Install script for directory: /media/mikhail/Files/Projects/sgl
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/media/mikhail/Files/Projects/xAndo/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/media/mikhail/Files/Projects/sgl/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

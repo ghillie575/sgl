@@ -10,6 +10,6 @@ target_link_libraries(XandO glfw)
 target_link_libraries(XandO OpenGL::GL)
 message(STATUS "Copying engine files")
 execute_process(
-    COMMAND bash -c "rm -r ./build/engine/*"
-    COMMAND bash -c "cp ./engine/* ./build/engine/*"
+    COMMAND bash -c "rm -r ./engine/*"
+    COMMAND bash -c "cp -r ../engine/* ./engine/"
 )

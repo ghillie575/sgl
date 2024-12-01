@@ -1,6 +1,6 @@
 CMakeFiles/XandO.dir/src/glad.c.o: \
- /media/mikhail/Files/Projects/xAndo/src/glad.c \
- /usr/include/stdc-predef.h /usr/include/stdio.h \
+ /media/mikhail/Files/Projects/sgl/src/glad.c /usr/include/stdc-predef.h \
+ /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
@@ -52,8 +52,8 @@ CMakeFiles/XandO.dir/src/glad.c.o: \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
  /usr/include/strings.h \
- /media/mikhail/Files/Projects/xAndo/include/glad/glad.h \
- /media/mikhail/Files/Projects/xAndo/include/KHR/khrplatform.h \
+ /media/mikhail/Files/Projects/sgl/include/glad/glad.h \
+ /media/mikhail/Files/Projects/sgl/include/KHR/khrplatform.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \

@@ -1,32 +1,32 @@
 [
 {
-  "directory": "/media/mikhail/Files/Projects/xAndo/build",
-  "command": "/usr/bin/c++  -I/media/mikhail/Files/Projects/xAndo/include -g -o CMakeFiles/XandO.dir/main.cpp.o -c /media/mikhail/Files/Projects/xAndo/main.cpp",
-  "file": "/media/mikhail/Files/Projects/xAndo/main.cpp",
+  "directory": "/media/mikhail/Files/Projects/sgl/build",
+  "command": "/usr/bin/g++  -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/main.cpp.o -c /media/mikhail/Files/Projects/sgl/main.cpp",
+  "file": "/media/mikhail/Files/Projects/sgl/main.cpp",
   "output": "CMakeFiles/XandO.dir/main.cpp.o"
 },
 {
-  "directory": "/media/mikhail/Files/Projects/xAndo/build",
-  "command": "/usr/bin/c++  -I/media/mikhail/Files/Projects/xAndo/include -g -o CMakeFiles/XandO.dir/src/shader.cpp.o -c /media/mikhail/Files/Projects/xAndo/src/shader.cpp",
-  "file": "/media/mikhail/Files/Projects/xAndo/src/shader.cpp",
+  "directory": "/media/mikhail/Files/Projects/sgl/build",
+  "command": "/usr/bin/g++  -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/shader.cpp.o -c /media/mikhail/Files/Projects/sgl/src/shader.cpp",
+  "file": "/media/mikhail/Files/Projects/sgl/src/shader.cpp",
   "output": "CMakeFiles/XandO.dir/src/shader.cpp.o"
 },
 {
-  "directory": "/media/mikhail/Files/Projects/xAndo/build",
-  "command": "/usr/bin/cc  -I/media/mikhail/Files/Projects/xAndo/include -g -o CMakeFiles/XandO.dir/src/glad.c.o -c /media/mikhail/Files/Projects/xAndo/src/glad.c",
-  "file": "/media/mikhail/Files/Projects/xAndo/src/glad.c",
+  "directory": "/media/mikhail/Files/Projects/sgl/build",
+  "command": "/usr/bin/gcc  -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/glad.c.o -c /media/mikhail/Files/Projects/sgl/src/glad.c",
+  "file": "/media/mikhail/Files/Projects/sgl/src/glad.c",
   "output": "CMakeFiles/XandO.dir/src/glad.c.o"
 },
 {
-  "directory": "/media/mikhail/Files/Projects/xAndo/build",
-  "command": "/usr/bin/c++  -I/media/mikhail/Files/Projects/xAndo/include -g -o CMakeFiles/XandO.dir/src/window.cpp.o -c /media/mikhail/Files/Projects/xAndo/src/window.cpp",
-  "file": "/media/mikhail/Files/Projects/xAndo/src/window.cpp",
+  "directory": "/media/mikhail/Files/Projects/sgl/build",
+  "command": "/usr/bin/g++  -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/window.cpp.o -c /media/mikhail/Files/Projects/sgl/src/window.cpp",
+  "file": "/media/mikhail/Files/Projects/sgl/src/window.cpp",
   "output": "CMakeFiles/XandO.dir/src/window.cpp.o"
 },
 {
-  "directory": "/media/mikhail/Files/Projects/xAndo/build",
-  "command": "/usr/bin/c++  -I/media/mikhail/Files/Projects/xAndo/include -g -o CMakeFiles/XandO.dir/src/object.cpp.o -c /media/mikhail/Files/Projects/xAndo/src/object.cpp",
-  "file": "/media/mikhail/Files/Projects/xAndo/src/object.cpp",
+  "directory": "/media/mikhail/Files/Projects/sgl/build",
+  "command": "/usr/bin/g++  -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/object.cpp.o -c /media/mikhail/Files/Projects/sgl/src/object.cpp",
+  "file": "/media/mikhail/Files/Projects/sgl/src/object.cpp",
   "output": "CMakeFiles/XandO.dir/src/object.cpp.o"
 }
 ]

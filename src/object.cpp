@@ -20,7 +20,7 @@ void Object::translate(glm::vec3 vector,float speed){
 }
 void Object::loadModel(const char *modelName)
 {
-    std::string path = "models/";
+    std::string path = "engine/models/";
     path.append(modelName);
     path.append(".vmodel");
     std::ifstream t(path);
