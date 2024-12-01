@@ -43,7 +43,7 @@ void Object::loadModel(const char *modelName)
     this->vert = v;
     t.close();
     // Indicies
-    path = "models/";
+    path = "engine/models/";
     path.append(modelName);
     path.append(".imodel");
     std::ifstream t1(path);
