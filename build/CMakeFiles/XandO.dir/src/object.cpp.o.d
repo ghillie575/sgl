@@ -386,6 +386,7 @@ CMakeFiles/XandO.dir/src/object.cpp.o: \
  /media/mikhail/Files/Projects/sgl/include/glm/gtc/../gtc/../ext/vector_uint1_sized.hpp \
  /usr/include/c++/13/cstring /usr/include/string.h /usr/include/strings.h \
  /media/mikhail/Files/Projects/sgl/include/glm/gtc/type_ptr.inl \
+ /media/mikhail/Files/Projects/sgl/include/transform.h \
  /media/mikhail/Files/Projects/sgl/include/glad/glad.h \
  /media/mikhail/Files/Projects/sgl/include/KHR/khrplatform.h \
  /usr/include/GLFW/glfw3.h /usr/include/c++/13/sstream \

@@ -7,6 +7,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/XandO.dir/src/object.cpp.o.d"
   "CMakeFiles/XandO.dir/src/shader.cpp.o"
   "CMakeFiles/XandO.dir/src/shader.cpp.o.d"
+  "CMakeFiles/XandO.dir/src/transform.cpp.o"
+  "CMakeFiles/XandO.dir/src/transform.cpp.o.d"
   "CMakeFiles/XandO.dir/src/window.cpp.o"
   "CMakeFiles/XandO.dir/src/window.cpp.o.d"
   "XandO"

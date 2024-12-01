@@ -12,6 +12,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/media/mikhail/Files/Projects/sgl/main.cpp" "CMakeFiles/XandO.dir/main.cpp.o" "gcc" "CMakeFiles/XandO.dir/main.cpp.o.d"
   "/media/mikhail/Files/Projects/sgl/src/object.cpp" "CMakeFiles/XandO.dir/src/object.cpp.o" "gcc" "CMakeFiles/XandO.dir/src/object.cpp.o.d"
   "/media/mikhail/Files/Projects/sgl/src/shader.cpp" "CMakeFiles/XandO.dir/src/shader.cpp.o" "gcc" "CMakeFiles/XandO.dir/src/shader.cpp.o.d"
+  "/media/mikhail/Files/Projects/sgl/src/transform.cpp" "CMakeFiles/XandO.dir/src/transform.cpp.o" "gcc" "CMakeFiles/XandO.dir/src/transform.cpp.o.d"
   "/media/mikhail/Files/Projects/sgl/src/window.cpp" "CMakeFiles/XandO.dir/src/window.cpp.o" "gcc" "CMakeFiles/XandO.dir/src/window.cpp.o.d"
   )
 

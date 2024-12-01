@@ -3,6 +3,7 @@
 #include <shader.h>
 #include <cstddef>
 #include <glm/glm.hpp>
+#include <transform.h>
 #ifndef OBJECT_H
 #define OBJECT_H
 
@@ -20,9 +21,7 @@ private:
 public:
     Shader shader = Shader();
     unsigned int VBO, VAO, EBO;
-    glm::vec3 scale;   
-    glm::vec3 pos; 
-    //glm::mat4 trans;
+    Transform transform;
     drawAs mode;
     std::vector<unsigned int> ind;
     std::vector<float> vert;
@@ -32,14 +31,11 @@ public:
     void render();
     void useShader(const char* shaderName);
     void useShader(Shader shader);
-    //void recompileShader();
-    void setScale(glm::vec3 scale);
-    void setPosition(glm::vec3 pos);
-    void setRotation(glm::vec3 rotation);
-    void translate(glm::vec3 vector,float speed);
     void freeResources();
     void setDrawMode(drawAs mode);
     void loadModel(const char *modelName);
+    void logInfo(const char* message);
+    void logError(const char* message);
 };
 
 #endif

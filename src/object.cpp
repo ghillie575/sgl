@@ -11,12 +11,7 @@
 #include <glm/gtc/type_ptr.hpp>
 Object::Object()
 {
-    this->scale = glm::vec3(1,1,1);
-}
-void Object::translate(glm::vec3 vector,float speed){
-    glm::vec3 translate = glm::vec3((float)glfwGetTime() * speed);
-    pos += vector * translate;
-    return ;
+    this->transform.setScaling(glm::vec3(1,1,1));
 }
 void Object::loadModel(const char *modelName)
 {
@@ -110,19 +105,11 @@ void Object::useShader(Shader shader)
 {
     this->shader = shader;
 }
-void Object::setScale(glm::vec3 scale){
-    this->scale = scale;
-}  
-void Object::setPosition(glm::vec3 pos){
-    this->pos = pos;
-}   
 void Object::render()
 {
     
     //trans = glm::translate(trans,pos);
-    glm::mat4 trans = glm::mat4(1.0f);
-    trans = glm::translate(trans, pos);
-    trans = glm::scale(trans,scale);
+    glm::mat4 trans = transform.getTransformationMatrix();
     shader.use();
     unsigned int transformLoc = glGetUniformLocation(shader.ID, "transform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));

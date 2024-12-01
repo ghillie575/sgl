@@ -42,7 +42,8 @@ int main(int, char **)
     obj1.setDrawMode(lines);
     obj1.loadModel("basic/2d/triangle");
     obj1.useShader(shader);
-    obj1.setScale(glm::vec3(0.2,0.2,0.2));
+    obj1.transform.setScaling(glm::vec3(0.2,0.2,0.2));
+    obj1.transform.translate(glm::vec3(0.1,0.1,0.1));
     glLineWidth(10.0f);
     window.setUpdate(Update);
     window.setInputProcess(processInput);

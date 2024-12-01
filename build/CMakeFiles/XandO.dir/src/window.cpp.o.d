@@ -388,4 +388,5 @@ CMakeFiles/XandO.dir/src/window.cpp.o: \
  /media/mikhail/Files/Projects/sgl/include/glm/gtc/../gtc/../ext/vector_uint1.hpp \
  /media/mikhail/Files/Projects/sgl/include/glm/gtc/../gtc/../ext/vector_uint1_sized.hpp \
  /usr/include/c++/13/cstring /usr/include/string.h /usr/include/strings.h \
- /media/mikhail/Files/Projects/sgl/include/glm/gtc/type_ptr.inl
+ /media/mikhail/Files/Projects/sgl/include/glm/gtc/type_ptr.inl \
+ /media/mikhail/Files/Projects/sgl/include/transform.h

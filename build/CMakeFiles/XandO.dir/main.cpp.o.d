@@ -389,6 +389,7 @@ CMakeFiles/XandO.dir/main.cpp.o: \
  /media/mikhail/Files/Projects/sgl/include/glm/gtc/../gtc/../ext/vector_uint1_sized.hpp \
  /usr/include/c++/13/cstring /usr/include/string.h /usr/include/strings.h \
  /media/mikhail/Files/Projects/sgl/include/glm/gtc/type_ptr.inl \
+ /media/mikhail/Files/Projects/sgl/include/transform.h \
  /usr/include/c++/13/sstream /usr/include/c++/13/bits/sstream.tcc \
  /usr/include/c++/13/iterator /usr/include/c++/13/bits/stream_iterator.h \
  /usr/include/c++/13/fstream /usr/include/c++/13/bits/codecvt.h \

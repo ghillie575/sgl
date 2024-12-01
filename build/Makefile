@@ -225,6 +225,30 @@ src/shader.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/XandO.dir/build.make CMakeFiles/XandO.dir/src/shader.cpp.s
 .PHONY : src/shader.cpp.s
 
+src/transform.o: src/transform.cpp.o
+.PHONY : src/transform.o
+
+# target to build an object file
+src/transform.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/XandO.dir/build.make CMakeFiles/XandO.dir/src/transform.cpp.o
+.PHONY : src/transform.cpp.o
+
+src/transform.i: src/transform.cpp.i
+.PHONY : src/transform.i
+
+# target to preprocess a source file
+src/transform.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/XandO.dir/build.make CMakeFiles/XandO.dir/src/transform.cpp.i
+.PHONY : src/transform.cpp.i
+
+src/transform.s: src/transform.cpp.s
+.PHONY : src/transform.s
+
+# target to generate assembly for a file
+src/transform.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/XandO.dir/build.make CMakeFiles/XandO.dir/src/transform.cpp.s
+.PHONY : src/transform.cpp.s
+
 src/window.o: src/window.cpp.o
 .PHONY : src/window.o
 
@@ -270,6 +294,9 @@ help:
 	@echo "... src/shader.o"
 	@echo "... src/shader.i"
 	@echo "... src/shader.s"
+	@echo "... src/transform.o"
+	@echo "... src/transform.i"
+	@echo "... src/transform.s"
 	@echo "... src/window.o"
 	@echo "... src/window.i"
 	@echo "... src/window.s"
