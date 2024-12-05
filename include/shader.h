@@ -3,15 +3,17 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <logger.h>
 #ifndef SHADER_H
 #define SHADER_H
 class Shader
 {
 public:
     unsigned int ID;
-
     Shader(const char *vertexPath, const char *fragmentPath);
     Shader();
+    Logger loadLogger = Logger("SHADER_L");
+    Logger compileLogger = Logger("SHADER_C");
     void use();
 
     void setBool(const std::string &name, bool value) const;
@@ -33,6 +35,6 @@ public:
 
 private:
 void checkCompileErrors(unsigned int shader, std::string type);
-}
-;
+};
+
 #endif

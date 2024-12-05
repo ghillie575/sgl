@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iostream>
 #include <glad/glad.h>
+#include <logger.h>
 Shader::Shader() {}
 Shader::Shader(const char *vertexPath, const char *fragmentPath)
 {
@@ -14,8 +15,8 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath)
 
     vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
     fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-    std::cout << "loading " << vertexPath << std::endl;
-    std::cout << "loading " << fragmentPath << std::endl;
+    loadLogger.log(LogLevel::INFO, std::string("LOAD ") + vertexPath);
+    loadLogger.log(LogLevel::INFO, std::string("LOAD ") + fragmentPath);
     try
     {
         vShaderFile.open(vertexPath);
@@ -33,8 +34,8 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath)
     }
     catch (std::ifstream::failure &e)
     {
-        std::cout << "Error loading shader: " << vertexPath << std::endl;
-        std::cout << "Error loading shader: " << fragmentPath << std::endl;
+        loadLogger.log(LogLevel::ERROR, std::string("ERROR::SHADER::FILE_NOT_SUCCESFULL") + fragmentPath);
+        loadLogger.log(LogLevel::ERROR, std::string("ERROR::SHADER::FILE_NOT_SUCCESFULL") + vertexPath);
     }
     const char *vShaderCode = vertexCode.c_str();
     const char *fShaderCode = fragmentCode.c_str();
@@ -85,8 +86,12 @@ void Shader::checkCompileErrors(unsigned int shader, std::string type)
         if (!success)
         {
             glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-            std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n"
-                      << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+            std::ostringstream errorLog; // Use ostringstream to build the error message
+            errorLog << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n"
+                     << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+
+            compileLogger.log(LogLevel::ERROR, errorLog.str());
+            exit(1);
         }
     }
     else
@@ -95,8 +100,12 @@ void Shader::checkCompileErrors(unsigned int shader, std::string type)
         if (!success)
         {
             glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-            std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n"
-                      << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+            std::ostringstream errorLog; // Use ostringstream to build the error message
+            errorLog << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n"
+                     << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+
+            compileLogger.log(LogLevel::ERROR, errorLog.str());
+            exit(1);
         }
     }
 }

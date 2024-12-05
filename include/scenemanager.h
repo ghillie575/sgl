@@ -1,4 +1,8 @@
 #include <iostream>
 #include <window.h>
-void loadScene(Window window,std::string json);
-std::string createScene();
+#include <scenedata.h>
+#ifndef SCENEMANAGER_H
+#define SCENEMANAGER_H
+void loadScene(Window* window,std::string json);
+std::string createScene(SceneData* data);
+#endif

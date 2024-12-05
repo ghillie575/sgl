@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <glm/glm.hpp>
 #include <transform.h>
+#include <logger.h>
 #ifndef OBJECT_H
 #define OBJECT_H
 
@@ -17,9 +18,11 @@ class Object
 private:
     /* data */
     bool modelUsesEBO = true;
+    Logger logger = Logger("");
 
 public:
-    Shader shader = Shader();
+    Shader* shader;
+    std::string shaderName = "";
     unsigned int VBO, VAO, EBO;
     Transform transform;
     drawAs mode;
@@ -30,7 +33,7 @@ public:
     void build();
     void render();
     void useShader(const char* shaderName);
-    void useShader(Shader shader);
+    void useShader(Shader* shader);
     void freeResources();
     void setDrawMode(drawAs mode);
     void loadModel(const char *modelName);

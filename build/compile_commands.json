@@ -19,6 +19,24 @@
 },
 {
   "directory": "/media/mikhail/Files/Projects/sgl/build",
+  "command": "/usr/bin/g++  -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/scenedata.cpp.o -c /media/mikhail/Files/Projects/sgl/src/scenedata.cpp",
+  "file": "/media/mikhail/Files/Projects/sgl/src/scenedata.cpp",
+  "output": "CMakeFiles/XandO.dir/src/scenedata.cpp.o"
+},
+{
+  "directory": "/media/mikhail/Files/Projects/sgl/build",
+  "command": "/usr/bin/g++  -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/scenemanager.cpp.o -c /media/mikhail/Files/Projects/sgl/src/scenemanager.cpp",
+  "file": "/media/mikhail/Files/Projects/sgl/src/scenemanager.cpp",
+  "output": "CMakeFiles/XandO.dir/src/scenemanager.cpp.o"
+},
+{
+  "directory": "/media/mikhail/Files/Projects/sgl/build",
+  "command": "/usr/bin/g++  -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/sceneobject.cpp.o -c /media/mikhail/Files/Projects/sgl/src/sceneobject.cpp",
+  "file": "/media/mikhail/Files/Projects/sgl/src/sceneobject.cpp",
+  "output": "CMakeFiles/XandO.dir/src/sceneobject.cpp.o"
+},
+{
+  "directory": "/media/mikhail/Files/Projects/sgl/build",
   "command": "/usr/bin/g++  -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/shader.cpp.o -c /media/mikhail/Files/Projects/sgl/src/shader.cpp",
   "file": "/media/mikhail/Files/Projects/sgl/src/shader.cpp",
   "output": "CMakeFiles/XandO.dir/src/shader.cpp.o"

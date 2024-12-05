@@ -1,6 +1,7 @@
 #include <window.h>
 #include <iostream>
-
+#include <filesystem>
+namespace fs = std::filesystem;
 Window::Window(int height, int width, const char *title)
 {
         this->height = height;
@@ -12,9 +13,20 @@ void Window::framebuffer_size_callback(GLFWwindow *window, int width, int height
 {
         glViewport(0, 0, width, height);
 }
-Object &Window::getObject(int id)
+Object *Window::getObject(int id)
 {
-        return objects[id];
+        return &objects[id];
+}
+void getAllFiles(const fs::path &directory, std::vector<fs::path> &files, int &fileCOunt)
+{
+        // Iterate through the directory and its subdirectories
+        for (const auto &entry : fs::recursive_directory_iterator(directory))
+        {
+                if (fs::is_regular_file(entry))
+                {
+                        files.push_back(entry.path());
+                }
+        }
 }
 void Window::Init()
 {
@@ -35,6 +47,36 @@ void Window::Init()
         {
                 std::cout << "Engine init failed:\nFailed to initialize GLAD\nat Window::Init()" << std::endl;
                 exit(-1);
+        }
+        logger.log(LogLevel::INFO, "Loading shaders");
+        std::vector<fs::path> files;
+        int count;
+        getAllFiles("engine/shaders", files, count);
+
+        for (const auto &file : files)
+        {
+
+                if (file.extension() == ".vs")
+                {
+                        logger.log(LogLevel::INFO, std::string("Loading shader: ") + file.stem().string());
+                        Shader current = Shader(file.string().c_str(), (file.parent_path().string() + std::string("/") + file.stem().string() + ".fs").c_str());
+                        shadreReg[file.stem().string()] = current;
+                }
+        }
+}
+bool Window::shaderExists(const std::string &shaderName)
+{
+        return shadreReg.find(shaderName) != shadreReg.end();
+}
+Shader *Window::getShader(std::string shaderName)
+{
+        if (shaderExists(shaderName))
+        {
+                return &shadreReg[shaderName];
+        }
+        else
+        {
+                return &shadreReg["default"];
         }
 }
 void Window::start()
@@ -59,7 +101,7 @@ void Window::start()
                 objects[i].freeResources();
         }
         glfwTerminate();
-        
+
         return;
 }
 void Window::setUpdate(void (*func)(Window *window))
@@ -72,7 +114,12 @@ void Window::setInputProcess(void (*func)(Window *window))
 }
 void Window::regObject(Object obj)
 {
-
+        std::string str = "";
+        if (obj.shaderName == str)
+        {
+               obj.useShader(getShader(obj.shaderName));
+        }
+       
         obj.build();
         objects.insert(objects.begin(), obj);
 }

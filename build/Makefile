@@ -201,6 +201,78 @@ src/object.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/XandO.dir/build.make CMakeFiles/XandO.dir/src/object.cpp.s
 .PHONY : src/object.cpp.s
 
+src/scenedata.o: src/scenedata.cpp.o
+.PHONY : src/scenedata.o
+
+# target to build an object file
+src/scenedata.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/XandO.dir/build.make CMakeFiles/XandO.dir/src/scenedata.cpp.o
+.PHONY : src/scenedata.cpp.o
+
+src/scenedata.i: src/scenedata.cpp.i
+.PHONY : src/scenedata.i
+
+# target to preprocess a source file
+src/scenedata.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/XandO.dir/build.make CMakeFiles/XandO.dir/src/scenedata.cpp.i
+.PHONY : src/scenedata.cpp.i
+
+src/scenedata.s: src/scenedata.cpp.s
+.PHONY : src/scenedata.s
+
+# target to generate assembly for a file
+src/scenedata.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/XandO.dir/build.make CMakeFiles/XandO.dir/src/scenedata.cpp.s
+.PHONY : src/scenedata.cpp.s
+
+src/scenemanager.o: src/scenemanager.cpp.o
+.PHONY : src/scenemanager.o
+
+# target to build an object file
+src/scenemanager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/XandO.dir/build.make CMakeFiles/XandO.dir/src/scenemanager.cpp.o
+.PHONY : src/scenemanager.cpp.o
+
+src/scenemanager.i: src/scenemanager.cpp.i
+.PHONY : src/scenemanager.i
+
+# target to preprocess a source file
+src/scenemanager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/XandO.dir/build.make CMakeFiles/XandO.dir/src/scenemanager.cpp.i
+.PHONY : src/scenemanager.cpp.i
+
+src/scenemanager.s: src/scenemanager.cpp.s
+.PHONY : src/scenemanager.s
+
+# target to generate assembly for a file
+src/scenemanager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/XandO.dir/build.make CMakeFiles/XandO.dir/src/scenemanager.cpp.s
+.PHONY : src/scenemanager.cpp.s
+
+src/sceneobject.o: src/sceneobject.cpp.o
+.PHONY : src/sceneobject.o
+
+# target to build an object file
+src/sceneobject.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/XandO.dir/build.make CMakeFiles/XandO.dir/src/sceneobject.cpp.o
+.PHONY : src/sceneobject.cpp.o
+
+src/sceneobject.i: src/sceneobject.cpp.i
+.PHONY : src/sceneobject.i
+
+# target to preprocess a source file
+src/sceneobject.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/XandO.dir/build.make CMakeFiles/XandO.dir/src/sceneobject.cpp.i
+.PHONY : src/sceneobject.cpp.i
+
+src/sceneobject.s: src/sceneobject.cpp.s
+.PHONY : src/sceneobject.s
+
+# target to generate assembly for a file
+src/sceneobject.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/XandO.dir/build.make CMakeFiles/XandO.dir/src/sceneobject.cpp.s
+.PHONY : src/sceneobject.cpp.s
+
 src/shader.o: src/shader.cpp.o
 .PHONY : src/shader.o
 
@@ -291,6 +363,15 @@ help:
 	@echo "... src/object.o"
 	@echo "... src/object.i"
 	@echo "... src/object.s"
+	@echo "... src/scenedata.o"
+	@echo "... src/scenedata.i"
+	@echo "... src/scenedata.s"
+	@echo "... src/scenemanager.o"
+	@echo "... src/scenemanager.i"
+	@echo "... src/scenemanager.s"
+	@echo "... src/sceneobject.o"
+	@echo "... src/sceneobject.i"
+	@echo "... src/sceneobject.s"
 	@echo "... src/shader.o"
 	@echo "... src/shader.i"
 	@echo "... src/shader.s"

@@ -95,13 +95,9 @@ void Object::build()
 
 void Object::useShader(const char *shaderName)
 {
-    std::string name = "engine/shaders/";
-    name += shaderName;
-    std::string vertex = name + ".vs";
-    std::string fragment = name + ".fs";
-    shader = Shader(vertex.c_str(), fragment.c_str());
+    this->shaderName = shaderName;
 }
-void Object::useShader(Shader shader)
+void Object::useShader(Shader* shader)
 {
     this->shader = shader;
 }
@@ -110,8 +106,8 @@ void Object::render()
     
     //trans = glm::translate(trans,pos);
     glm::mat4 trans = transform.getTransformationMatrix();
-    shader.use();
-    unsigned int transformLoc = glGetUniformLocation(shader.ID, "transform");
+    shader->use();
+    unsigned int transformLoc = glGetUniformLocation(shader->ID, "transform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
     glBindVertexArray(VAO);
 

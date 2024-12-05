@@ -382,6 +382,7 @@ CMakeFiles/XandO.dir/src/shader.cpp.o: \
  /media/mikhail/Files/Projects/sgl/include/glm/gtc/../gtc/../ext/vector_uint1_sized.hpp \
  /usr/include/c++/13/cstring /usr/include/string.h /usr/include/strings.h \
  /media/mikhail/Files/Projects/sgl/include/glm/gtc/type_ptr.inl \
+ /media/mikhail/Files/Projects/sgl/include/logger.h \
  /usr/include/c++/13/fstream /usr/include/c++/13/bits/codecvt.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++io.h \

@@ -81,12 +81,12 @@ clean: CMakeFiles/XandO.dir/clean
 CMakeFiles/XandO.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/XandO.dir/build.make CMakeFiles/XandO.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/XandO.dir/build.make CMakeFiles/XandO.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/media/mikhail/Files/Projects/sgl/build/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target XandO"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/media/mikhail/Files/Projects/sgl/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10 "Built target XandO"
 .PHONY : CMakeFiles/XandO.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/XandO.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /media/mikhail/Files/Projects/sgl/build/CMakeFiles 7
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/mikhail/Files/Projects/sgl/build/CMakeFiles 10
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/XandO.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /media/mikhail/Files/Projects/sgl/build/CMakeFiles 0
 .PHONY : CMakeFiles/XandO.dir/rule

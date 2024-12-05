@@ -111,10 +111,52 @@ CMakeFiles/XandO.dir/src/object.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/XandO.dir/src/object.cpp.s"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /media/mikhail/Files/Projects/sgl/src/object.cpp -o CMakeFiles/XandO.dir/src/object.cpp.s
 
+CMakeFiles/XandO.dir/src/scenedata.cpp.o: CMakeFiles/XandO.dir/flags.make
+CMakeFiles/XandO.dir/src/scenedata.cpp.o: /media/mikhail/Files/Projects/sgl/src/scenedata.cpp
+CMakeFiles/XandO.dir/src/scenedata.cpp.o: CMakeFiles/XandO.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/mikhail/Files/Projects/sgl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/XandO.dir/src/scenedata.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/XandO.dir/src/scenedata.cpp.o -MF CMakeFiles/XandO.dir/src/scenedata.cpp.o.d -o CMakeFiles/XandO.dir/src/scenedata.cpp.o -c /media/mikhail/Files/Projects/sgl/src/scenedata.cpp
+
+CMakeFiles/XandO.dir/src/scenedata.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/XandO.dir/src/scenedata.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /media/mikhail/Files/Projects/sgl/src/scenedata.cpp > CMakeFiles/XandO.dir/src/scenedata.cpp.i
+
+CMakeFiles/XandO.dir/src/scenedata.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/XandO.dir/src/scenedata.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /media/mikhail/Files/Projects/sgl/src/scenedata.cpp -o CMakeFiles/XandO.dir/src/scenedata.cpp.s
+
+CMakeFiles/XandO.dir/src/scenemanager.cpp.o: CMakeFiles/XandO.dir/flags.make
+CMakeFiles/XandO.dir/src/scenemanager.cpp.o: /media/mikhail/Files/Projects/sgl/src/scenemanager.cpp
+CMakeFiles/XandO.dir/src/scenemanager.cpp.o: CMakeFiles/XandO.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/mikhail/Files/Projects/sgl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/XandO.dir/src/scenemanager.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/XandO.dir/src/scenemanager.cpp.o -MF CMakeFiles/XandO.dir/src/scenemanager.cpp.o.d -o CMakeFiles/XandO.dir/src/scenemanager.cpp.o -c /media/mikhail/Files/Projects/sgl/src/scenemanager.cpp
+
+CMakeFiles/XandO.dir/src/scenemanager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/XandO.dir/src/scenemanager.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /media/mikhail/Files/Projects/sgl/src/scenemanager.cpp > CMakeFiles/XandO.dir/src/scenemanager.cpp.i
+
+CMakeFiles/XandO.dir/src/scenemanager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/XandO.dir/src/scenemanager.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /media/mikhail/Files/Projects/sgl/src/scenemanager.cpp -o CMakeFiles/XandO.dir/src/scenemanager.cpp.s
+
+CMakeFiles/XandO.dir/src/sceneobject.cpp.o: CMakeFiles/XandO.dir/flags.make
+CMakeFiles/XandO.dir/src/sceneobject.cpp.o: /media/mikhail/Files/Projects/sgl/src/sceneobject.cpp
+CMakeFiles/XandO.dir/src/sceneobject.cpp.o: CMakeFiles/XandO.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/mikhail/Files/Projects/sgl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/XandO.dir/src/sceneobject.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/XandO.dir/src/sceneobject.cpp.o -MF CMakeFiles/XandO.dir/src/sceneobject.cpp.o.d -o CMakeFiles/XandO.dir/src/sceneobject.cpp.o -c /media/mikhail/Files/Projects/sgl/src/sceneobject.cpp
+
+CMakeFiles/XandO.dir/src/sceneobject.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/XandO.dir/src/sceneobject.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /media/mikhail/Files/Projects/sgl/src/sceneobject.cpp > CMakeFiles/XandO.dir/src/sceneobject.cpp.i
+
+CMakeFiles/XandO.dir/src/sceneobject.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/XandO.dir/src/sceneobject.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /media/mikhail/Files/Projects/sgl/src/sceneobject.cpp -o CMakeFiles/XandO.dir/src/sceneobject.cpp.s
+
 CMakeFiles/XandO.dir/src/shader.cpp.o: CMakeFiles/XandO.dir/flags.make
 CMakeFiles/XandO.dir/src/shader.cpp.o: /media/mikhail/Files/Projects/sgl/src/shader.cpp
 CMakeFiles/XandO.dir/src/shader.cpp.o: CMakeFiles/XandO.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/mikhail/Files/Projects/sgl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/XandO.dir/src/shader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/mikhail/Files/Projects/sgl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/XandO.dir/src/shader.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/XandO.dir/src/shader.cpp.o -MF CMakeFiles/XandO.dir/src/shader.cpp.o.d -o CMakeFiles/XandO.dir/src/shader.cpp.o -c /media/mikhail/Files/Projects/sgl/src/shader.cpp
 
 CMakeFiles/XandO.dir/src/shader.cpp.i: cmake_force
@@ -128,7 +170,7 @@ CMakeFiles/XandO.dir/src/shader.cpp.s: cmake_force
 CMakeFiles/XandO.dir/src/transform.cpp.o: CMakeFiles/XandO.dir/flags.make
 CMakeFiles/XandO.dir/src/transform.cpp.o: /media/mikhail/Files/Projects/sgl/src/transform.cpp
 CMakeFiles/XandO.dir/src/transform.cpp.o: CMakeFiles/XandO.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/mikhail/Files/Projects/sgl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/XandO.dir/src/transform.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/mikhail/Files/Projects/sgl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/XandO.dir/src/transform.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/XandO.dir/src/transform.cpp.o -MF CMakeFiles/XandO.dir/src/transform.cpp.o.d -o CMakeFiles/XandO.dir/src/transform.cpp.o -c /media/mikhail/Files/Projects/sgl/src/transform.cpp
 
 CMakeFiles/XandO.dir/src/transform.cpp.i: cmake_force
@@ -142,7 +184,7 @@ CMakeFiles/XandO.dir/src/transform.cpp.s: cmake_force
 CMakeFiles/XandO.dir/src/window.cpp.o: CMakeFiles/XandO.dir/flags.make
 CMakeFiles/XandO.dir/src/window.cpp.o: /media/mikhail/Files/Projects/sgl/src/window.cpp
 CMakeFiles/XandO.dir/src/window.cpp.o: CMakeFiles/XandO.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/mikhail/Files/Projects/sgl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/XandO.dir/src/window.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/media/mikhail/Files/Projects/sgl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/XandO.dir/src/window.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/XandO.dir/src/window.cpp.o -MF CMakeFiles/XandO.dir/src/window.cpp.o.d -o CMakeFiles/XandO.dir/src/window.cpp.o -c /media/mikhail/Files/Projects/sgl/src/window.cpp
 
 CMakeFiles/XandO.dir/src/window.cpp.i: cmake_force
@@ -158,6 +200,9 @@ XandO_OBJECTS = \
 "CMakeFiles/XandO.dir/main.cpp.o" \
 "CMakeFiles/XandO.dir/src/glad.c.o" \
 "CMakeFiles/XandO.dir/src/object.cpp.o" \
+"CMakeFiles/XandO.dir/src/scenedata.cpp.o" \
+"CMakeFiles/XandO.dir/src/scenemanager.cpp.o" \
+"CMakeFiles/XandO.dir/src/sceneobject.cpp.o" \
 "CMakeFiles/XandO.dir/src/shader.cpp.o" \
 "CMakeFiles/XandO.dir/src/transform.cpp.o" \
 "CMakeFiles/XandO.dir/src/window.cpp.o"
@@ -168,6 +213,9 @@ XandO_EXTERNAL_OBJECTS =
 XandO: CMakeFiles/XandO.dir/main.cpp.o
 XandO: CMakeFiles/XandO.dir/src/glad.c.o
 XandO: CMakeFiles/XandO.dir/src/object.cpp.o
+XandO: CMakeFiles/XandO.dir/src/scenedata.cpp.o
+XandO: CMakeFiles/XandO.dir/src/scenemanager.cpp.o
+XandO: CMakeFiles/XandO.dir/src/sceneobject.cpp.o
 XandO: CMakeFiles/XandO.dir/src/shader.cpp.o
 XandO: CMakeFiles/XandO.dir/src/transform.cpp.o
 XandO: CMakeFiles/XandO.dir/src/window.cpp.o
@@ -175,7 +223,7 @@ XandO: CMakeFiles/XandO.dir/build.make
 XandO: /usr/lib/x86_64-linux-gnu/libglfw.so.3.3
 XandO: /usr/lib/x86_64-linux-gnu/libGL.so
 XandO: CMakeFiles/XandO.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/media/mikhail/Files/Projects/sgl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable XandO"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/media/mikhail/Files/Projects/sgl/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable XandO"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/XandO.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
