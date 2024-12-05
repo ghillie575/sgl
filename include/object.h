@@ -21,7 +21,7 @@ private:
     Logger logger = Logger("");
 
 public:
-    Shader* shader;
+    Shader* shader = nullptr;
     std::string shaderName = "";
     unsigned int VBO, VAO, EBO;
     Transform transform;

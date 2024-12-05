@@ -6,6 +6,9 @@
 #include <logger.h>
 #ifndef WINDOW_H
 #define WINDOW_H
+#ifdef SGL_DEBUG
+#define SGL_DEBUG
+#endif
 class Window
 {
 private:

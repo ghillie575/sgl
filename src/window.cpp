@@ -8,10 +8,10 @@ Window::Window(int height, int width, const char *title)
         this->width = width;
         this->title = title;
 }
-
 void Window::framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
         glViewport(0, 0, width, height);
+        logger.log(LogLevel::INFO, "Framebuffer size callback");
 }
 Object *Window::getObject(int id)
 {
@@ -30,6 +30,7 @@ void getAllFiles(const fs::path &directory, std::vector<fs::path> &files, int &f
 }
 void Window::Init()
 {
+        logger.log(LogLevel::INFO, "Initializing window");
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
@@ -39,6 +40,7 @@ void Window::Init()
         if (window == NULL)
         {
                 std::cout << "Engine init failed:\nFailed to create GLFW window\nat Window::Init()" << std::endl;
+                logger.log(LogLevel::ERROR, "Failed to create GLFW window");
                 glfwTerminate();
                 exit(-1);
         }
@@ -46,6 +48,7 @@ void Window::Init()
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {
                 std::cout << "Engine init failed:\nFailed to initialize GLAD\nat Window::Init()" << std::endl;
+                logger.log(LogLevel::ERROR, "Failed to initialize GLAD");
                 exit(-1);
         }
         logger.log(LogLevel::INFO, "Loading shaders");
@@ -80,7 +83,7 @@ Shader *Window::getShader(std::string shaderName)
         }
 }
 void Window::start()
-{
+{       
         while (!glfwWindowShouldClose(window))
         {
                 // processInput(window);
@@ -96,12 +99,16 @@ void Window::start()
                 glfwSwapBuffers(window);
                 glfwPollEvents();
         }
+        logger.log(LogLevel::INFO, "Terminating window");
+        logger.log(LogLevel::INFO, "Cleaning up");
         for (int i = 0; i < objects.size(); i++)
         {
+                
+
                 objects[i].freeResources();
         }
         glfwTerminate();
-
+        logger.log(LogLevel::INFO, "Window terminated");
         return;
 }
 void Window::setUpdate(void (*func)(Window *window))
@@ -113,13 +120,10 @@ void Window::setInputProcess(void (*func)(Window *window))
         Input = func;
 }
 void Window::regObject(Object obj)
-{
-        std::string str = "";
-        if (obj.shaderName == str)
-        {
-               obj.useShader(getShader(obj.shaderName));
+{       
+        if(obj.shader == nullptr){
+        obj.useShader(getShader(obj.shaderName));
         }
-       
         obj.build();
         objects.insert(objects.begin(), obj);
 }

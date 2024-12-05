@@ -1,3 +1,4 @@
+#define SGL_DEBUG
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -17,7 +18,8 @@
 Object obj;
 float movespeed = 0.01f;
 void processInput(Window *window)
-{    if (glfwGetKey(window->window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+{
+    if (glfwGetKey(window->window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window->window, true);
 }
 void Update(Window *window)
@@ -26,7 +28,7 @@ void Update(Window *window)
 
 int main(int, char **)
 {
-    /*std::cout << "pre start test. scene manager\n";
+    std::cout << "pre start test. scene manager\n";
     SceneData data = SceneData();
     SceneObject sobj1 = SceneObject();
     SceneObject sobj2 = SceneObject();
@@ -34,9 +36,9 @@ int main(int, char **)
     Transform t1 = Transform();
     Transform t2 = Transform();
     Transform t3 = Transform();
-    t1.translate(glm::vec3(0,0,0));
-    t2.translate(glm::vec3(0.7,0.5,0.0));
-    t3.translate(glm::vec3(0.6,0.2,0.0));
+    t1.translate(glm::vec3(0, 0, 0));
+    t2.translate(glm::vec3(-0.3, 0.3, 0));
+    t3.translate(glm::vec3(-0.6, 0.6, 0));
     sobj1.transform = t1;
     sobj2.transform = t2;
     sobj3.transform = t3;
@@ -46,14 +48,33 @@ int main(int, char **)
     data.addObject(&sobj1);
     data.addObject(&sobj2);
     data.addObject(&sobj3);
+
+    SceneObject sobj4 = SceneObject();
+    SceneObject sobj5 = SceneObject();
+    SceneObject sobj6 = SceneObject();
+    Transform t4 = Transform();
+    Transform t5 = Transform();
+    Transform t6 = Transform();
+    t4.translate(glm::vec3(0, 0, 0));
+    t5.translate(glm::vec3(0.3, 0.3, 0));
+    t6.translate(glm::vec3(0.6, 0.6, 0));
+    sobj4.transform = t4;
+    sobj5.transform = t5;
+    sobj6.transform = t6;
+    sobj4.model = "basic/2d/triangle";
+    sobj5.model = "basic/2d/triangle";
+    sobj6.model = "basic/2d/triangle";
+    data.addObject(&sobj4);
+    data.addObject(&sobj5);
+    data.addObject(&sobj6);
     std::string json = createScene(&data);
-    std::cout << json;*/
+    std::cout << json;
     std::cout << "Hello, from XandO!\n";
     Window window = Window(1000, 1000, "2dBox");
     window.Init();
-    //loadScene(&window,json);
-    //Shader* shader = window.getShader("default");
-    obj = Object();
+    loadScene(&window, json);
+    // Shader* shader = window.getShader("default");
+    /*obj = Object();
     obj.setDrawMode(lines);
     obj.loadModel("basic/2d/board");
     obj.useShader("default");
@@ -64,12 +85,12 @@ int main(int, char **)
     obj1.transform.setScaling(glm::vec3(0.2,0.2,0.2));
     obj1.transform.translate(glm::vec3(0.1,0.1,0.1));
     glLineWidth(10.0f);
-    
-    
+
+
     window.regObject(obj);
-    window.regObject(obj1);
+    window.regObject(obj1);*/
+    glLineWidth(10.0f);
     window.setUpdate(Update);
     window.setInputProcess(processInput);
     window.start();
-    
 }

@@ -8,7 +8,6 @@
 Logger logger = Logger("SceneLoader");
 void loadScene(Window* window, std::string json) {
     nlohmann::json sceneJson = nlohmann::json::parse(json);
-    Shader shader = Shader("engine/shaders/default.vs", "engine/shaders/default.fs");
     int current = 0;
     int all = sceneJson["count"];
     logger.log(LogLevel::INFO,"loading scene");
@@ -18,8 +17,8 @@ void loadScene(Window* window, std::string json) {
         object.fromJson(objectJson);
         Object obj = Object();
         obj.setDrawMode(lines);
-        obj.loadModel("basic/2d/board");
-        obj.useShader(&shader);
+        obj.loadModel(object.model.c_str());
+        obj.useShader("default");
         obj.transform = object.transform;
         window->regObject(obj);
         current += 1;
