@@ -48,3 +48,14 @@ void loadSceneFromFile(Window* window,std::string sceneName){
         logger.log(LogLevel::ERROR, "Unable to open scene file: " + sceneName);
     }
 }
+void saveScene(SceneData* data, std::string sceneName) {
+    std::string json = createScene(data);
+    std::ofstream file("scenes/" + sceneName + ".json");
+    if (file.is_open()) {
+        file << json;
+        file.close();
+        logger.log(LogLevel::INFO, "Scene saved: " + sceneName);
+    } else {
+        logger.log(LogLevel::ERROR, "Unable to save scene: " + sceneName);
+    }
+}

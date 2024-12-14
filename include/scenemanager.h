@@ -6,4 +6,5 @@
 void loadScene(Window* window,std::string json);
 void loadSceneFromFile(Window* window,std::string sceneName);
 std::string createScene(SceneData* data);
+void saveScene(SceneData* data,std::string sceneName);
 #endif
