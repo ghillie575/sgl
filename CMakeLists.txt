@@ -8,8 +8,3 @@ file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp ${CMAKE_SOURCE_DIR}/src/*.c)
 add_executable(XandO main.cpp ${SOURCES})
 target_include_directories(XandO PRIVATE ${CMAKE_SOURCE_DIR}/include)
 target_link_libraries(XandO glfw OpenGL::GL)
-#message(STATUS "Copying engine files")
-#execute_process(
- #   COMMAND ${CMAKE_COMMAND} -E remove_directory ./engine
- #   COMMAND ${CMAKE_COMMAND} -E copy_directory ../engine ./engine
-#
