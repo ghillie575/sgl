@@ -25,7 +25,7 @@ void processInput(Window *window)
 void Update(Window *window)
 {
 }
-
+//main
 int main(int, char **)
 {
     /*std::cout << "pre start test. scene manager\n";
