@@ -5,6 +5,7 @@
 #include <scenedata.h>
 #include <object.h>
 #include <logger.h>
+#include <fstream>
 Logger logger = Logger("SceneLoader");
 void loadScene(Window* window, std::string json) {
     nlohmann::json sceneJson = nlohmann::json::parse(json);
@@ -16,9 +17,9 @@ void loadScene(Window* window, std::string json) {
         SceneObject object = SceneObject();
         object.fromJson(objectJson);
         Object obj = Object();
-        obj.setDrawMode(lines);
+        obj.setDrawMode(object.mode);
         obj.loadModel(object.model.c_str());
-        obj.useShader("default");
+        obj.useShader(object.shader.c_str());
         obj.transform = object.transform;
         window->regObject(obj);
         current += 1;
@@ -35,4 +36,15 @@ std::string createScene(SceneData* data) {
         sceneJson["objects"][i] = object->toJson();
     }
     return sceneJson.dump();
+}
+void loadSceneFromFile(Window* window,std::string sceneName){
+    std::ifstream file("scenes/" + sceneName + ".json");
+    if (file.is_open()) {
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+        file.close();
+        loadScene(window, buffer.str());
+    } else {
+        logger.log(LogLevel::ERROR, "Unable to open scene file: " + sceneName);
+    }
 }

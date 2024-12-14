@@ -1314,9 +1314,12 @@ CMakeFiles/XandO.dir/src/scenedata.cpp.o: /media/mikhail/Files/Projects/sgl/src/
   /media/mikhail/Files/Projects/sgl/include/glm/vec2.hpp \
   /media/mikhail/Files/Projects/sgl/include/glm/vec3.hpp \
   /media/mikhail/Files/Projects/sgl/include/glm/vec4.hpp \
+  /media/mikhail/Files/Projects/sgl/include/logger.h \
   /media/mikhail/Files/Projects/sgl/include/nlohmann/json.hpp \
+  /media/mikhail/Files/Projects/sgl/include/object.h \
   /media/mikhail/Files/Projects/sgl/include/scenedata.h \
   /media/mikhail/Files/Projects/sgl/include/sceneobject.h \
+  /media/mikhail/Files/Projects/sgl/include/shader.h \
   /media/mikhail/Files/Projects/sgl/include/transform.h \
   /usr/include/alloca.h \
   /usr/include/asm-generic/errno-base.h \
@@ -1471,6 +1474,7 @@ CMakeFiles/XandO.dir/src/scenedata.cpp.o: /media/mikhail/Files/Projects/sgl/src/
   /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
+  /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/iterator \
   /usr/include/c++/13/limits \
@@ -2352,8 +2356,11 @@ CMakeFiles/XandO.dir/src/sceneobject.cpp.o: /media/mikhail/Files/Projects/sgl/sr
   /media/mikhail/Files/Projects/sgl/include/glm/vec2.hpp \
   /media/mikhail/Files/Projects/sgl/include/glm/vec3.hpp \
   /media/mikhail/Files/Projects/sgl/include/glm/vec4.hpp \
+  /media/mikhail/Files/Projects/sgl/include/logger.h \
   /media/mikhail/Files/Projects/sgl/include/nlohmann/json.hpp \
+  /media/mikhail/Files/Projects/sgl/include/object.h \
   /media/mikhail/Files/Projects/sgl/include/sceneobject.h \
+  /media/mikhail/Files/Projects/sgl/include/shader.h \
   /media/mikhail/Files/Projects/sgl/include/transform.h \
   /usr/include/alloca.h \
   /usr/include/asm-generic/errno-base.h \
@@ -2508,6 +2515,7 @@ CMakeFiles/XandO.dir/src/sceneobject.cpp.o: /media/mikhail/Files/Projects/sgl/sr
   /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
+  /usr/include/c++/13/iostream \
   /usr/include/c++/13/istream \
   /usr/include/c++/13/iterator \
   /usr/include/c++/13/limits \
