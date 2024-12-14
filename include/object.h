@@ -13,7 +13,7 @@ enum drawAs
     lines,
     triangles
 };
-class Object
+class GameObject
 {
 private:
     /* data */
@@ -29,7 +29,7 @@ public:
     std::vector<unsigned int> ind;
     std::vector<float> vert;
     int polCount;
-    Object();
+    GameObject();
     void build();
     void render();
     void useShader(const char* shaderName);

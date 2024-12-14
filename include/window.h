@@ -17,7 +17,7 @@ private:
     const char *title;
     //std::vector<Object> Objects;
     std::unordered_map<std::string, Shader> shadreReg;
-    std::vector<Object> objects;
+    std::vector<GameObject> objects;
     Logger logger = Logger("ENGINE");
     void (*update)(Window *window);
     void (*Input)(Window *window);
@@ -31,8 +31,8 @@ public:
     void Init();
     void setUpdate(void (*func)(Window *window));
     void setInputProcess(void (*func)(Window *window));
-    void regObject(Object obj);
-    Object* getObject(int id);
+    void regObject(GameObject obj);
+    GameObject* getObject(int id);
     Shader* getShader(std::string shaderName);
     void start();
 };

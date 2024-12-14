@@ -16,7 +16,7 @@ void loadScene(Window* window, std::string json) {
         logger.log(LogLevel::INFO,std::string("loading object: ") + std::to_string(current + 1) + std::string("/") + std::to_string(all));
         SceneObject object = SceneObject();
         object.fromJson(objectJson);
-        Object obj = Object();
+        GameObject obj = GameObject();
         obj.setDrawMode(object.mode);
         obj.loadModel(object.model.c_str());
         obj.useShader(object.shader.c_str());

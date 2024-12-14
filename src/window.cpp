@@ -13,7 +13,7 @@ void Window::framebuffer_size_callback(GLFWwindow *window, int width, int height
         glViewport(0, 0, width, height);
         logger.log(LogLevel::INFO, "Framebuffer size callback");
 }
-Object *Window::getObject(int id)
+GameObject *Window::getObject(int id)
 {
         return &objects[id];
 }
@@ -119,7 +119,7 @@ void Window::setInputProcess(void (*func)(Window *window))
 {
         Input = func;
 }
-void Window::regObject(Object obj)
+void Window::regObject(GameObject obj)
 {       
         if(obj.shader == nullptr){
         obj.useShader(getShader(obj.shaderName));

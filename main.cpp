@@ -15,7 +15,7 @@
 #include <scenemanager.h>
 #include <scenedata.h>
 #include <sceneobject.h>
-Object obj;
+GameObject obj;
 float movespeed = 0.01f;
 void processInput(Window *window)
 {

@@ -9,11 +9,11 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-Object::Object()
+GameObject::GameObject()
 {
     this->transform.setScaling(glm::vec3(1,1,1));
 }
-void Object::loadModel(const char *modelName)
+void GameObject::loadModel(const char *modelName)
 {
     std::string path = "engine/models/";
     path.append(modelName);
@@ -61,7 +61,7 @@ void Object::loadModel(const char *modelName)
     t.close();
 }
 
-void Object::build()
+void GameObject::build()
 {
 
     float vertices[vert.size()];
@@ -93,15 +93,15 @@ void Object::build()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void Object::useShader(const char *shaderName)
+void GameObject::useShader(const char *shaderName)
 {
     this->shaderName = shaderName;
 }
-void Object::useShader(Shader* shader)
+void GameObject::useShader(Shader* shader)
 {
     this->shader = shader;
 }
-void Object::render()
+void GameObject::render()
 {
     
     //trans = glm::translate(trans,pos);
@@ -120,12 +120,12 @@ void Object::render()
         glDrawElements(GL_TRIANGLES, polCount, GL_UNSIGNED_INT, 0);
     }
 }
-void Object::freeResources()
+void GameObject::freeResources()
 {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
 }
-void Object::setDrawMode(drawAs mode)
+void GameObject::setDrawMode(drawAs mode)
 {
     this->mode = mode;
 }
