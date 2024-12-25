@@ -1,0 +1,27 @@
+# Build Directory README
+
+This directory contains the compiled build of the XandO engine, along with its associated assets and scenes.
+
+## Directory Structure
+
+* `engine/`: This folder contains the engine's assets, including graphics, audio, and other resources.
+* `scenes/`: This folder contains the scenes used to demonstrate the engine's features.
+* `XandO`: This is the executable file for the SGL engine, which can be run to demonstrate its features.
+
+## Running the Engine
+
+To run the engine, simply execute the `XandO` file. This will launch the engine and load the default scene.
+
+## Scenes
+
+The `scenes/` folder contains several scenes that demonstrate different features of the engine. These scenes can be loaded by selecting them from the engine's menu.
+
+## Assets
+
+The `engine/` folder contains all the assets used by the engine, including graphics, audio, and other resources. These assets are used to create the scenes and demonstrate the engine's features.
+
+## Notes
+
+* Make sure to run the engine in a compatible environment to ensure proper functionality.
+* The engine's features and scenes are subject to change as the project evolves.
+* For more information on the engine's development, please refer to the project's documentation.
