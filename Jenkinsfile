@@ -6,7 +6,6 @@ pipeline {
             steps {
                 script {
                     // Install additional libraries (example for Ubuntu)
-                    // You can modify this command based on your OS and required libraries
                     sh '''
                      apt-get update
                      apt-get install -y zip g++ cmake git libglfw3 libglfw3-dev
@@ -28,19 +27,32 @@ pipeline {
         stage('Package') {
             steps {
                 script {
-                    // Create a release package (e.g., a zip file)
+                    // Ensure the out directory exists
+                    sh 'mkdir -p out'
+                    
+                    // Copy necessary files to the out directory
                     sh 'cp ./XandO out/XandO'
                     sh 'cp -r ./engine out/engine'
                     sh 'cp -r ./scenes out/scenes'
-                    sh 'cd out && zip -r build.zip * && mv build.zip ../ && cd ..'
+                    
+                    // Create a timestamp for the zip file
+                    def timestamp = new Date().format("yyyyMMdd-HHmmss")
+                    def zipFileName = "build-sgl-${timestamp}.zip"
+                    
+                    // Create the zip file with the timestamp
+                    sh "cd out && zip -r ${zipFileName} * && mv ${zipFileName} ../ && cd .."
+                    
+                    // Store the zip file name in an environment variable for later use
+                    env.ZIP_FILE_NAME = zipFileName
                 }
             }
         }
 
         stage('Collect Artifacts') {
             steps {
-                // Archive the build.zip file as an artifact
-                archiveArtifacts artifacts: 'build.zip', fingerprint: true
+                // Archive the build zip file as an artifact
+                archiveArtifacts artifacts: "${env.ZIP_FILE_NAME}", fingerprint: true
+                sh "curl -X POST -F "file=@${zipFileName}" http://gru.openspm.org/upload"
             }
         }
 
@@ -49,12 +61,10 @@ pipeline {
                 script {
                     // Remove all build resources
                     sh '''
-                        echo 'cleaning up'
+                        echo 'Cleaning up...'
                         rm -rf build
-                        rm -rf out/engine
-                        rm -rf out/scenes
-                        rm -rf out/XandO
-                        rm -f build.zip
+                        rm -rf out
+                        rm -f ${ZIP_FILE_NAME}
                     '''
                 }
             }
