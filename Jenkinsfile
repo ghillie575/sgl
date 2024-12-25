@@ -52,7 +52,6 @@ pipeline {
             steps {
                 // Archive the build zip file as an artifact
                 archiveArtifacts artifacts: "${env.ZIP_FILE_NAME}", fingerprint: true
-                sh "curl -X POST -F "file=@${zipFileName}" http://gru.openspm.org/upload"
             }
         }
 
