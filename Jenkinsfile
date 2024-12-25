@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script {
                     // Create a release package (e.g., a zip file)
-                    sh 'mkdir out && cd build && cp ./XandO ../out/XandO && cp -r ./engine ../out/engine && cp ./scenes ../out/scenes && cd ../'
+                    sh 'mkdir out && cd build && cp ./XandO ../out/XandO && cp -r ../engine ../out/engine && cp ../scenes ../out/scenes && cd ../'
                     sh 'cd out && zip -r build.zip * && mv build.zip ../ && cd ../ && rm -r out'
                 }
             }
