@@ -9,7 +9,7 @@ pipeline {
                     // You can modify this command based on your OS and required libraries
                     sh '''
                      apt-get update
-                     apt-get install -y cmake git libglfw3 libglfw3-dev
+                     apt-get install -y g++ cmake git libglfw3 libglfw3-dev
                     '''
                 }
             }

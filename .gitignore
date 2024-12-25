@@ -3,12 +3,14 @@
 *.out
 *.app
 *.bin
+*.cmake
 
 # Ignore object files
 *.o
 *.obj
 
 # Ignore CMake generated files
+XandO
 CMakeCache.txt
 CMakeFiles/
 Makefile
@@ -19,6 +21,7 @@ CMakeLists.txt.mak
 
 # Ignore build directories
 /build/
+/build/*
 Debug/
 Release/
 build/
