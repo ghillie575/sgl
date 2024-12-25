@@ -18,8 +18,9 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                        sh 'cmake .'
-                        sh 'cmake --build . --config Release'
+                    // Configure and build the project
+                    sh 'cmake .'
+                    sh 'cmake --build . --config Release'
                 }
             }
         }
@@ -28,15 +29,34 @@ pipeline {
             steps {
                 script {
                     // Create a release package (e.g., a zip file)
-                    sh 'cd build && cp ./XandO ../out/XandO && cp -r ../engine ../out/engine && cp ../scenes ../out/scenes && cd ../'
-                    sh 'cd out && zip -r build.zip * && mv build.zip ../ && cd ../ && rm -r out'
+                    sh 'cp ./XandO out/XandO'
+                    sh 'cp -r ./engine out/engine'
+                    sh 'cp -r ./scenes out/scenes'
+                    sh 'cd out && zip -r build.zip * && mv build.zip ../ && cd ..'
                 }
             }
         }
 
         stage('Collect Artifacts') {
             steps {
+                // Archive the build.zip file as an artifact
                 archiveArtifacts artifacts: 'build.zip', fingerprint: true
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                script {
+                    // Remove all build resources
+                    sh '''
+                        echo 'cleaning up'
+                        rm -rf build
+                        rm -rf out/engine
+                        rm -rf out/scenes
+                        rm -rf out/XandO
+                        rm -f build.zip
+                    '''
+                }
             }
         }
     }
