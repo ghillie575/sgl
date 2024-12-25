@@ -8,8 +8,8 @@ pipeline {
                     // Install additional libraries (example for Ubuntu)
                     // You can modify this command based on your OS and required libraries
                     sh '''
-                        sudo apt-get update
-                        sudo apt-get install -y libglfw3 libglfw3-dev
+                     apt-get update
+                     apt-get install -y libglfw3 libglfw3-dev
                     '''
                 }
             }
