@@ -1,55 +1,55 @@
 [
 {
   "directory": "/media/mikhail/Files/Projects/sgl/build",
-  "command": "/usr/bin/g++  -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/main.cpp.o -c /media/mikhail/Files/Projects/sgl/main.cpp",
+  "command": "/usr/bin/g++ -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/main.cpp.o -c /media/mikhail/Files/Projects/sgl/main.cpp",
   "file": "/media/mikhail/Files/Projects/sgl/main.cpp",
   "output": "CMakeFiles/XandO.dir/main.cpp.o"
 },
 {
   "directory": "/media/mikhail/Files/Projects/sgl/build",
-  "command": "/usr/bin/gcc  -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/glad.c.o -c /media/mikhail/Files/Projects/sgl/src/glad.c",
+  "command": "/usr/bin/gcc -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/glad.c.o -c /media/mikhail/Files/Projects/sgl/src/glad.c",
   "file": "/media/mikhail/Files/Projects/sgl/src/glad.c",
   "output": "CMakeFiles/XandO.dir/src/glad.c.o"
 },
 {
   "directory": "/media/mikhail/Files/Projects/sgl/build",
-  "command": "/usr/bin/g++  -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/object.cpp.o -c /media/mikhail/Files/Projects/sgl/src/object.cpp",
+  "command": "/usr/bin/g++ -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/object.cpp.o -c /media/mikhail/Files/Projects/sgl/src/object.cpp",
   "file": "/media/mikhail/Files/Projects/sgl/src/object.cpp",
   "output": "CMakeFiles/XandO.dir/src/object.cpp.o"
 },
 {
   "directory": "/media/mikhail/Files/Projects/sgl/build",
-  "command": "/usr/bin/g++  -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/scenedata.cpp.o -c /media/mikhail/Files/Projects/sgl/src/scenedata.cpp",
+  "command": "/usr/bin/g++ -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/scenedata.cpp.o -c /media/mikhail/Files/Projects/sgl/src/scenedata.cpp",
   "file": "/media/mikhail/Files/Projects/sgl/src/scenedata.cpp",
   "output": "CMakeFiles/XandO.dir/src/scenedata.cpp.o"
 },
 {
   "directory": "/media/mikhail/Files/Projects/sgl/build",
-  "command": "/usr/bin/g++  -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/scenemanager.cpp.o -c /media/mikhail/Files/Projects/sgl/src/scenemanager.cpp",
+  "command": "/usr/bin/g++ -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/scenemanager.cpp.o -c /media/mikhail/Files/Projects/sgl/src/scenemanager.cpp",
   "file": "/media/mikhail/Files/Projects/sgl/src/scenemanager.cpp",
   "output": "CMakeFiles/XandO.dir/src/scenemanager.cpp.o"
 },
 {
   "directory": "/media/mikhail/Files/Projects/sgl/build",
-  "command": "/usr/bin/g++  -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/sceneobject.cpp.o -c /media/mikhail/Files/Projects/sgl/src/sceneobject.cpp",
+  "command": "/usr/bin/g++ -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/sceneobject.cpp.o -c /media/mikhail/Files/Projects/sgl/src/sceneobject.cpp",
   "file": "/media/mikhail/Files/Projects/sgl/src/sceneobject.cpp",
   "output": "CMakeFiles/XandO.dir/src/sceneobject.cpp.o"
 },
 {
   "directory": "/media/mikhail/Files/Projects/sgl/build",
-  "command": "/usr/bin/g++  -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/shader.cpp.o -c /media/mikhail/Files/Projects/sgl/src/shader.cpp",
+  "command": "/usr/bin/g++ -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/shader.cpp.o -c /media/mikhail/Files/Projects/sgl/src/shader.cpp",
   "file": "/media/mikhail/Files/Projects/sgl/src/shader.cpp",
   "output": "CMakeFiles/XandO.dir/src/shader.cpp.o"
 },
 {
   "directory": "/media/mikhail/Files/Projects/sgl/build",
-  "command": "/usr/bin/g++  -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/transform.cpp.o -c /media/mikhail/Files/Projects/sgl/src/transform.cpp",
+  "command": "/usr/bin/g++ -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/transform.cpp.o -c /media/mikhail/Files/Projects/sgl/src/transform.cpp",
   "file": "/media/mikhail/Files/Projects/sgl/src/transform.cpp",
   "output": "CMakeFiles/XandO.dir/src/transform.cpp.o"
 },
 {
   "directory": "/media/mikhail/Files/Projects/sgl/build",
-  "command": "/usr/bin/g++  -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/window.cpp.o -c /media/mikhail/Files/Projects/sgl/src/window.cpp",
+  "command": "/usr/bin/g++ -I/media/mikhail/Files/Projects/sgl/include -g -o CMakeFiles/XandO.dir/src/window.cpp.o -c /media/mikhail/Files/Projects/sgl/src/window.cpp",
   "file": "/media/mikhail/Files/Projects/sgl/src/window.cpp",
   "output": "CMakeFiles/XandO.dir/src/window.cpp.o"
 }
