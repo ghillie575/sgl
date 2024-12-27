@@ -47,7 +47,7 @@ pipeline {
                         '''
                         
                         // Create a timestamp for the zip file
-                        def timestamp = new Date().format("yyyyMMdd-HHmmss")
+                        def timestamp = new Date().format("yyyyMMdd-HHmm")
                         env.ZIP_FILE_NAME = "build-sgl-${timestamp}.zip"
                         
                         // Create the zip file with the timestamp
@@ -68,12 +68,13 @@ pipeline {
             steps {
                 script {
                     try {
+                        def timestamp = new Date().format("yyyyMMdd-HHmm")
                         // Archive the build zip file as an artifact
                         archiveArtifacts artifacts: "${env.ZIP_FILE_NAME}", fingerprint: true
                         
                         // Upload the zip file
                         sh "curl -X 'POST' \
-  'http://git-release:8080/upload?token=%24jSOIMWvgfPO%24%26%23OPJPIRS&project=sgl&version=${timestamp}' \
+  'http://git-release:8080/upload?token=%24jSOIMWvgfPO%24%26%23OPJPIRS&project=sgl&version=test-${timestamp}' \
   -H 'accept: */*' \
   -H 'Content-Type: multipart/form-data' \
   -F 'file=@${env.ZIP_FILE_NAME}'"
