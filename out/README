@@ -24,4 +24,4 @@ The `engine/` folder contains all the assets used by the engine, including graph
 
 * Make sure to run the engine in a compatible environment to ensure proper functionality.
 * The engine's features and scenes are subject to change as the project evolves.
-* For more information on the engine's development, please refer to the project's documentation (https://docs.openspm.org/sgl/).
+* For more information on the engine's development, please refer to the project's documentation (https://docs.openspm.org/sgl/) .
