@@ -64,46 +64,42 @@ pipeline {
             }
         }
 
-        stage('Collect Artifacts') {
+        stage('Release') {
+            when {
+                expression {
+                    // Get the latest commit message
+                    def commitMessage = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
+                    // Check if the commit message contains 'release-'
+                    return commitMessage.contains('release-')
+                }
+            }
             steps {
                 script {
                     try {
-                        def timestamp = new Date().format("yyyyMMdd-HHmm")
-                        // Archive the build zip file as an artifact
-                        archiveArtifacts artifacts: "${env.ZIP_FILE_NAME}", fingerprint: true
+                        // Get the latest commit message
+                        def commitMessage = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
                         
-                        // Upload the zip file
+                        // Use a regex to find 'release-' and capture the next 6 characters
+                        def matcher = (commitMessage =~ /release-(\w{6})/)
+                        if (matcher) {
+                            def versionSuffix = matcher[0][1] // Get the captured group (6 characters after 'release-')
+                            def version = "release-${versionSuffix}" // Construct the version string
+                            
+                            // Upload the zip file
+                            sh "curl -X 'POST' \
+  'http://git-release:8080/upload?token=%24jSOIMWvgfPO%24%26%23OPJPIRS&project=sgl&version=${version}' \
+  -H 'accept: */*' \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'file=@${env.ZIP_FILE_NAME}'"
+                        } else {
+                            error "No valid release version found in commit message."
+                        }
                     } catch (Exception e) {
-                        error "Failed to collect artifacts or upload: ${e.message}"
+                        error "Failed to upload to GRU: ${e.message}"
                     }
                 }
             }
         }
-        stage('Release') {
-    when {
-        expression {
-            // Check if the GIT_TAG environment variable is set and starts with 'release-'
-            return env.GIT_TAG && env.GIT_TAG.startsWith('release-')
-        }
-    }
-    steps {
-        script {
-            try {
-                // Use the GIT_TAG environment variable for the version
-                def currentTag = env.GIT_TAG
-                
-                // Upload the zip file
-                sh "curl -X 'POST' \
-  'http://git-release:8080/upload?token=%24jSOIMWvgfPO%24%26%23OPJPIRS&project=sgl&version=${currentTag}' \
-  -H 'accept: */*' \
-  -H 'Content-Type: multipart/form-data' \
-  -F 'file=@${env.ZIP_FILE_NAME}'"
-            } catch (Exception e) {
-                error "Failed to upload to GRU: ${e.message}"
-            }
-        }
-    }
-}
 
         stage('Cleanup') {
             steps {
