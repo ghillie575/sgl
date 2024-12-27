@@ -79,58 +79,31 @@ pipeline {
                 }
             }
         }
-        stage('Get Current Tag') {
-            steps {
-                script {
-                    // Get the current commit SHA
-                    def commitSha = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
-
-                    // Get the tag associated with the current commit
-                    def currentTag = sh(script: "git tag --points-at ${commitSha}", returnStdout: true).trim()
-
-                    if (currentTag) {
-                        echo "Current tag for this build: ${currentTag}"
-
-                        // Check if the tag starts with 'release-'
-                        if (currentTag.startsWith('release-')) {
-                            echo "Proceeding with release for tag: ${currentTag}"
-                            currentBuild.result = 'SUCCESS' // Mark the build as successful for the next stage
-                        } else {
-                            echo "Tag does not indicate a release. Skipping release stage."
-                            currentBuild.result = 'ABORTED' // Mark the build as aborted
-                        }
-                    } else {
-                        echo "No tag associated with this commit."
-                        currentBuild.result = 'ABORTED' // Mark the build as aborted
-                    }
-                }
-            }
-        }
-
-        
         stage('Release') {
-            when {
-                expression { currentBuild.result == 'SUCCESS' }
-            }
-            steps {
-                script {
-                    try {
-                        def timestamp = new Date().format("yyyyMMdd-HHmm")
-                        // Archive the build zip file as an artifact
-                        
-                        
-                        // Upload the zip file
-                        sh "curl -X 'POST' \
+    when {
+        expression {
+            // Check if the GIT_TAG environment variable is set and starts with 'release-'
+            return env.GIT_TAG && env.GIT_TAG.startsWith('release-')
+        }
+    }
+    steps {
+        script {
+            try {
+                // Use the GIT_TAG environment variable for the version
+                def currentTag = env.GIT_TAG
+                
+                // Upload the zip file
+                sh "curl -X 'POST' \
   'http://git-release:8080/upload?token=%24jSOIMWvgfPO%24%26%23OPJPIRS&project=sgl&version=${currentTag}' \
   -H 'accept: */*' \
   -H 'Content-Type: multipart/form-data' \
   -F 'file=@${env.ZIP_FILE_NAME}'"
-                    } catch (Exception e) {
-                        error "Failed to collect artifacts or upload: ${e.message}"
-                    }
-                }
+            } catch (Exception e) {
+                error "Failed to upload: ${e.message}"
             }
         }
+    }
+}
 
         stage('Cleanup') {
             steps {
