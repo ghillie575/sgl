@@ -90,7 +90,7 @@ pipeline {
                         
                         // Upload the zip file
                         sh "curl -X 'POST' \
-  'http://git-release:8080/upload?token=%24jSOIMWvgfPO%24%26%23OPJPIRS&project=sgl&version=${git tag}' \
+  'http://git-release:8080/upload?token=%24jSOIMWvgfPO%24%26%23OPJPIRS&project=sgl&version=${git describe --exact-match --tags}' \
   -H 'accept: */*' \
   -H 'Content-Type: multipart/form-data' \
   -F 'file=@${env.ZIP_FILE_NAME}'"
