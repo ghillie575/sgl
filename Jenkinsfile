@@ -73,8 +73,24 @@ pipeline {
                         archiveArtifacts artifacts: "${env.ZIP_FILE_NAME}", fingerprint: true
                         
                         // Upload the zip file
+                    } catch (Exception e) {
+                        error "Failed to collect artifacts or upload: ${e.message}"
+                    }
+                }
+            }
+        }
+        stage('Release') {
+            when { tag "release-*" }
+            steps {
+                script {
+                    try {
+                        def timestamp = new Date().format("yyyyMMdd-HHmm")
+                        // Archive the build zip file as an artifact
+                        
+                        
+                        // Upload the zip file
                         sh "curl -X 'POST' \
-  'http://git-release:8080/upload?token=%24jSOIMWvgfPO%24%26%23OPJPIRS&project=sgl&version=test-${timestamp}' \
+  'http://git-release:8080/upload?token=%24jSOIMWvgfPO%24%26%23OPJPIRS&project=sgl&version=${git tag}' \
   -H 'accept: */*' \
   -H 'Content-Type: multipart/form-data' \
   -F 'file=@${env.ZIP_FILE_NAME}'"
