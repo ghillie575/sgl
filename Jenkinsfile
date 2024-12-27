@@ -21,7 +21,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    echo 'building commit with tag $TAG_NAME'
+                    echo 'building commit with tag ${TAG_NAME}'
                     try {
                         // Configure and build the project
                         sh 'cmake .'
