@@ -99,7 +99,7 @@ pipeline {
   -H 'Content-Type: multipart/form-data' \
   -F 'file=@${env.ZIP_FILE_NAME}'"
             } catch (Exception e) {
-                error "Failed to upload: ${e.message}"
+                error "Failed to upload to GRU: ${e.message}"
             }
         }
     }
