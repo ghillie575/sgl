@@ -80,12 +80,32 @@ pipeline {
                 }
             }
         }
+        stage('Get Current Tag') {
+            steps {
+                script {
+                    // Get the current commit SHA
+                    def commitSha = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+
+                    // Get the commit message
+                    def commitMessage = sh(script: "git log -1 --pretty=%B ${commitSha}", returnStdout: true).trim()
+
+                    // Check if the commit message starts with 'release-'
+                    if (commitMessage.startsWith('release-')) {
+                        echo "Current commit message indicates a release: ${commitMessage}"
+                        // Proceed to the release stage
+                        currentBuild.result = 'SUCCESS' // Mark the build as successful for the next stage
+                    } else {
+                        echo "Commit message does not indicate a release. Skipping release stage."
+                        currentBuild.result = 'ABORTED' // Mark the build as aborted
+                    }
+                }
+            }
+        }
+
+        
         stage('Release') {
             when {
-                expression {
-                    // Check if the current build is triggered by a tag
-                    return env.GIT_TAG && env.GIT_TAG.startsWith('release-')
-                }
+                expression { currentBuild.result == 'SUCCESS' }
             }
             steps {
                 script {
