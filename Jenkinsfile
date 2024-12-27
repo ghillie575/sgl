@@ -80,20 +80,13 @@ pipeline {
                         def commitMessage = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
                         
                         // Use a regex to find 'release-' and capture the next 6 characters
-                        def matcher = (commitMessage =~ /release-(\w{6})/)
-                        if (matcher) {
-                            def versionSuffix = matcher[0][1] // Get the captured group (6 characters after 'release-')
-                            def version = "release-${versionSuffix}" // Construct the version string
                             
                             // Upload the zip file
                             sh "curl -X 'POST' \
-  'http://git-release:8080/upload?token=%24jSOIMWvgfPO%24%26%23OPJPIRS&project=sgl&version=${version}' \
+  'http://git-release:8080/upload?token=%24jSOIMWvgfPO%24%26%23OPJPIRS&project=sgl&version=${commitMessage}' \
   -H 'accept: */*' \
   -H 'Content-Type: multipart/form-data' \
   -F 'file=@${env.ZIP_FILE_NAME}'"
-                        } else {
-                            error "No valid release version found in commit message."
-                        }
                     } catch (Exception e) {
                         error "Failed to upload to GRU: ${e.message}"
                     }
