@@ -21,7 +21,6 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    echo "Building commit with tag ${env.GIT_TAG}"
                     try {
                         // Configure and build the project
                         sh 'cmake .'
@@ -86,16 +85,22 @@ pipeline {
                     // Get the current commit SHA
                     def commitSha = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
 
-                    // Get the commit message
-                    def commitMessage = sh(script: "git log -1 --pretty=%B ${commitSha}", returnStdout: true).trim()
+                    // Get the tag associated with the current commit
+                    def currentTag = sh(script: "git tag --points-at ${commitSha}", returnStdout: true).trim()
 
-                    // Check if the commit message starts with 'release-'
-                    if (commitMessage.startsWith('release-')) {
-                        echo "Current commit message indicates a release: ${commitMessage}"
-                        // Proceed to the release stage
-                        currentBuild.result = 'SUCCESS' // Mark the build as successful for the next stage
+                    if (currentTag) {
+                        echo "Current tag for this build: ${currentTag}"
+
+                        // Check if the tag starts with 'release-'
+                        if (currentTag.startsWith('release-')) {
+                            echo "Proceeding with release for tag: ${currentTag}"
+                            currentBuild.result = 'SUCCESS' // Mark the build as successful for the next stage
+                        } else {
+                            echo "Tag does not indicate a release. Skipping release stage."
+                            currentBuild.result = 'ABORTED' // Mark the build as aborted
+                        }
                     } else {
-                        echo "Commit message does not indicate a release. Skipping release stage."
+                        echo "No tag associated with this commit."
                         currentBuild.result = 'ABORTED' // Mark the build as aborted
                     }
                 }
@@ -116,7 +121,7 @@ pipeline {
                         
                         // Upload the zip file
                         sh "curl -X 'POST' \
-  'http://git-release:8080/upload?token=%24jSOIMWvgfPO%24%26%23OPJPIRS&project=sgl&version=${env.GIT_TAG}' \
+  'http://git-release:8080/upload?token=%24jSOIMWvgfPO%24%26%23OPJPIRS&project=sgl&version=${currentTag}' \
   -H 'accept: */*' \
   -H 'Content-Type: multipart/form-data' \
   -F 'file=@${env.ZIP_FILE_NAME}'"
