@@ -21,7 +21,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    echo 'building commit with tag ${git describe --exact-match --tags}'
+                    echo "Building commit with tag ${env.GIT_TAG}"
                     try {
                         // Configure and build the project
                         sh 'cmake .'
@@ -81,7 +81,12 @@ pipeline {
             }
         }
         stage('Release') {
-            when { tag "release-*" }
+            when {
+                expression {
+                    // Check if the current build is triggered by a tag
+                    return env.GIT_TAG && env.GIT_TAG.startsWith('release-')
+                }
+            }
             steps {
                 script {
                     try {
@@ -91,7 +96,7 @@ pipeline {
                         
                         // Upload the zip file
                         sh "curl -X 'POST' \
-  'http://git-release:8080/upload?token=%24jSOIMWvgfPO%24%26%23OPJPIRS&project=sgl&version=${git describe --exact-match --tags}' \
+  'http://git-release:8080/upload?token=%24jSOIMWvgfPO%24%26%23OPJPIRS&project=sgl&version=${env.GIT_TAG}' \
   -H 'accept: */*' \
   -H 'Content-Type: multipart/form-data' \
   -F 'file=@${env.ZIP_FILE_NAME}'"
