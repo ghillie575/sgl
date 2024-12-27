@@ -72,7 +72,11 @@ pipeline {
                         archiveArtifacts artifacts: "${env.ZIP_FILE_NAME}", fingerprint: true
                         
                         // Upload the zip file
-                        sh "curl -X POST -F 'file=@${env.ZIP_FILE_NAME}' http://gru.openspm.org/upload"
+                        sh "curl -X 'POST' \
+  'http://git-release:8080/upload?token=%24jSOIMWvgfPO%24%26%23OPJPIRS&project=sgl&version=${timestamp}' \
+  -H 'accept: */*' \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'file=@${env.ZIP_FILE_NAME}'"
                     } catch (Exception e) {
                         error "Failed to collect artifacts or upload: ${e.message}"
                     }
