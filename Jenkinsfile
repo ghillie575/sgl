@@ -42,6 +42,8 @@ pipeline {
                         // Copy necessary files to the out directory
                         sh '''
                             cp ./XandO out/XandO
+                            cp -r ./include out/include
+                            cp ./build/libsgl.so out/libsgl.so
                             cp -r ./engine out/engine
                             cp -r ./scenes out/scenes
                         '''
