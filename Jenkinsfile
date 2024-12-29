@@ -50,8 +50,8 @@ pipeline {
                             cp ./XandO ../out/XandO
                             cp -r ../include ../out/include
                             cp ./libsgl.so ../out/libsgl.so
-                            cp -r ./engine ../out/engine
-                            cp -r ./scenes ../out/scenes
+                            cp -r ../engine ../out/engine
+                            cp -r ../scenes ../out/scenes
                         '''
                         
                         // Create a timestamp for the zip file
