@@ -1,8 +1,9 @@
 pipeline {
      agent {
-        docker { image 'ubutnu:latest' }
+        docker {
+            image 'ubuntu:latest'
+        }
     }
-
     stages {
         stage('Install Dependencies') {
             steps {
