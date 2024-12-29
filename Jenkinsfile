@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+     agent {
+        docker { image 'ubutnu:latest' }
+    }
 
     stages {
         stage('Install Dependencies') {
