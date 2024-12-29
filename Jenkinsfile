@@ -27,7 +27,7 @@ pipeline {
                         mkdir -p build
                         cd build 
                         cmake ..
-                        cmake --build .. --config Release
+                        cmake --build . --config Release
                         '''
                     } catch (Exception e) {
                         error "Build failed: ${e.message}"
