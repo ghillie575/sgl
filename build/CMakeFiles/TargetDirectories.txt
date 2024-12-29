@@ -1,3 +1,0 @@
-/media/mikhail/Files/Projects/sgl/build/CMakeFiles/XandO.dir
-/media/mikhail/Files/Projects/sgl/build/CMakeFiles/edit_cache.dir
-/media/mikhail/Files/Projects/sgl/build/CMakeFiles/rebuild_cache.dir
