@@ -26,13 +26,12 @@ pipeline {
                 script {
                     try {
                         // Configure and build the project
-                        sh '''
-                        rm -rf build
-                        mkdir -p build
-                        cd build 
-                        cmake .. --trace
-                        cmake --build . --config Release
-                        '''
+                    sh 'rm -rf build'
+                    sh 'mkdir build'
+                    // Navigate into the build directory and run cmake
+                    sh 'cd build && cmake ..'
+                    // Build the project
+                    sh 'cd build && cmake --build . --config Release'
                     } catch (Exception e) {
                         error "Build failed: ${e.message}"
                     }
