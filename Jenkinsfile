@@ -23,8 +23,12 @@ pipeline {
                 script {
                     try {
                         // Configure and build the project
-                        sh 'cmake .'
-                        sh 'cmake --build . --config Release'
+                        sh ''' 
+                        mkdir build
+                        cd build
+                        cmake ..
+                        cmake --build . --config Release
+                        '''
                     } catch (Exception e) {
                         error "Build failed: ${e.message}"
                     }
@@ -41,12 +45,12 @@ pipeline {
                         
                         // Copy necessary files to the out directory
                         sh '''
-                            ls
-                            cp ./XandO out/XandO
-                            cp -r ./include out/include
-                            cp ./build/libsgl.so out/libsgl.so
-                            cp -r ./engine out/engine
-                            cp -r ./scenes out/scenes
+                            cd build
+                            cp ./XandO ../out/XandO
+                            cp -r ../include ../out/include
+                            cp ./libsgl.so ../out/libsgl.so
+                            cp -r ./engine ../out/engine
+                            cp -r ./scenes ../out/scenes
                         '''
                         
                         // Create a timestamp for the zip file
