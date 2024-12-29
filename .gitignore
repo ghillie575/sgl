@@ -20,8 +20,8 @@ CMakeLists.txt.deps
 CMakeLists.txt.mak
 
 # Ignore build directories
-/build/
-/build/*
+build/
+build/*
 Debug/
 Release/
 build/
