@@ -27,9 +27,10 @@ pipeline {
                     try {
                         // Configure and build the project
                         sh '''
+                        rm -rf build
                         mkdir -p build
                         cd build 
-                        cmake ..
+                        cmake .. --trace
                         cmake --build . --config Release
                         '''
                     } catch (Exception e) {
