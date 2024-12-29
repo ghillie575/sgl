@@ -12,7 +12,7 @@ pipeline {
                         // Install additional libraries (example for Ubuntu)
                         sh '''
                             apt-get update >> /dev/null
-                            apt-get install -y zip g++ cmake git libglfw3 libglfw3-dev >> /dev/null
+                            apt-get install -y zip g++ cmake curl git libglfw3 libglfw3-dev >> /dev/null
                         '''
                     } catch (Exception e) {
                         error "Failed to install dependencies: ${e.message}"
@@ -89,7 +89,7 @@ pipeline {
                             
                             // Upload the zip file
                             sh "curl -X 'POST' \
-  'http://git-release:8080/upload?token=%24jSOIMWvgfPO%24%26%23OPJPIRS&project=sgl&version=${commitMessage}' \
+  'https://gru.openspm.org/upload?token=%24jSOIMWvgfPO%24%26%23OPJPIRS&project=sgl&version=${commitMessage}' \
   -H 'accept: */*' \
   -H 'Content-Type: multipart/form-data' \
   -F 'file=@${env.ZIP_FILE_NAME}'"
