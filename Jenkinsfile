@@ -88,8 +88,9 @@ pipeline {
                         // Use a regex to find 'release-' and capture the next 6 characters
                             
                             // Upload the zip file
+                            def secret = credentials('gru-token')
                             sh "curl -X 'POST' \
-  'https://gru.openspm.org/upload?token=%24jSOIMWvgfPO%24%26%23OPJPIRS&project=sgl&version=${commitMessage}' \
+  'https://gru.openspm.org/upload?token=${secret}&project=sgl&version=${commitMessage}' \
   -H 'accept: */*' \
   -H 'Content-Type: multipart/form-data' \
   -F 'file=@${env.ZIP_FILE_NAME}'"
