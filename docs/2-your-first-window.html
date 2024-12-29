@@ -55,56 +55,15 @@
     <p>Make sure sgl id installed to your project, or system-wide</p>
     <h2>Writing Your C++ Code</h2>
     <p>Create a new C++ file (e.g., <code>main.cpp</code>) and add the following code:</p>
-    <pre><code>#include <GLFW/glfw3.h>
-
-int main() {
-    // Initialize GLFW
-    if (!glfwInit()) {
-        return -1;
-    }
-
-    // Create a windowed mode window and its OpenGL context
-    GLFWwindow* window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
-    if (!window) {
-        glfwTerminate();
-        return -1;
-    }
-
-    // Make the window's context current
-    glfwMakeContextCurrent(window);
-
-    // Loop until the user closes the window
-    while (!glfwWindowShouldClose(window)) {
-        // Render here
-
-        // Swap front and back buffers
-        glfwSwapBuffers(window);
-
-        // Poll for and process events
-        glfwPollEvents();
-    }
-
-    glfwDestroyWindow(window);
-    glfwTerminate();
-    return 0;
-}</code></pre>
+    <pre><code>
+        #todo
+</code></pre>
 
     <h2>Building Your Project</h2>
     <p>To build your project, create a <code>CMakeLists.txt</code> file with the following content:</p>
     <pre><code>cmake_minimum_required(VERSION 3.10)
-project(SimpleWindow)
-
-find_package(OpenGL REQUIRED)
-find_package(GLM REQUIRED)
-find_package(glfw3 REQUIRED)
-
-add_executable(SimpleWindow main.cpp)
-target_link_libraries(SimpleWindow glfw ${OPENGL_LIBRARIES})</code></pre>
-    <p>Then, run the following commands:</p>
-    <pre><code>mkdir build
-cd build
-cmake ..
-cmake --build .</code></pre>
+        #todo
+    </code></pre>
 
     <h2>Running Your Project</h2>
     <p>To run your project, execute the following command from the build directory:</p>
