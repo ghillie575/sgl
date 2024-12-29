@@ -24,7 +24,7 @@ pipeline {
                     try {
                         // Configure and build the project
                         sh ''' 
-                        mkdir build
+                        mkdir -p build
                         cd build
                         cmake ..
                         cmake --build .. --config Release
