@@ -12,7 +12,7 @@ pipeline {
                         // Install additional libraries (example for Ubuntu)
                         sh '''
                             apt-get update >> /dev/null
-                            apt-get install -y zip g++ cmake git libglfw3 libglfw3-dev >> /dev/null
+                            apt-get install -y zip g++ cmake curl git libglfw3 libglfw3-dev >> /dev/null
                         '''
                     } catch (Exception e) {
                         error "Failed to install dependencies: ${e.message}"
