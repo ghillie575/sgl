@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        code {
+            background-color: #eaeaea;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #eaeaea;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Getting Started with Your C++ Project</h1>
+
+    <p>Welcome to your C++ project! This document will guide you through the initial setup and help you get started quickly.</p>
+
+    <h2>Prerequisites</h2>
+    <p>Before you begin, ensure you have the following installed on your machine:</p>
+    <ul>
+        <li><strong>C++ Compiler</strong>: A C++11 compatible compiler (e.g., g++, clang++)</li>
+        <li><strong>CMake</strong>: For building the project</li>
+        <li><strong>OpenGL</strong>: Version 3.3 or higher</li>
+        <li><strong>GLFW</strong>: For window and input management</li>
+        <li><strong>GLM</strong>: For vector math (included in the project)</li>
+        <li><strong>GLAD</strong>: For OpenGL function loading (included in the project)</li>
+    </ul>
+
+    <h2>Installation Steps</h2>
+    <p>Follow these steps to set up your project:</p>
+    <ol>
+        <li>
+            <strong>Clone the Repository</strong>
+            <pre><code>git clone https://git.openspm.org/OPENSPM/SGL.git</code></pre>
+            <p>Navigate into the project directory:</p>
+            <pre><code>cd [project-directory]</code></pre>
+        </li>
+        <li>
+            <strong>Build the Project</strong>
+            <p>Run the following commands:</p>
+            <pre><code>cmake .</code></pre>
+            <pre><code>cmake --build . --config Release</code></pre>
+        </li>
+    </ol>
+
+    <h2>Running the Project</h2>
+    <p>To start the test scene run the following command from the build directory:</p>
+    <pre><code>./XandO</code></pre>
+    <h2>Contributing</h2>
+    <p>We welcome contributions! Please follow these steps:</p>
+    <ol>
+        <li>Fork the repository.</li>
+        <li>Create a new branch:
+            <pre><code>git checkout -b feature/YourFeature</code></pre>
+        </li>
+        <li>Make your changes and commit them:
+            <pre><code>git commit -m "Add your message here"</code></pre>
+        </li>
+        <li>Push to the branch:
+            <pre><code>git push GITEA feature/YourFeature</code></pre>
+        </li>
+        <li>Create a pull request.</li>
+    </ol>
+
+    <h2>Support</h2>
+    <p>If you encounter any issues or have questions, please reach out via:</p>
+    <ul>
+        <li><strong>Email</strong>:  mikhail@openspm.org</li>
+        <li><strong>Issue Tracker</strong>: [link to issue tracker]</li>
+    </ul>
+
+    <h2>License</h2>
+    <p>This project is licensed under the [License Name]. See the <a>LICENSE</a> file for details.</p>
+
+</body>
+</html>
