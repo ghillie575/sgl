@@ -11,6 +11,7 @@ find_package(glfw3 3.3 REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIR} ${GLFW_INCLUDE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/include)
 include_directories(${CMAKE_SOURCE_DIR}/lib)
+<<<<<<< HEAD
 
 # Gather source files
 file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp ${CMAKE_SOURCE_DIR}/src/*.c)
@@ -33,3 +34,14 @@ install(TARGETS sgl DESTINATION lib)
 # Install header files
 file(GLOB files "${CMAKE_SOURCE_DIR}/include/*.h")
 install(FILES ${files} DESTINATION include/sgl)
+=======
+file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp ${CMAKE_SOURCE_DIR}/src/*.c)
+add_library(sgl SHARED ${SOURCES})
+add_executable(XandO main.cpp)
+target_link_libraries(XandO glfw OpenGL::GL)
+target_link_libraries(XandO sgl)
+SET(CMAKE_INSTALL_PREFIX ".")
+INSTALL(TARGETS sgl DESTINATION lib)
+FILE(GLOB files "${CMAKE_SOURCE_DIR}/include/*.h")
+INSTALL(FILES ${files} DESTINATION include/sgl)
+>>>>>>> be5065e (BIG UPDATE,docs jenkinsfiel cmakefile)
