@@ -23,8 +23,10 @@ pipeline {
                 script {
                     try {
                         // Configure and build the project
-                        sh ''' 
-                        cmake . -B build
+                        sh '''
+                        mkdir -p build
+                        cd build 
+                        cmake ..
                         cmake --build . --config Release
                         '''
                     } catch (Exception e) {
@@ -43,6 +45,7 @@ pipeline {
                         
                         // Copy necessary files to the out directory
                         sh '''
+                            ls
                             cd build
                             cp ./XandO ../out/XandO
                             cp -r ../include ../out/include
