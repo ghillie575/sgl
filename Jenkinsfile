@@ -45,7 +45,6 @@ pipeline {
                         
                         // Copy necessary files to the out directory
                         sh '''
-                            ls
                             cd build
                             cp ./XandO ../out/XandO
                             cp -r ../include ../out/include
