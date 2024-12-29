@@ -24,10 +24,8 @@ pipeline {
                     try {
                         // Configure and build the project
                         sh ''' 
-                        mkdir -p build
-                        cd build
-                        cmake ..
-                        cmake --build .. --config Release
+                        cmake . -B build
+                        cmake --build . --config Release
                         '''
                     } catch (Exception e) {
                         error "Build failed: ${e.message}"
