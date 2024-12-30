@@ -6,7 +6,7 @@
 #include <object.h>
 #include <logger.h>
 #include <fstream>
-Logger logger = Logger("SceneLoader");
+Logger logger = Logger("\e[36mSceneLoader");
 void loadScene(Window* window, std::string json) {
     nlohmann::json sceneJson = nlohmann::json::parse(json);
     int current = 0;
@@ -26,6 +26,7 @@ void loadScene(Window* window, std::string json) {
         window->regObject(obj);
         current += 1;
     }
+    logger.log(LogLevel::INFO,"Done");
 }
 
 std::string createScene(SceneData* data) {

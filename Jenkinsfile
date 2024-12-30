@@ -3,6 +3,10 @@ pipeline {
         docker {
             image 'ubuntu:latest'
         }
+        
+    }
+    environment {
+        GRU_TOKEN = credentials('gru-token')
     }
     stages {
         stage('Install Dependencies') {
@@ -88,9 +92,8 @@ pipeline {
                         // Use a regex to find 'release-' and capture the next 6 characters
                             
                             // Upload the zip file
-                            def secret = credentials('gru-token')
                             sh "curl -X 'POST' \
-  'https://gru.openspm.org/upload?token=${secret}&project=sgl&version=${commitMessage}' \
+  'https://gru.openspm.org/upload?token=$GRU_TOKEN&project=sgl&version=${commitMessage}' \
   -H 'accept: */*' \
   -H 'Content-Type: multipart/form-data' \
   -F 'file=@${env.ZIP_FILE_NAME}'"

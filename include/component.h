@@ -1,11 +1,28 @@
+#ifndef COMPONENT_H
+#define COMPONENT_H
 #include <iostream>
 #include <transform.h>
 #include <object.h>
-class Component {
+class Component
+{
+private:
+    std::unordered_map<std::string, void *> properties;
+
 public:
-    Transform* Transform;
-    GameObject * GameObject;
+    Transform *Transform;
+    GameObject *GameObject;
     void Start();
     void Update();
-    void setProprety();
+    void setProperty(std::string propName, void *value);
+    void removeProperty(std::string propName);
+    void *getProperty(std::string propName);
+    template <typename T>
+    T* getProperty(std::string propName) {
+        auto it = properties.find(propName);
+        if (it != properties.end()) {
+            return static_cast<T*>(it->second);
+        }
+        return nullptr;
+    }
 };
+#endif

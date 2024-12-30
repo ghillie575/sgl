@@ -18,16 +18,16 @@ public:
         switch (level)
         {
         case INFO:
-            levelStr = "info";
+            levelStr = "\e[94minfo\e[0m";
             break;
         case WARN:
-            levelStr = "warn";
+            levelStr = "\e[93mwarn\e[0m";
             break;
         case ERROR:
-            levelStr = "error";
+            levelStr = "\e[91merror\e[0m";
             break;
         }
-        std::cout << "[" << className << "] [" << levelStr << "] " << message << std::endl;
+        std::cout << "[\e[92m" << className << "\e[0m] [" << levelStr << "] " << message << std::endl;
     }
 
 private:

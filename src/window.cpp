@@ -11,14 +11,27 @@ Window::Window(int height, int width, const char *title)
 void Window::framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
         glViewport(0, 0, width, height);
-        logger.log(LogLevel::INFO, "Framebuffer size callback");
 }
-GameObject *Window::getObject(int id)
+GameObject *Window::getObjectById(std::string id)
 {
         for (size_t i = 0; i < objects.size(); i++)
         {
-                
+                if(objects[i].id.compare(id) == 0){
+                        return &objects[i];
+                }
         }
+        return nullptr;
+        
+}
+GameObject *Window::getObject(std::string name)
+{
+        for (size_t i = 0; i < objects.size(); i++)
+        {
+                if(objects[i].name.compare(name) == 0){
+                        return &objects[i];
+                }
+        }
+        return nullptr;
         
 }
 void getAllFiles(const fs::path &directory, std::vector<fs::path> &files, int &fileCOunt)
@@ -70,6 +83,7 @@ void Window::Init()
                         shadreReg[file.stem().string()] = current;
                 }
         }
+        logger.log(LogLevel::INFO, "Shaders loading completed");
 }
 bool Window::shaderExists(const std::string &shaderName)
 {

@@ -18,7 +18,7 @@ private:
     //std::vector<Object> Objects;
     std::unordered_map<std::string, Shader> shadreReg;
     std::vector<GameObject> objects;
-    Logger logger = Logger("ENGINE");
+    Logger logger = Logger("\e[95mENGINE");
     void (*update)(Window *window);
     void (*Input)(Window *window);
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -32,7 +32,7 @@ public:
     void setUpdate(void (*func)(Window *window));
     void setInputProcess(void (*func)(Window *window));
     void regObject(GameObject obj);
-    GameObject* getObject(int id);
+    GameObject* getObjectById(std::string id);
     GameObject* getObject(std::string objectName);
     Shader* getShader(std::string shaderName);
     void start();
