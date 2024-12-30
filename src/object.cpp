@@ -9,9 +9,11 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <random>
 GameObject::GameObject()
 {
     this->transform.setScaling(glm::vec3(1,1,1));
+    this->id = generateRandomID(10);
 }
 void GameObject::loadModel(const char *modelName)
 {
@@ -100,6 +102,21 @@ void GameObject::useShader(const char *shaderName)
 void GameObject::useShader(Shader* shader)
 {
     this->shader = shader;
+}
+std::string GameObject::generateRandomID(int length) {
+    // Create a random number generator
+    std::random_device rd;  // Obtain a random number from hardware
+    std::mt19937 eng(rd()); // Seed the generator
+
+    // Define the range for digits (0-9)
+    std::uniform_int_distribution<> distr(0, 9);
+
+    std::string id;
+    for (int i = 0; i < length; ++i) {
+        id += std::to_string(distr(eng)); // Generate a random digit and append to the ID
+    }
+
+    return id;
 }
 void GameObject::render()
 {

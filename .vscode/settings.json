@@ -69,6 +69,8 @@
         "any": "cpp",
         "codecvt": "cpp",
         "forward_list": "cpp",
-        "filesystem": "cpp"
+        "filesystem": "cpp",
+        "condition_variable": "cpp",
+        "mutex": "cpp"
     }
 }

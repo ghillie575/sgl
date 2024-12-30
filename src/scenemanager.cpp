@@ -21,9 +21,10 @@ void loadScene(Window* window, std::string json) {
         obj.loadModel(object.model.c_str());
         obj.useShader(object.shader.c_str());
         obj.transform = object.transform;
+        obj.id = object.id;
+        obj.name = object.name;
         window->regObject(obj);
         current += 1;
-        //object reg to window
     }
 }
 
@@ -35,7 +36,7 @@ std::string createScene(SceneData* data) {
         SceneObject* object = data->getObject(i);
         sceneJson["objects"][i] = object->toJson();
     }
-    return sceneJson.dump();
+    return sceneJson.dump(4);
 }
 void loadSceneFromFile(Window* window,std::string sceneName){
     std::ifstream file("scenes/" + sceneName + ".json");

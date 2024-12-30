@@ -19,8 +19,11 @@ private:
     /* data */
     bool modelUsesEBO = true;
     Logger logger = Logger("");
+    std::string generateRandomID(int length);
 
 public:
+    std::string id;
+    std::string name = "x";
     Shader* shader = nullptr;
     std::string shaderName = "";
     unsigned int VBO, VAO, EBO;

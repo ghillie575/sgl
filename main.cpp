@@ -30,7 +30,7 @@ int main(int, char **)
 {
     std::cout << "pre start test. scene manager\n";
     //object creation
-   /* SceneData data = SceneData();
+    SceneData data = SceneData();
     SceneObject sobj1 = SceneObject();
     SceneObject sobj2 = SceneObject();
     SceneObject sobj3 = SceneObject(); 
@@ -110,7 +110,7 @@ int main(int, char **)
     data.addObject(&sobj11);
     data.addObject(&sobj12);
     std::string json = createScene(&data);
-    std::cout << json;*/
+    std::cout << json;
     std::cout << "Hello, from XandO!\n";
     Window window = Window(1000, 1000, "SGL");
     window.Init();
@@ -131,7 +131,7 @@ int main(int, char **)
 
     window.regObject(obj);
     window.regObject(obj1);*/
-    //loadSceneFromFile(&window,"scenes/2d_triangles.json");
+    saveScene(&data,"2d_triangles");
     loadSceneFromFile(&window,"2d_triangles");
     glLineWidth(10.0f);
     window.setUpdate(Update);

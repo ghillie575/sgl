@@ -2,8 +2,10 @@
     "count": 9,
     "objects": [
         {
+            "id": "8834719630",
             "mode": "ln",
             "model": "basic/2d/cross",
+            "name": "x",
             "shader": "default",
             "transform": {
                 "position": [
@@ -24,8 +26,10 @@
             }
         },
         {
+            "id": "6511665057",
             "mode": "ln",
             "model": "basic/2d/triangle",
+            "name": "x",
             "shader": "default",
             "transform": {
                 "position": [
@@ -46,8 +50,10 @@
             }
         },
         {
+            "id": "7788119621",
             "mode": "ln",
             "model": "basic/2d/triangle",
+            "name": "x",
             "shader": "default",
             "transform": {
                 "position": [
@@ -68,8 +74,10 @@
             }
         },
         {
+            "id": "2021980908",
             "mode": "ln",
             "model": "basic/2d/triangle",
+            "name": "x",
             "shader": "default",
             "transform": {
                 "position": [
@@ -90,8 +98,10 @@
             }
         },
         {
+            "id": "2572981150",
             "mode": "ln",
             "model": "basic/2d/triangle",
+            "name": "x",
             "shader": "default",
             "transform": {
                 "position": [
@@ -112,8 +122,10 @@
             }
         },
         {
+            "id": "6720352587",
             "mode": "ln",
             "model": "basic/2d/triangle",
+            "name": "x",
             "shader": "default",
             "transform": {
                 "position": [
@@ -134,8 +146,10 @@
             }
         },
         {
+            "id": "7144504849",
             "mode": "ln",
             "model": "basic/2d/triangle",
+            "name": "x",
             "shader": "default",
             "transform": {
                 "position": [
@@ -156,8 +170,10 @@
             }
         },
         {
+            "id": "6153652176",
             "mode": "ln",
             "model": "basic/2d/triangle",
+            "name": "x",
             "shader": "default",
             "transform": {
                 "position": [
@@ -178,8 +194,10 @@
             }
         },
         {
+            "id": "2099338672",
             "mode": "ln",
             "model": "basic/2d/triangle",
+            "name": "x",
             "shader": "default",
             "transform": {
                 "position": [

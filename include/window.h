@@ -33,6 +33,7 @@ public:
     void setInputProcess(void (*func)(Window *window));
     void regObject(GameObject obj);
     GameObject* getObject(int id);
+    GameObject* getObject(std::string objectName);
     Shader* getShader(std::string shaderName);
     void start();
 };
