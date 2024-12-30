@@ -15,7 +15,11 @@ void Window::framebuffer_size_callback(GLFWwindow *window, int width, int height
 }
 GameObject *Window::getObject(int id)
 {
-        return &objects[id];
+        for (size_t i = 0; i < objects.size(); i++)
+        {
+                
+        }
+        
 }
 void getAllFiles(const fs::path &directory, std::vector<fs::path> &files, int &fileCOunt)
 {
