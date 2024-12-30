@@ -9,8 +9,8 @@ private:
     std::unordered_map<std::string, void *> properties;
 
 public:
-    Transform *Transform;
-    GameObject *GameObject;
+    Transform *transform;
+    GameObject *gameObject;
     void Start();
     void Update();
     void setProperty(std::string propName, void *value);
