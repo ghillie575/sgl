@@ -15,10 +15,11 @@ private:
     int height;
     int width;
     const char *title;
+    bool debug = false;
     //std::vector<Object> Objects;
     std::unordered_map<std::string, Shader> shadreReg;
     std::vector<GameObject> objects;
-    Logger logger = Logger("\e[95mENGINE");
+    Logger logger;
     void (*update)(Window *window);
     void (*Input)(Window *window);
     void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -28,6 +29,7 @@ private:
 public:
     GLFWwindow *window;
     Window(int height, int width, const char *title);
+    Window(int height, int width, const char *title,bool debug);
     void Init();
     void setUpdate(void (*func)(Window *window));
     void setInputProcess(void (*func)(Window *window));

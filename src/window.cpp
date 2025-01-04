@@ -1,38 +1,56 @@
 #include <window.h>
 #include <iostream>
 #include <filesystem>
+#include <vector>
+#include <unordered_map>
+#include <string>
+
 namespace fs = std::filesystem;
+
 Window::Window(int height, int width, const char *title)
+    : logger("\e[95mENGINE")
 {
-        this->height = height;
-        this->width = width;
-        this->title = title;
+    this->height = height;
+    this->width = width;
+    this->title = title;
 }
+
+Window::Window(int height, int width, const char *title, bool debug)
+    : logger("\e[95mENGINE", debug)
+{
+    this->height = height;
+    this->width = width;
+    this->title = title;
+    this->debug = debug;
+}
+
 void Window::framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
-        glViewport(0, 0, width, height);
+    glViewport(0, 0, width, height);
 }
+
 GameObject *Window::getObjectById(std::string id)
 {
-        for (size_t i = 0; i < objects.size(); i++)
+    for ( auto &obj : objects)
+    {
+        if (obj.id == id)
         {
-                if(objects[i].id.compare(id) == 0){
-                        return &objects[i];
-                }
+            return &obj;
         }
-        return nullptr;
-        
+    }
+    return nullptr;
 }
+
 GameObject *Window::getObject(std::string name)
 {
-        for (size_t i = 0; i < objects.size(); i++)
+    for ( auto &obj : objects)
+    {
+        if (obj.name == name)
         {
-                if(objects[i].name.compare(name) == 0){
-                        return &objects[i];
-                }
+            return &obj;
         }
-        return nullptr;
-        
+    }
+    return nullptr;
 }
 void getAllFiles(const fs::path &directory, std::vector<fs::path> &files, int &fileCOunt)
 {
@@ -47,101 +65,110 @@ void getAllFiles(const fs::path &directory, std::vector<fs::path> &files, int &f
 }
 void Window::Init()
 {
-        logger.log(LogLevel::INFO, "Initializing window");
-        glfwInit();
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        window = glfwCreateWindow(width, height, title, NULL, NULL);
-        if (window == NULL)
-        {
-                std::cout << "Engine init failed:\nFailed to create GLFW window\nat Window::Init()" << std::endl;
-                logger.log(LogLevel::ERROR, "Failed to create GLFW window");
-                glfwTerminate();
-                exit(-1);
-        }
-        glfwMakeContextCurrent(window);
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-        {
-                std::cout << "Engine init failed:\nFailed to initialize GLAD\nat Window::Init()" << std::endl;
-                logger.log(LogLevel::ERROR, "Failed to initialize GLAD");
-                exit(-1);
-        }
-        logger.log(LogLevel::INFO, "Loading shaders");
-        std::vector<fs::path> files;
-        int count;
-        getAllFiles("engine/shaders", files, count);
+    if (!glfwInit())
+    {
+        logger.log(LogLevel::ERROR, "Failed to initialize GLFW");
+        std::cerr << "GLFW init failed" << std::endl;
+        exit(-1);
+    }
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+    window = glfwCreateWindow(width, height, title, NULL, NULL);
+    if (window == NULL)
+    {
+        logger.log(LogLevel::ERROR, "Failed to create GLFW window");
+        std::cerr << "Failed to create GLFW window" << std::endl;
+        glfwTerminate();
+        exit(-1);
+    }
+    glfwMakeContextCurrent(window);
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        logger.log(LogLevel::ERROR, "Failed to initialize GLAD");
+        std::cerr << "Failed to initialize GLAD" << std::endl;
+        exit(-1);
+    }
+    logger.log(LogLevel::INFO, "Loading shaders");
+    std::vector<fs::path> files;
+    int count;
+    getAllFiles("engine/shaders", files, count);
 
-        for (const auto &file : files)
+    for (const auto &file : files)
+    {
+        if (file.extension() == ".vs")
         {
-
-                if (file.extension() == ".vs")
-                {
-                        logger.log(LogLevel::INFO, std::string("Loading shader: ") + file.stem().string());
-                        Shader current = Shader(file.string().c_str(), (file.parent_path().string() + std::string("/") + file.stem().string() + ".fs").c_str());
-                        shadreReg[file.stem().string()] = current;
-                }
+            logger.log(LogLevel::INFO, "Loading shader: " + file.stem().string());
+            Shader current = Shader(file.string().c_str(), (file.parent_path().string() + std::string("/") + file.stem().string() + ".fs").c_str());
+            shadreReg[file.stem().string()] = current;
         }
-        logger.log(LogLevel::INFO, "Shaders loading completed");
+    }
 }
+
 bool Window::shaderExists(const std::string &shaderName)
 {
-        return shadreReg.find(shaderName) != shadreReg.end();
+    return shadreReg.find(shaderName) != shadreReg.end();
 }
+
 Shader *Window::getShader(std::string shaderName)
 {
-        if (shaderExists(shaderName))
-        {
-                return &shadreReg[shaderName];
-        }
-        else
-        {
-                return &shadreReg["default"];
-        }
+    if (shaderExists(shaderName))
+    {
+        return &shadreReg[shaderName];
+    }
+    else
+    {
+        return &shadreReg["default"];
+    }
 }
+
 void Window::start()
-{       
-        while (!glfwWindowShouldClose(window))
+{
+    while (!glfwWindowShouldClose(window))
+    {
+        Input(this);
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+        for ( auto &obj : objects)
         {
-                // processInput(window);
-                Input(this);
-                glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-                glClear(GL_COLOR_BUFFER_BIT);
-                for (int i = 0; i < objects.size(); i++)
-                {
-                        objects[i].render();
-                }
-
-                update(this);
-                glfwSwapBuffers(window);
-                glfwPollEvents();
+            obj.render();
         }
-        logger.log(LogLevel::INFO, "Terminating window");
-        logger.log(LogLevel::INFO, "Cleaning up");
-        for (int i = 0; i < objects.size(); i++)
-        {
-                
 
-                objects[i].freeResources();
-        }
-        glfwTerminate();
-        logger.log(LogLevel::INFO, "Window terminated");
-        return;
+        update(this);
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+    logger.log(LogLevel::INFO, "Terminating window");
+    logger.log(LogLevel::INFO, "Cleaning up");
+    for ( auto &obj : objects)
+    {
+        logger.log(LogLevel::DEBUG, "Freeing resources for object with ID: " + obj.id);
+        obj.freeResources();
+    }
+    glfwTerminate();
+    logger.log(LogLevel::INFO, "Window terminated");
+    return;
 }
+
 void Window::setUpdate(void (*func)(Window *window))
 {
-        update = func;
+    update = func;
 }
+
 void Window::setInputProcess(void (*func)(Window *window))
 {
-        Input = func;
+    Input = func;
 }
+
 void Window::regObject(GameObject obj)
-{       
-        if(obj.shader == nullptr){
+{
+    logger.log(LogLevel::DEBUG, "Registering object with ID: " + obj.id);
+    if (obj.shader == nullptr)
+    {
         obj.useShader(getShader(obj.shaderName));
-        }
-        obj.build();
-        objects.insert(objects.begin(), obj);
+    }
+    obj.build();
+    objects.insert(objects.begin(), obj);
 }
+

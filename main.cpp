@@ -1,4 +1,4 @@
-#define SGL_DEBUG
+#define _SGL_DEBUG_
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -112,7 +112,7 @@ int main(int, char **)
     std::string json = createScene(&data);
     std::cout << json;
     std::cout << "Hello, from XandO!\n";
-    Window window = Window(1000, 1000, "SGL");
+    Window window = Window(1000, 1000, "SGL",true);
     window.Init();
     //loadScene(&window, json);
     // Shader* shader = window.getShader("default");
