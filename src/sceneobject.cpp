@@ -8,6 +8,9 @@ void SceneObject::fromJson(const nlohmann::json &json)
     if (json.contains("model")) {
         model = json["model"].get<std::string>();
     }
+    if (json.contains("type")) {
+        type = json["type"].get<std::string>();
+    }
     if (json.contains("shader")) {
         shader = json["shader"];
     }
@@ -49,6 +52,7 @@ nlohmann::json SceneObject::toJson() const
     json["shader"] = shader;
     json["id"] = id;
     json["name"] = name;
+    json["type"] = type;
     return json;
 }
 std::string SceneObject::generateRandomID(int length)

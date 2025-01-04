@@ -1,3 +1,9 @@
+/**
+ * @file window.cpp
+ * @brief Contains the implementation of the Window class
+ * @author Petr Fučík
+ */
+
 #include <window.h>
 #include <iostream>
 #include <filesystem>
@@ -9,6 +15,12 @@
 
 namespace fs = std::filesystem;
 
+/**
+ * Constructor for the Window class
+ * @param height The height of the window in pixels
+ * @param width The width of the window in pixels
+ * @param title The title of the window
+ */
 Window::Window(int height, int width, const char *title)
     : logger("\e[95mENGINE")
 {
@@ -17,6 +29,13 @@ Window::Window(int height, int width, const char *title)
     this->title = title;
 }
 
+/**
+ * Constructor for the Window class with debug flag
+ * @param height The height of the window in pixels
+ * @param width The width of the window in pixels
+ * @param title The title of the window
+ * @param debug If true, the window will be created with debug logging enabled
+ */
 Window::Window(int height, int width, const char *title, bool debug)
     : logger("\e[95mENGINE", debug)
 {
@@ -24,32 +43,60 @@ Window::Window(int height, int width, const char *title, bool debug)
     this->width = width;
     this->title = title;
     this->debug = debug;
+    factory.registerObjectCreationFunction("default", []() { return std::make_shared<GameObject>(); });
 }
 
+/**
+ * Returns a pointer to the GameObject with the given ID
+ * @param id The ID of the GameObject to retrieve
+ * @return A pointer to the GameObject with the given ID, or nullptr if no such object exists
+ */
 GameObject* Window::getObjectById(const std::string& id)
 {
-    auto it = std::find_if(objects.begin(), objects.end(), [&](const GameObject &obj) { return obj.id == id; });
-    return (it != objects.end()) ? &(*it) : nullptr;
+ auto it = std::find_if(objects.begin(), objects.end(), [&](const std::shared_ptr<GameObject>& obj) {
+    return obj->id == id;  // Access id through the shared_ptr
+});
+return (it != objects.end()) ? it->get() : nullptr;  // Use it->get() to return the raw pointer
+
 }
 
+/**
+ * Returns a pointer to the GameObject with the given name
+ * @param name The name of the GameObject to retrieve
+ * @return A pointer to the GameObject with the given name, or nullptr if no such object exists
+ */
 GameObject* Window::getObjectByName(const std::string& name)
 {
-    auto it = std::find_if(objects.begin(), objects.end(), [&](const GameObject &obj) { return obj.name == name; });
-    return (it != objects.end()) ? &(*it) : nullptr;
+    auto it = std::find_if(objects.begin(), objects.end(), [&](const std::shared_ptr<GameObject>& obj) {
+    return obj->name == name;  // Use obj->name to access the name member
+});
+return (it != objects.end()) ? it->get() : nullptr;  // Use it->get() to return a raw pointer
+
 }
+
+/**
+ * Retrieves all files in the given directory and its subdirectories
+ * @param directory The directory to search in
+ * @param files A vector to store the found files
+ */
 void getAllFiles(const fs::path &directory, std::vector<fs::path> &files)
 {
-        // Iterate through the directory and its subdirectories
-        for (const auto &entry : fs::recursive_directory_iterator(directory))
+    // Iterate through the directory and its subdirectories
+    for (const auto &entry : fs::recursive_directory_iterator(directory))
+    {
+        if (fs::is_regular_file(entry))
         {
-                if (fs::is_regular_file(entry))
-                {
-                        files.push_back(entry.path());
-                }
+            files.push_back(entry.path());
         }
+    }
 }
+
+/**
+ * Initializes the window
+ */
 void Window::init()
 {
+    closed = false;
     if (!glfwInit())
     {
         logger.log(LogLevel::ERROR, "Failed to initialize GLFW");
@@ -58,6 +105,14 @@ void Window::init()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    if (dobbleBuffering)
+    {
+        glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
+    }
+    else
+    {
+        glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
+    }
     const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
     window = glfwCreateWindow(width, height, title, NULL, NULL);
     if (window == NULL)
@@ -85,27 +140,41 @@ void Window::init()
     }
 }
 
+/**
+ * Checks if a shader with the given name exists
+ * @param shaderName The name of the shader to check
+ * @return True if the shader exists, false otherwise
+ */
 bool Window::shaderExists(const std::string &shaderName)
 {
     return shaderRegistry.find(shaderName) != shaderRegistry.end();
 }
 
+/**
+ * Returns a pointer to the shader with the given name
+ * @param shaderName The name of the shader to retrieve
+ * @return A pointer to the shader with the given name, or nullptr if no such shader exists
+ */
 Shader* Window::getShader(const std::string& shaderName)
 {
     auto it = shaderRegistry.find(shaderName);
     return (it != shaderRegistry.end()) ? &it->second : nullptr;
 }
 
+/**
+ * Starts the window's main loop
+ */
 void Window::start()
 {
     while (!glfwWindowShouldClose(window))
     {
         inputCallback(this);
+        CalculateFrameRate();
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         for (auto &obj : objects)
         {
-            obj.render();
+            obj->render();
         }
 
         updateCallback(this);
@@ -116,14 +185,20 @@ void Window::start()
     logger.log(LogLevel::INFO, "Cleaning up");
     for (auto &obj : objects)
     {
-        logger.log(LogLevel::DEBUG, "Freeing resources for object with ID: " + obj.id);
-        obj.freeResources();
+        logger.log(LogLevel::DEBUG, "Freeing resources for object with ID: " + obj->id);
+        obj->freeResources();
     }
     glfwTerminate();
+    closed = true;
     logger.log(LogLevel::INFO, "Window terminated");
+    
     return;
 }
 
+/**
+ * Sets the update callback function
+ * @param callback The function to call on each frame
+ */
 void Window::setUpdateCallback(std::function<void(Window*)> callback)
 {
     if (callback == nullptr)
@@ -133,6 +208,10 @@ void Window::setUpdateCallback(std::function<void(Window*)> callback)
     updateCallback = callback;
 }
 
+/**
+ * Sets the input processing callback function
+ * @param callback The function to call on each frame for input processing
+ */
 void Window::setInputCallback(std::function<void(Window*)> callback)
 {
     if (callback == nullptr)
@@ -142,14 +221,60 @@ void Window::setInputCallback(std::function<void(Window*)> callback)
     inputCallback = callback;
 }
 
-void Window::registerObject(GameObject obj)
+/**
+ * Registers a GameObject with the window
+ * @param obj The GameObject to register
+ */
+void Window::registerObject(std::shared_ptr<GameObject> obj)
 {
-    logger.log(LogLevel::DEBUG, "Registering object with ID: " + obj.id);
-    if (obj.shader == nullptr)
+    logger.log(LogLevel::DEBUG, "Registering object with ID: " + obj->id);
+    if (obj->shader == nullptr)
     {
-        obj.useShader(getShader(obj.shaderName));
+        obj->useShader(getShader(obj->shaderName));
     }
-    obj.build();
+    obj->build();  // Now calls the correct build() method
     objects.push_back(std::move(obj));
+}
+
+/**
+ * Calculates the current frame rate
+ */
+void Window::CalculateFrameRate()
+{
+    static double previousTime = glfwGetTime();
+    double currentTime = glfwGetTime();
+    double deltaTime = currentTime - previousTime;
+    previousTime = currentTime;
+    time.setDeltaTime(deltaTime);
+    fps = (int)(1.0 / deltaTime);
+}
+
+/**
+ * Returns the current frame rate
+ * @return The current frame rate
+ */
+int Window::getCurrentFps()
+{
+    logger.log(LogLevel::DEBUG, "Current FPS: " + std::to_string(fps));
+    return fps;
+}
+
+/**
+ * Checks if the window is closed
+ * @return True if the window is closed, false otherwise
+ */
+bool Window::IsClosed()
+{
+    return closed;
+}
+
+/**
+ * Sets whether the window should use double buffering
+ * @param value True if the window should use double buffering, false otherwise
+ */
+void Window::setDobbleBuffering(bool value)
+{
+    dobbleBuffering = value;
+    
 }
 

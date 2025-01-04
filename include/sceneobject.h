@@ -11,6 +11,7 @@ public:
     std::string shader;
     std::string id;
     std::string name = "x";
+    std::string type = "default";
     SceneObject();
 
     // Add fromJson method to parse JSON data

@@ -15,6 +15,9 @@
 #include <scenemanager.h>
 #include <scenedata.h>
 #include <sceneobject.h>
+#include <chrono>
+#include <thread>
+#include <gameobjects/triangle.h>  
 GameObject obj;
 float movespeed = 0.01f;
 void processInput(Window *window)
@@ -23,6 +26,15 @@ void processInput(Window *window)
 }
 void Update(Window *window)
 {
+}
+void fpsWatch(Window* window)
+{
+    while(!window->IsClosed())
+    {
+        window->getCurrentFps();
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    }
+    
 }
 //main
 int main(int, char **)
@@ -35,6 +47,7 @@ int main(int, char **)
     SceneObject sobj3 = SceneObject(); 
     SceneObject sobj5 = SceneObject();
     SceneObject sobj6 = SceneObject();
+    sobj1.type = "triangle";
     //transorm assigment
     Transform t1 = Transform();
     Transform t2 = Transform();
@@ -112,7 +125,9 @@ int main(int, char **)
     std::cout << json;
     std::cout << "Hello, from XandO!\n";
     Window window = Window(1000, 1000, "SGL",true);
+    window.setDobbleBuffering(true);
     window.init();
+    window.factory.registerObjectCreationFunction("triangle", []() { return std::make_shared<Triangle>(); });
     //loadScene(&window, json);
     // Shader* shader = window.getShader("default");
     /*obj = Object();
@@ -131,9 +146,13 @@ int main(int, char **)
     window.regObject(obj);
     window.regObject(obj1);*/
     saveScene(&data,"2d_triangles");
-    loadSceneFromFile(&window,"2d_triangles");
+    loadSceneByName(&window,"2d_triangles");
     glLineWidth(10.0f);
     window.setUpdateCallback(Update);
     window.setInputCallback(processInput);
+    std::thread th1(fpsWatch, &window);
     window.start();
-}
+    th1.join();
+    return 0;
+    }
+

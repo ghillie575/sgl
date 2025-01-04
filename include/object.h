@@ -33,7 +33,7 @@ public:
     std::vector<float> vert;
     int polCount;
     GameObject();
-    void build();
+    virtual void build();
     void render();
     void useShader(const char* shaderName);
     void useShader(Shader* shader);
