@@ -4,6 +4,8 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
+#include <stdexcept>
+#include <memory>
 
 namespace fs = std::filesystem;
 
@@ -69,7 +71,7 @@ void Window::Init()
     {
         logger.log(LogLevel::ERROR, "Failed to initialize GLFW");
         std::cerr << "GLFW init failed" << std::endl;
-        exit(-1);
+        throw std::runtime_error("Failed to initialize GLFW");
     }
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
@@ -81,14 +83,14 @@ void Window::Init()
         logger.log(LogLevel::ERROR, "Failed to create GLFW window");
         std::cerr << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
-        exit(-1);
+        throw std::runtime_error("Failed to create GLFW window");
     }
     glfwMakeContextCurrent(window);
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         logger.log(LogLevel::ERROR, "Failed to initialize GLAD");
         std::cerr << "Failed to initialize GLAD" << std::endl;
-        exit(-1);
+        throw std::runtime_error("Failed to initialize GLAD");
     }
     logger.log(LogLevel::INFO, "Loading shaders");
     std::vector<fs::path> files;
@@ -153,11 +155,19 @@ void Window::start()
 
 void Window::setUpdate(void (*func)(Window *window))
 {
+    if (func == nullptr)
+    {
+        throw std::invalid_argument("Update function cannot be null");
+    }
     update = func;
 }
 
 void Window::setInputProcess(void (*func)(Window *window))
 {
+    if (func == nullptr)
+    {
+        throw std::invalid_argument("Input processor function cannot be null");
+    }
     Input = func;
 }
 
