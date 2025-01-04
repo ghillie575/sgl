@@ -19,8 +19,7 @@ GameObject obj;
 float movespeed = 0.01f;
 void processInput(Window *window)
 {
-    if (glfwGetKey(window->window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window->window, true);
+    
 }
 void Update(Window *window)
 {
@@ -113,7 +112,7 @@ int main(int, char **)
     std::cout << json;
     std::cout << "Hello, from XandO!\n";
     Window window = Window(1000, 1000, "SGL",true);
-    window.Init();
+    window.init();
     //loadScene(&window, json);
     // Shader* shader = window.getShader("default");
     /*obj = Object();
@@ -134,7 +133,7 @@ int main(int, char **)
     saveScene(&data,"2d_triangles");
     loadSceneFromFile(&window,"2d_triangles");
     glLineWidth(10.0f);
-    window.setUpdate(Update);
-    window.setInputProcess(processInput);
+    window.setUpdateCallback(Update);
+    window.setInputCallback(processInput);
     window.start();
 }

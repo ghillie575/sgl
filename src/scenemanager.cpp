@@ -23,7 +23,7 @@ void loadScene(Window* window, std::string json) {
         obj.transform = object.transform;
         obj.id = object.id;
         obj.name = object.name;
-        window->regObject(obj);
+        window->registerObject(obj);
         current += 1;
     }
     logger.log(LogLevel::INFO,"Done");
