@@ -7,7 +7,7 @@ class SceneObject {
 public:
     Transform transform;
     std::string model;
-    drawAs mode = lines;
+    drawAs mode = triangles;
     std::string shader;
     std::string id;
     std::string name = "x";

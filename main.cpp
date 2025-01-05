@@ -47,14 +47,20 @@ int main(int, char **)
     SceneObject sobj3 = SceneObject(); 
     SceneObject sobj5 = SceneObject();
     SceneObject sobj6 = SceneObject();
-    sobj1.type = "triangle";
     //transorm assigment
     Transform t1 = Transform();
+    t1.setScaling(glm::vec3(0.1, 0.1, 0.1));
     Transform t2 = Transform();
+    t2.setScaling(glm::vec3(0.1, 0.1, 0.1));
     Transform t3 = Transform();
+    t3.setScaling(glm::vec3(0.1, 0.1, 0.1));
     Transform t5 = Transform();
+    t5.setScaling(glm::vec3(0.1, 0.1, 0.1));
     Transform t6 = Transform();
+    t6.setScaling(glm::vec3(0.1, 0.1, 0.1));
+
     t1.translate(glm::vec3(0, 0, 0));
+    t1.setRotation(glm::vec3(45, 45,45));
     t2.translate(glm::vec3(-0.3, 0.3, 0));
     t3.translate(glm::vec3(-0.6, 0.6, 0));
     t5.translate(glm::vec3(0.3, 0.3, 0));
@@ -65,11 +71,11 @@ int main(int, char **)
     sobj5.transform = t5;
     sobj6.transform = t6;
     //model assigment
-    sobj1.model = "basic/2d/cross";
-    sobj2.model = "basic/2d/triangle";
-    sobj3.model = "basic/2d/triangle";
-    sobj5.model = "basic/2d/triangle";
-    sobj6.model = "basic/2d/triangle";
+    sobj1.model = "basic/2d/square";
+    sobj2.model = "basic/2d/square";
+    sobj3.model = "basic/2d/square";
+    sobj5.model = "basic/2d/square";
+    sobj6.model = "basic/2d/square";
     //shader assigment
     sobj1.shader = "default";
     sobj2.shader = "default";
@@ -91,9 +97,13 @@ int main(int, char **)
     SceneObject sobj12 = SceneObject();
     //transorm assigment
     Transform t8 = Transform();
+    t8.setScaling(glm::vec3(0.1, 0.1, 0.1));
     Transform t9 = Transform();
+    t9.setScaling(glm::vec3(0.1, 0.1, 0.1));
     Transform t11 = Transform();
+    t11.setScaling(glm::vec3(0.1, 0.1, 0.1));
     Transform t12 = Transform();
+    t12.setScaling(glm::vec3(0.1, 0.1, 0.1));
     t8.translate(glm::vec3(-0.3, -0.3, 0));
     t9.translate(glm::vec3(-0.6, -0.6, 0));
     t11.translate(glm::vec3(0.3, -0.3, 0));
@@ -107,10 +117,10 @@ int main(int, char **)
     sobj11.transform = t11; 
     sobj12.transform = t12;
     //model assigment
-    sobj8.model = "basic/2d/triangle";
-    sobj9.model = "basic/2d/triangle";
-    sobj11.model = "basic/2d/triangle";
-    sobj12.model = "basic/2d/triangle";
+    sobj8.model = "basic/2d/square";
+    sobj9.model = "basic/2d/square";
+    sobj11.model = "basic/2d/square";
+    sobj12.model = "basic/2d/square";
     //shader assigment
     sobj8.shader = "default";
     sobj9.shader = "default";
@@ -127,24 +137,18 @@ int main(int, char **)
     Window window = Window(1000, 1000, "SGL",true);
     window.setDobbleBuffering(true);
     window.init();
-    window.factory.registerObjectCreationFunction("triangle", []() { return std::make_shared<Triangle>(); });
+    /*window.factory.registerObjectCreationFunction("triangle", []() { return std::make_shared<Triangle>(); });
     //loadScene(&window, json);
     // Shader* shader = window.getShader("default");
-    /*obj = Object();
-    obj.setDrawMode(lines);
-    obj.loadModel("basic/2d/board");
-    obj.useShader("default");
-    Object obj1 = Object();
-    obj1.setDrawMode(lines);
-    obj1.loadModel("basic/2d/triangle");
-    obj1.useShader("default");
-    obj1.transform.setScaling(glm::vec3(0.2,0.2,0.2));
-    obj1.transform.translate(glm::vec3(0.1,0.1,0.1));
+    auto obj1 = window.factory.createObject("default");
+    obj1->setDrawMode(triangles);
+    obj1->loadModel("basic/2d/triangle");
+    obj1->useShader("default");
+    obj1->transform.translate(glm::vec3(0.1,0.1,0.1));
     glLineWidth(10.0f);
 
 
-    window.regObject(obj);
-    window.regObject(obj1);*/
+    window.registerObject(obj1);*/
     saveScene(&data,"2d_triangles");
     loadSceneByName(&window,"2d_triangles");
     glLineWidth(10.0f);

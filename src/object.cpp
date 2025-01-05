@@ -32,9 +32,11 @@ void GameObject::loadModel(const char *modelName)
 
     // Iterate over the istream, using >> to grab floats
     // and push_back to store them in the vector
-    std::copy(std::istream_iterator<float>(iss),
-              std::istream_iterator<float>(),
-              std::back_inserter(v));
+    float f;
+    while (iss >> f)
+    {
+        v.push_back(f);
+    }
 
     // Put the result on standard out
     this->vert = v;
@@ -122,10 +124,12 @@ void GameObject::render()
 {
     
     //trans = glm::translate(trans,pos);
-    glm::mat4 trans = transform.getTransformationMatrix();
+    glm::mat4 model = transform.getTransformationMatrix();
+    
+    
     shader->use();
-    unsigned int transformLoc = glGetUniformLocation(shader->ID, "transform");
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+    shader->setMat4("model", model);
+    
     glBindVertexArray(VAO);
 
     if (mode == lines)

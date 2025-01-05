@@ -7,12 +7,13 @@
 using json = nlohmann::json;
 glm::mat4 Transform::getTransformationMatrix() const
 {
-    glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), position);
-    glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-    rotationMatrix = glm::rotate(rotationMatrix, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-    rotationMatrix = glm::rotate(rotationMatrix, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-    glm::mat4 scaleMatrix = glm::scale(glm::mat4(1.0f), scaling);
-    return translationMatrix * rotationMatrix * scaleMatrix;
+    glm::mat4 transformationMatrix = glm::mat4(1.0f);
+    transformationMatrix = glm::translate(transformationMatrix, position);
+    transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+    transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+    transformationMatrix = glm::rotate(transformationMatrix, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+    transformationMatrix = glm::scale(transformationMatrix, scaling);
+    return transformationMatrix;
 }
 void Transform::setPosition(const glm::vec3 &position) { this->position = position; }
 void Transform::setRotation(const glm::vec3 &rotation) { this->rotation = rotation; }
@@ -44,3 +45,4 @@ void Transform::fromJson(const nlohmann::json &json) {
         scaling = glm::vec3(json["scaling"][0], json["scaling"][1], json["scaling"][2]);
     }
 }
+

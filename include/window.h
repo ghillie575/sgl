@@ -1,16 +1,17 @@
-#pragma once
+#ifndef WINDOW_H
+#define WINDOW_H
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <object.h>
+#include "object.h"
 #include <vector>
 #include <unordered_map>
 #include <string>
 #include <functional>
-#include <logger.h>
-#include <time_utils.h>
-#include <objectfactory.h>
-
+#include "logger.h"
+#include "time_utils.h"
+#include "objectfactory.h"
+#include "camera.h"
 class Window
 {
 private:
@@ -24,6 +25,7 @@ private:
     Logger logger;
     std::function<void(Window*)> updateCallback;
     std::function<void(Window*)> inputCallback;
+    void camInit();
     
 
     static void framebufferSizeCallback(GLFWwindow *window, int width, int height)
@@ -39,6 +41,7 @@ private:
 
 public:
     bool debug = false;
+    Camera camera;
     Time time = Time();
     ObjectFactory factory;
     Window(int height, int width, const char *title);
@@ -57,4 +60,5 @@ public:
     void setDobbleBuffering(bool value);
     
 };
+#endif
 

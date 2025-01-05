@@ -28,13 +28,22 @@ void loadScene(Window* window, const std::string& json) {
             logger.log(LogLevel::DEBUG, "Object model: " + object.model);
             logger.log(LogLevel::DEBUG, "Object shader: " + object.shader);
             std::shared_ptr<GameObject> obj = window->factory.createObject(object.type);
-            obj->setDrawMode(object.mode);
-            obj->loadModel(object.model.c_str());
-            obj->useShader(object.shader.c_str());
-            obj->transform = object.transform;
-            obj->id = object.id;
-            obj->name = object.name;
-            window->registerObject(obj);
+            if (obj) {
+                logger.log(LogLevel::DEBUG, "Successfully created object of type: " + object.type);
+                obj->setDrawMode(object.mode);
+                logger.log(LogLevel::DEBUG, "Set draw mode for object: " + object.name);
+                obj->loadModel(object.model.c_str());
+                logger.log(LogLevel::DEBUG, "Loaded model for object: " + object.name);
+                obj->useShader(object.shader.c_str());
+                logger.log(LogLevel::DEBUG, "Applied shader for object: " + object.name);
+                obj->transform = object.transform;
+                obj->id = object.id;
+                obj->name = object.name;
+                window->registerObject(obj);
+                logger.log(LogLevel::INFO, "Registered object with ID: " + obj->id);
+            } else {
+                logger.log(LogLevel::ERROR, "Failed to create object of type: " + object.type);
+            }
         }
     } catch (const std::exception& e) {
         logger.log(LogLevel::ERROR, "Exception occurred: " + std::string(e.what()));

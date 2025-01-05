@@ -27,6 +27,7 @@ Window::Window(int height, int width, const char *title)
     this->height = height;
     this->width = width;
     this->title = title;
+    
 }
 
 /**
@@ -43,9 +44,13 @@ Window::Window(int height, int width, const char *title, bool debug)
     this->width = width;
     this->title = title;
     this->debug = debug;
-    factory.registerObjectCreationFunction("default", []() { return std::make_shared<GameObject>(); });
+  
 }
-
+void Window::camInit()
+{
+    camera.setPosition(glm::vec3(0.0f, 0.0f, -3.0f));
+    camera.setProjectionMatrix(glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f));
+}
 /**
  * Returns a pointer to the GameObject with the given ID
  * @param id The ID of the GameObject to retrieve
@@ -126,6 +131,8 @@ void Window::init()
         logger.log(LogLevel::ERROR, "Failed to initialize GLAD");
         throw std::runtime_error("Failed to initialize GLAD");
     }
+    camInit();
+    factory.registerObjectCreationFunction("default", []() { return std::make_shared<GameObject>(); });
     logger.log(LogLevel::INFO, "Loading shaders");
     std::vector<fs::path> files;
     getAllFiles("engine/shaders", files);
@@ -135,6 +142,8 @@ void Window::init()
         {
             logger.log(LogLevel::INFO, "Loading shader: " + file.stem().string());
             Shader current = Shader(file.string().c_str(), (file.parent_path().string() + std::string("/") + file.stem().string() + ".fs").c_str());
+            current.setMat4("view", camera.getViewMatrix());
+            current.setMat4("projection", camera.getProjectionMatrix());
             shaderRegistry[file.stem().string()] = current;
         }
     }
@@ -166,11 +175,12 @@ Shader* Window::getShader(const std::string& shaderName)
  */
 void Window::start()
 {
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     while (!glfwWindowShouldClose(window))
     {
         inputCallback(this);
         CalculateFrameRate();
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        
         glClear(GL_COLOR_BUFFER_BIT);
         for (auto &obj : objects)
         {

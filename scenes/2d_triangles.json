@@ -2,9 +2,9 @@
     "count": 9,
     "objects": [
         {
-            "id": "8834719630",
-            "mode": "ln",
-            "model": "basic/2d/cross",
+            "id": "9465153022",
+            "mode": "trg",
+            "model": "basic/2d/square",
             "name": "x",
             "shader": "default",
             "transform": {
@@ -14,21 +14,22 @@
                     0.0
                 ],
                 "rotation": [
-                    0.0,
-                    0.0,
-                    0.0
+                    45.0,
+                    45.0,
+                    45.0
                 ],
                 "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
                 ]
-            }
+            },
+            "type": "default"
         },
         {
-            "id": "6511665057",
-            "mode": "ln",
-            "model": "basic/2d/triangle",
+            "id": "9049901073",
+            "mode": "trg",
+            "model": "basic/2d/square",
             "name": "x",
             "shader": "default",
             "transform": {
@@ -43,16 +44,17 @@
                     0.0
                 ],
                 "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
                 ]
-            }
+            },
+            "type": "default"
         },
         {
-            "id": "7788119621",
-            "mode": "ln",
-            "model": "basic/2d/triangle",
+            "id": "9153835390",
+            "mode": "trg",
+            "model": "basic/2d/square",
             "name": "x",
             "shader": "default",
             "transform": {
@@ -67,16 +69,17 @@
                     0.0
                 ],
                 "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
                 ]
-            }
+            },
+            "type": "default"
         },
         {
-            "id": "2021980908",
-            "mode": "ln",
-            "model": "basic/2d/triangle",
+            "id": "0451796860",
+            "mode": "trg",
+            "model": "basic/2d/square",
             "name": "x",
             "shader": "default",
             "transform": {
@@ -91,16 +94,17 @@
                     0.0
                 ],
                 "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
                 ]
-            }
+            },
+            "type": "default"
         },
         {
-            "id": "2572981150",
-            "mode": "ln",
-            "model": "basic/2d/triangle",
+            "id": "6340031599",
+            "mode": "trg",
+            "model": "basic/2d/square",
             "name": "x",
             "shader": "default",
             "transform": {
@@ -115,16 +119,17 @@
                     0.0
                 ],
                 "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
                 ]
-            }
+            },
+            "type": "default"
         },
         {
-            "id": "6720352587",
-            "mode": "ln",
-            "model": "basic/2d/triangle",
+            "id": "7492772372",
+            "mode": "trg",
+            "model": "basic/2d/square",
             "name": "x",
             "shader": "default",
             "transform": {
@@ -139,16 +144,17 @@
                     0.0
                 ],
                 "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
                 ]
-            }
+            },
+            "type": "default"
         },
         {
-            "id": "7144504849",
-            "mode": "ln",
-            "model": "basic/2d/triangle",
+            "id": "5937424033",
+            "mode": "trg",
+            "model": "basic/2d/square",
             "name": "x",
             "shader": "default",
             "transform": {
@@ -163,16 +169,17 @@
                     0.0
                 ],
                 "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
                 ]
-            }
+            },
+            "type": "default"
         },
         {
-            "id": "6153652176",
-            "mode": "ln",
-            "model": "basic/2d/triangle",
+            "id": "0138642936",
+            "mode": "trg",
+            "model": "basic/2d/square",
             "name": "x",
             "shader": "default",
             "transform": {
@@ -187,16 +194,17 @@
                     0.0
                 ],
                 "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
                 ]
-            }
+            },
+            "type": "default"
         },
         {
-            "id": "2099338672",
-            "mode": "ln",
-            "model": "basic/2d/triangle",
+            "id": "2992215023",
+            "mode": "trg",
+            "model": "basic/2d/square",
             "name": "x",
             "shader": "default",
             "transform": {
@@ -211,11 +219,12 @@
                     0.0
                 ],
                 "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
                 ]
-            }
+            },
+            "type": "default"
         }
     ]
 }
