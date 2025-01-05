@@ -60,11 +60,11 @@ int main(int, char **)
     t6.setScaling(glm::vec3(0.1, 0.1, 0.1));
 
     t1.translate(glm::vec3(0, 0, 0));
-    t1.setRotation(glm::vec3(45, 45,45));
-    t2.translate(glm::vec3(-0.3, 0.3, 0));
-    t3.translate(glm::vec3(-0.6, 0.6, 0));
-    t5.translate(glm::vec3(0.3, 0.3, 0));
-    t6.translate(glm::vec3(0.6, 0.6, 0));
+    t1.setRotation(glm::vec3(0, 0,45));
+    t2.translate(glm::vec3(-0.15, 0.15, 0));
+    t3.translate(glm::vec3(-0.3, 0.3, 0));
+    t5.translate(glm::vec3(0.15, 0.15, 0));
+    t6.translate(glm::vec3(0.3, 0.3, 0));
     sobj1.transform = t1;
     sobj2.transform = t2;
     sobj3.transform = t3; 
@@ -104,10 +104,10 @@ int main(int, char **)
     t11.setScaling(glm::vec3(0.1, 0.1, 0.1));
     Transform t12 = Transform();
     t12.setScaling(glm::vec3(0.1, 0.1, 0.1));
-    t8.translate(glm::vec3(-0.3, -0.3, 0));
-    t9.translate(glm::vec3(-0.6, -0.6, 0));
-    t11.translate(glm::vec3(0.3, -0.3, 0));
-    t12.translate(glm::vec3(0.6, -0.6, 0));
+    t8.translate(glm::vec3(-0.15, -0.15, 0));
+    t9.translate(glm::vec3(-0.3, -0.3, 0));
+    t11.translate(glm::vec3(0.15, -0.15, 0));
+    t12.translate(glm::vec3(0.3, -0.3, 0));
     t8.rotate(glm::vec3(180,0,0));
     t9.rotate(glm::vec3(180,0,0));
     t11.rotate(glm::vec3(180,0,0));
@@ -135,7 +135,7 @@ int main(int, char **)
     std::cout << json;
     std::cout << "Hello, from XandO!\n";
     Window window = Window(1000, 1000, "SGL",true);
-    window.setDobbleBuffering(true);
+    window.setDobbleBuffering(false);
     window.init();
     /*window.factory.registerObjectCreationFunction("triangle", []() { return std::make_shared<Triangle>(); });
     //loadScene(&window, json);
@@ -154,6 +154,7 @@ int main(int, char **)
     glLineWidth(10.0f);
     window.setUpdateCallback(Update);
     window.setInputCallback(processInput);
+    
     std::thread th1(fpsWatch, &window);
     window.start();
     th1.join();
