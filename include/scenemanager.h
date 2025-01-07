@@ -3,8 +3,8 @@
 #include <scenedata.h>
 #ifndef SCENEMANAGER_H
 #define SCENEMANAGER_H
-void loadScene(Window* window,std::string json);
-void loadSceneFromFile(Window* window,std::string sceneName);
+void loadScene(Window* window, const std::string& json);
+void loadSceneByName(Window* window, const std::string& sceneName);
 std::string createScene(SceneData* data);
-void saveScene(SceneData* data,std::string sceneName);
+void saveScene(SceneData* data, const std::string& sceneName);
 #endif

@@ -3,14 +3,16 @@
         {
             "name": "Linux",
             "includePath": [
-                "${default}"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/include",
+                "/usr/include/GL",               // Path to OpenGL headers
+                "/usr/include/GLFW"        // Path to GLFW headers
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/clang",
-            "cStandard": "c17",
+            "compilerPath": "/usr/bin/g++",   // Path to your g++ compiler
+            "cStandard": "c11",
             "cppStandard": "c++17",
-            "intelliSenseMode": "linux-clang-x64",
-            "configurationProvider": "ms-vscode.cmake-tools"
+            "intelliSenseMode": "linux-gcc-x64" // IntelliSense mode for GCC on Linux
         }
     ],
     "version": 4

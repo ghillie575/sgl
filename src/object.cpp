@@ -9,87 +9,159 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <random>
+#define STB_IMAGE_IMPLEMENTATION
+#include <stbi/stb_image.h>
 GameObject::GameObject()
 {
     this->transform.setScaling(glm::vec3(1,1,1));
+    this->id = generateRandomID(10);
+    
 }
-void GameObject::loadModel(const char *modelName)
+void GameObject::loadModel(std::string modelName)
 {
-    std::string path = "engine/models/";
-    path.append(modelName);
-    path.append(".vmodel");
-    std::ifstream t(path);
+    // Load vertices from .vmodel file
+    std::string path = "engine/models/" + modelName + ".vmodel";
+    std::ifstream file(path);
+    if (!file.is_open()) {
+        throw std::runtime_error("Failed to open file: " + path);
+    }
+
     std::stringstream buffer;
-    buffer << t.rdbuf();
+    buffer << file.rdbuf();
+    file.close();  // Close the file after reading
 
-    // If possible, always prefer std::vector to naked array
-    std::vector<float> v;
-
-    // Build an istream that holds the input string
     std::istringstream iss(buffer.str());
+    float value;
 
-    // Iterate over the istream, using >> to grab floats
-    // and push_back to store them in the vector
-    std::copy(std::istream_iterator<float>(iss),
-              std::istream_iterator<float>(),
-              std::back_inserter(v));
+    // Read all values into a single array
+    while (iss >> value) {
+        vert.push_back(value);
+    }
 
-    // Put the result on standard out
-    this->vert = v;
-    t.close();
-    // Indicies
-    path = "engine/models/";
-    path.append(modelName);
-    path.append(".imodel");
-    std::ifstream t1(path);
+    // Check if the number of values is a multiple of 5 (3 for vertex + 2 for texture coordinates)
+    if (vert.size() % 5 != 0) {
+        throw std::runtime_error("Invalid .vmodel file format: Incorrect number of values.");
+    }
+
+    // Load indices from .imodel file
+    path = "engine/models/" + modelName + ".imodel";
+    std::ifstream file1(path);
+    if (!file1.is_open()) {
+        throw std::runtime_error("Failed to open file: " + path);
+    }
+
     std::stringstream buffer1;
-    buffer1 << t1.rdbuf();
+    buffer1 << file1.rdbuf();
+    file1.close();
 
-    // If possible, always prefer std::vector to naked array
-    std::vector<unsigned int> i;
-
-    // Build an istream that holds the input string
     std::istringstream iss1(buffer1.str());
+    unsigned int index;
 
-    // Iterate over the istream, using >> to grab floats
-    // and push_back to store them in the vector
-    std::copy(std::istream_iterator<unsigned int>(iss1),
-              std::istream_iterator<unsigned int>(),
-              std::back_inserter(i));
-    this->ind = i;
-    polCount = i.size();
-    t.close();
+    // Read indices into the ind vector
+    while (iss1 >> index) {
+        ind.push_back(index);
+    }
+
+    // Calculate the number of polygons (assuming triangles)
+    polCount = ind.size();
+    
+    printModelData();
+    
+     
 }
+void GameObject::setColor(glm::vec4 color){
+    this->color = color;
+    shader->setVec4("color", color);
+}
+void GameObject::printModelData()
+{
+   std::ostringstream oss; // Use ostringstream to build the string
 
+    oss << "Vertices and Texture Coordinates for object: " << id << "\n";
+    for (size_t i = 0; i < vert.size(); i += 5) {
+        oss << "Vertex \e[91m" << (i / 5) + 1 << "\e[0m: "
+            << "\e[35mPosition\e[0m(\e[92m" << vert[i] << " " << vert[i + 1] << " " << vert[i + 2] << "\e[0m) \e[0m"
+            << "\e[96mTexture\e[0m(\e[92m" << vert[i + 3] << " " << vert[i + 4] << "\e[0m)\e[0m\n";
+    }
+
+    oss << "\nIndices:\n";
+    for (size_t i = 0; i < ind.size(); ++i) {
+        oss << ind[i] << (i < ind.size() - 1 ? ", " : "\n");
+    }
+
+    oss << "Number of Polygons: " << polCount << "\n";
+    logger.log(LogLevel::DEBUG, oss.str());
+}
+void GameObject::useTexture(std::string texturePath){
+    logger.log(LogLevel::DEBUG, "Generating texture...");
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    logger.log(LogLevel::DEBUG, "Texture bound to GL_TEXTURE_2D");
+
+    // Setting texture wrapping parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    logger.log(LogLevel::DEBUG, "Texture wrapping parameters set to GL_REPEAT");
+
+    // Setting texture filtering parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    logger.log(LogLevel::DEBUG, "Texture filtering parameters set to GL_LINEAR");
+
+    // Load image, create texture and generate mipmaps
+    int width, height, nrChannels;
+    std::string texturePathStr = "engine/textures/";
+    texturePathStr.append(texturePath);
+    logger.log(LogLevel::DEBUG, "Loading texture from " + texturePathStr);
+    unsigned char* data = stbi_load(texturePathStr.c_str(), &width, &height, &nrChannels, 0);
+    if (data)
+    {
+        logger.log(LogLevel::DEBUG, "Texture loaded successfully");
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+        logger.log(LogLevel::DEBUG, "Texture image set and mipmaps generated");
+    }
+    else
+    {
+        logger.log(LogLevel::ERROR, "Failed to load texture " + texturePath);
+    }
+    stbi_image_free(data);
+}
 void GameObject::build()
 {
-
+    setColor(color);
     float vertices[vert.size()];
     unsigned int indices[ind.size()];
     std::copy(vert.begin(), vert.end(), vertices);
     std::copy(ind.begin(), ind.end(), indices);
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
+    if(modelUsesEBO){
     glGenBuffers(1, &EBO);
+    }
 
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vert.size() * sizeof(float), vertices, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, ind.size() * sizeof(unsigned int), indices, GL_STATIC_DRAW);
     if (mode == lines)
     {
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void *)0);
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)0);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+        glEnableVertexAttribArray(1);
     }
     else
     {
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0); // Position
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float))); // Texture
+        glEnableVertexAttribArray(1);
     }
-    // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
@@ -101,14 +173,28 @@ void GameObject::useShader(Shader* shader)
 {
     this->shader = shader;
 }
+std::string GameObject::generateRandomID(int length) {
+    // Create a random number generator
+    std::random_device rd;  // Obtain a random number from hardware
+    std::mt19937 eng(rd()); // Seed the generator
+
+    // Define the range for digits (0-9)
+    std::uniform_int_distribution<> distr(0, 9);
+
+    std::string id;
+    for (int i = 0; i < length; ++i) {
+        id += std::to_string(distr(eng)); // Generate a random digit and append to the ID
+    }
+
+    return id;
+}
 void GameObject::render()
 {
-    
-    //trans = glm::translate(trans,pos);
-    glm::mat4 trans = transform.getTransformationMatrix();
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glm::mat4 model = transform.getTransformationMatrix();
     shader->use();
-    unsigned int transformLoc = glGetUniformLocation(shader->ID, "transform");
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+    shader->setMat4("model", model);
+    
     glBindVertexArray(VAO);
 
     if (mode == lines)

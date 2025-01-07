@@ -25,7 +25,7 @@ add_executable(XandO main.cpp)
 
 # Link libraries
 target_link_libraries(XandO glfw OpenGL::GL sgl)
-
+target_link_libraries(sgl glfw OpenGL::GL)
 # Set installation prefix
 set(CMAKE_INSTALL_PREFIX ".")
 

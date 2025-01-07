@@ -2,6 +2,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <window.h>
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
 class Transform
@@ -30,4 +31,5 @@ public:
     nlohmann::json toJson() const;
     void fromJson(const nlohmann::json &json);
 };
+
 #endif

@@ -1,12 +1,11 @@
 #ifndef TIME_H
 #define TIME_H
-float deltaTime;
-void setDeltaTime(float deltaTimeI)
-{
-    deltaTime = deltaTimeI;
-}
-float getDeltaTime()
-{
-    return deltaTime;
-}
+class Time {
+private:
+    float deltaTime = 0;
+
+public:
+    inline float getDeltaTime() const { return deltaTime; }
+    inline void setDeltaTime(float deltaTimeI) { deltaTime = deltaTimeI; }
+};
 #endif

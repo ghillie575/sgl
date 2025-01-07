@@ -18,9 +18,14 @@ class GameObject
 private:
     /* data */
     bool modelUsesEBO = true;
-    Logger logger = Logger("");
+    unsigned int texture;
+    Logger logger = Logger("",true);
+    std::string generateRandomID(int length);
+    glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 public:
+    std::string id;
+    std::string name = "x";
     Shader* shader = nullptr;
     std::string shaderName = "";
     unsigned int VBO, VAO, EBO;
@@ -30,15 +35,16 @@ public:
     std::vector<float> vert;
     int polCount;
     GameObject();
-    void build();
-    void render();
+    virtual void build();
+    virtual void render();
     void useShader(const char* shaderName);
     void useShader(Shader* shader);
     void freeResources();
     void setDrawMode(drawAs mode);
-    void loadModel(const char *modelName);
-    void logInfo(const char* message);
-    void logError(const char* message);
+    void loadModel(std::string modelName);
+    void printModelData();
+    void useTexture(std::string texturePath);
+    void setColor(glm::vec4 color);
 };
 
 #endif

@@ -3,6 +3,10 @@ pipeline {
         docker {
             image 'ubuntu:latest'
         }
+        
+    }
+    environment {
+        GRU_TOKEN = credentials('gru-token')
     }
     stages {
         stage('Install Dependencies') {
@@ -73,13 +77,12 @@ pipeline {
         stage('Release') {
             when {
                 expression {
-                    // Get the latest commit message
-                    def commitMessage = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
-                    // Check if the commit message contains 'release-'
-                    return commitMessage.contains('release-')
+                    // Check if the latest commit message contains 'release-'
+                    return sh(script: 'git log -1 --pretty=%B | grep -q "release-"', returnStatus: true) == 0
                 }
             }
             steps {
+                archiveArtifacts artifacts: "${ZIP_FILE_NAME}", fingerprint: true
                 script {
                     try {
                         // Get the latest commit message
