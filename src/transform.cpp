@@ -35,7 +35,7 @@ nlohmann::json Transform::toJson() const{
 }
 
 void Transform::fromJson(const nlohmann::json &json) {
-    if (json.contains("position")) {
+    if (json.contains("position")) {this->rotation += rotation;
         position = glm::vec3(json["position"][0], json["position"][1], json["position"][2]);
     }
     if (json.contains("rotation")) {

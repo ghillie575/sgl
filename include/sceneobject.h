@@ -12,6 +12,7 @@ public:
     std::string id;
     std::string name = "x";
     std::string type = "default";
+    std::string texture = "blank.jpg";
     SceneObject();
 
     // Add fromJson method to parse JSON data

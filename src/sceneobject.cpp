@@ -20,6 +20,9 @@ void SceneObject::fromJson(const nlohmann::json &json)
     if (json.contains("name")) {
         name = json["name"];
     }
+    if (json.contains("texture")) {
+        texture = json["texture"];
+    }
     if (json.contains("mode")) {
         if (json["mode"].dump().compare("ln") == 0) {
             mode = lines;
@@ -53,6 +56,7 @@ nlohmann::json SceneObject::toJson() const
     json["id"] = id;
     json["name"] = name;
     json["type"] = type;
+    json["texture"] = texture;
     return json;
 }
 std::string SceneObject::generateRandomID(int length)

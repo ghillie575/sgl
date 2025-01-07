@@ -17,7 +17,7 @@
 #include <sceneobject.h>
 #include <chrono>
 #include <thread>
-#include <gameobjects/triangle.h>  
+#include <gameobjects/cube.h>  
 GameObject obj;
 float movespeed = 0.01f;
 void processInput(Window *window)
@@ -71,11 +71,11 @@ int main(int, char **)
     sobj5.transform = t5;
     sobj6.transform = t6;
     //model assigment
-    sobj1.model = "basic/2d/square";
-    sobj2.model = "basic/2d/square";
-    sobj3.model = "basic/2d/square";
-    sobj5.model = "basic/2d/square";
-    sobj6.model = "basic/2d/square";
+    sobj1.model = "basic/3d/cube";
+    sobj2.model = "basic/3d/cube";
+    sobj3.model = "basic/3d/cube";
+    sobj5.model = "basic/3d/cube";
+    sobj6.model = "basic/3d/cube";
     //shader assigment
     sobj1.shader = "default";
     sobj2.shader = "default";
@@ -84,10 +84,10 @@ int main(int, char **)
     sobj6.shader = "default";
     //object registering
     data.addObject(&sobj1);
-    data.addObject(&sobj2);
-    data.addObject(&sobj3);
-    data.addObject(&sobj5);
-    data.addObject(&sobj6);
+    //data.addObject(&sobj2);
+    //data.addObject(&sobj3);
+    //data.addObject(&sobj5);
+    //data.addObject(&sobj6);
 
     //below
 
@@ -117,27 +117,37 @@ int main(int, char **)
     sobj11.transform = t11; 
     sobj12.transform = t12;
     //model assigment
-    sobj8.model = "basic/2d/square";
-    sobj9.model = "basic/2d/square";
-    sobj11.model = "basic/2d/square";
-    sobj12.model = "basic/2d/square";
+    sobj8.model = "basic/3d/cube";
+    sobj9.model = "basic/3d/cube";
+    sobj11.model = "basic/3d/cube";
+    sobj12.model = "basic/3d/cube";
+    sobj1.type = "cube";
+    sobj2.type = "cube";
+    sobj3.type = "cube";
+    sobj5.type = "cube";
+    sobj6.type = "cube";
+    sobj8.type = "cube";
+    sobj9.type = "cube";
+    sobj11.type = "cube";
+    sobj12.type = "cube";
     //shader assigment
     sobj8.shader = "default";
     sobj9.shader = "default";
     sobj11.shader = "default";
     sobj12.shader = "default";
     //object registering
-    data.addObject(&sobj8);
-    data.addObject(&sobj9);
-    data.addObject(&sobj11);
-    data.addObject(&sobj12);
+    //data.addObject(&sobj8);
+    //data.addObject(&sobj9);
+    //data.addObject(&sobj11);
+    //data.addObject(&sobj12);
     std::string json = createScene(&data);
     std::cout << json;
     std::cout << "Hello, from XandO!\n";
     Window window = Window(1000, 1000, "SGL",true);
-    window.setDobbleBuffering(false);
+    window.setDobbleBuffering(true);
     window.init();
-    /*window.factory.registerObjectCreationFunction("triangle", []() { return std::make_shared<Triangle>(); });
+    window.factory.registerObjectCreationFunction("cube", []() { return std::make_shared<Cube>(); });
+    /*
     //loadScene(&window, json);
     // Shader* shader = window.getShader("default");
     auto obj1 = window.factory.createObject("default");

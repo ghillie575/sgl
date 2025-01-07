@@ -1,12 +1,13 @@
 {
-    "count": 9,
+    "count": 1,
     "objects": [
         {
-            "id": "9465153022",
+            "id": "4532123423",
             "mode": "trg",
-            "model": "basic/2d/square",
+            "model": "basic/3d/cube",
             "name": "x",
             "shader": "default",
+            "texture": "blank.jpg",
             "transform": {
                 "position": [
                     0.0,
@@ -14,8 +15,8 @@
                     0.0
                 ],
                 "rotation": [
-                    45.0,
-                    45.0,
+                    0.0,
+                    0.0,
                     45.0
                 ],
                 "scaling": [
@@ -24,207 +25,7 @@
                     0.10000000149011612
                 ]
             },
-            "type": "default"
-        },
-        {
-            "id": "9049901073",
-            "mode": "trg",
-            "model": "basic/2d/square",
-            "name": "x",
-            "shader": "default",
-            "transform": {
-                "position": [
-                    -0.30000001192092896,
-                    0.30000001192092896,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    0.10000000149011612,
-                    0.10000000149011612,
-                    0.10000000149011612
-                ]
-            },
-            "type": "default"
-        },
-        {
-            "id": "9153835390",
-            "mode": "trg",
-            "model": "basic/2d/square",
-            "name": "x",
-            "shader": "default",
-            "transform": {
-                "position": [
-                    -0.6000000238418579,
-                    0.6000000238418579,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    0.10000000149011612,
-                    0.10000000149011612,
-                    0.10000000149011612
-                ]
-            },
-            "type": "default"
-        },
-        {
-            "id": "0451796860",
-            "mode": "trg",
-            "model": "basic/2d/square",
-            "name": "x",
-            "shader": "default",
-            "transform": {
-                "position": [
-                    0.30000001192092896,
-                    0.30000001192092896,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    0.10000000149011612,
-                    0.10000000149011612,
-                    0.10000000149011612
-                ]
-            },
-            "type": "default"
-        },
-        {
-            "id": "6340031599",
-            "mode": "trg",
-            "model": "basic/2d/square",
-            "name": "x",
-            "shader": "default",
-            "transform": {
-                "position": [
-                    0.6000000238418579,
-                    0.6000000238418579,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    0.10000000149011612,
-                    0.10000000149011612,
-                    0.10000000149011612
-                ]
-            },
-            "type": "default"
-        },
-        {
-            "id": "7492772372",
-            "mode": "trg",
-            "model": "basic/2d/square",
-            "name": "x",
-            "shader": "default",
-            "transform": {
-                "position": [
-                    -0.30000001192092896,
-                    -0.30000001192092896,
-                    0.0
-                ],
-                "rotation": [
-                    180.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    0.10000000149011612,
-                    0.10000000149011612,
-                    0.10000000149011612
-                ]
-            },
-            "type": "default"
-        },
-        {
-            "id": "5937424033",
-            "mode": "trg",
-            "model": "basic/2d/square",
-            "name": "x",
-            "shader": "default",
-            "transform": {
-                "position": [
-                    -0.6000000238418579,
-                    -0.6000000238418579,
-                    0.0
-                ],
-                "rotation": [
-                    180.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    0.10000000149011612,
-                    0.10000000149011612,
-                    0.10000000149011612
-                ]
-            },
-            "type": "default"
-        },
-        {
-            "id": "0138642936",
-            "mode": "trg",
-            "model": "basic/2d/square",
-            "name": "x",
-            "shader": "default",
-            "transform": {
-                "position": [
-                    0.30000001192092896,
-                    -0.30000001192092896,
-                    0.0
-                ],
-                "rotation": [
-                    180.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    0.10000000149011612,
-                    0.10000000149011612,
-                    0.10000000149011612
-                ]
-            },
-            "type": "default"
-        },
-        {
-            "id": "2992215023",
-            "mode": "trg",
-            "model": "basic/2d/square",
-            "name": "x",
-            "shader": "default",
-            "transform": {
-                "position": [
-                    0.6000000238418579,
-                    -0.6000000238418579,
-                    0.0
-                ],
-                "rotation": [
-                    180.0,
-                    0.0,
-                    0.0
-                ],
-                "scaling": [
-                    0.10000000149011612,
-                    0.10000000149011612,
-                    0.10000000149011612
-                ]
-            },
-            "type": "default"
+            "type": "cube"
         }
     ]
 }

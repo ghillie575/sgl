@@ -31,7 +31,7 @@ void loadScene(Window* window, const std::string& json) {
             if (obj) {
                 logger.log(LogLevel::DEBUG, "Successfully created object of type: " + object.type);
                 obj->setDrawMode(object.mode);
-                logger.log(LogLevel::DEBUG, "Set draw mode for object: " + object.name);
+                logger.log(LogLevel::DEBUG, "Set texture for object: " + object.texture);
                 obj->loadModel(object.model.c_str());
                 logger.log(LogLevel::DEBUG, "Loaded model for object: " + object.name);
                 obj->useShader(object.shader.c_str());
@@ -39,6 +39,7 @@ void loadScene(Window* window, const std::string& json) {
                 obj->transform = object.transform;
                 obj->id = object.id;
                 obj->name = object.name;
+                obj->useTexture(object.texture);
                 window->registerObject(obj);
                 logger.log(LogLevel::INFO, "Registered object with ID: " + obj->id);
             } else {

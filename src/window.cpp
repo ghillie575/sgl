@@ -48,7 +48,7 @@ Window::Window(int height, int width, const char *title, bool debug)
 }
 void Window::camInit()
 {
-    camera.setPosition(glm::vec3(0.0f, 0.0f, -3.0f));
+    camera.setPosition(glm::vec3(0.0f, 0.0f, -2.0f));
     camera.setProjectionMatrix(glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f));
 }
 /**
@@ -132,6 +132,7 @@ void Window::init()
         throw std::runtime_error("Failed to initialize GLAD");
     }
     camInit();
+    glEnable(GL_DEPTH_TEST);
     factory.registerObjectCreationFunction("default", []() { return std::make_shared<GameObject>(); });
     logger.log(LogLevel::INFO, "Loading shaders");
     std::vector<fs::path> files;
@@ -181,7 +182,7 @@ void Window::start()
         inputCallback(this);
         CalculateFrameRate();
         
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         for (auto &obj : objects)
         {
             obj->render();
