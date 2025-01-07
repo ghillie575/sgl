@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Project name and version
-project(XandO VERSION 0.1.0 LANGUAGES C CXX)
+project(XandO VERSION 0.1.2 LANGUAGES C CXX)
 
 # Find required packages
 find_package(OpenGL REQUIRED)
