@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+# V 1.0.1
+=======
+>>>>>>> 173aa0b (dev)
 # Build Directory README
 
 This directory contains the compiled build of the XandO engine, along with its associated assets and scenes.
@@ -24,4 +28,8 @@ The `engine/` folder contains all the assets used by the engine, including graph
 
 * Make sure to run the engine in a compatible environment to ensure proper functionality.
 * The engine's features and scenes are subject to change as the project evolves.
+<<<<<<< HEAD
 * For more information on the engine's development, please refer to the project's documentation (https://docs.openspm.org/sgl/) .
+=======
+* For more information on the engine's development, please refer to the project's documentation.
+>>>>>>> 173aa0b (dev)

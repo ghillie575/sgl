@@ -83,6 +83,23 @@ pipeline {
             }
             steps {
                 archiveArtifacts artifacts: "${ZIP_FILE_NAME}", fingerprint: true
+                script {
+                    try {
+                        // Get the latest commit message
+                        def commitMessage = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
+                        
+                        // Use a regex to find 'release-' and capture the next 6 characters
+                            
+                            // Upload the zip file
+                            sh "curl -X 'POST' \
+  'https://gru.openspm.org/upload?token=%24jSOIMWvgfPO%24%26%23OPJPIRS&project=sgl&version=${commitMessage}' \
+  -H 'accept: */*' \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'file=@${env.ZIP_FILE_NAME}'"
+                    } catch (Exception e) {
+                        error "Failed to upload to GRU: ${e.message}"
+                    }
+                }
             }
         }
 
