@@ -2,9 +2,9 @@ name: C/C++ CI
 
 on:
   push:
-    branches: ["main"]
+    branches: ["dev"]
   pull_request:
-    branches: ["main"]
+    branches: ["dev"]
 
 jobs:
   build:
@@ -29,9 +29,10 @@ jobs:
     - name: Package
       run: |
         mkdir -p out
+        mkdir -p out/include
         cp ./XandO ./out/XandO
-        cp -r ./include ./out/include
-        cp ./libsgl.so ./out/libsgl.so
+        cp -r ./include ./out/SGL/include
+        cp ./*.so ./out/
         cp -r ./engine ./out/engine
         cp -r ./scenes ./out/scenes
 
@@ -47,3 +48,8 @@ jobs:
         rm -rf build
         rm -rf out
         rm -f "${ZIP_FILE_NAME}"
+    - name : Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-sgl
+        path: build-sgl-*.zip
