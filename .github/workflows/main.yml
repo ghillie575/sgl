@@ -31,7 +31,7 @@ jobs:
         mkdir -p out
         mkdir -p out/include/SGL
         cp ./XandO ./out/XandO
-        cp -r ./include ./out/include/SGL
+        cp -r ./include/SGL ./out/include/SGL
         cp ./*.so ./out/
         cp -r ./engine ./out/engine
         cp -r ./scenes ./out/scenes
