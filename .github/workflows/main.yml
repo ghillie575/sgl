@@ -29,9 +29,9 @@ jobs:
     - name: Package
       run: |
         mkdir -p out
-        mkdir -p out/include
+        mkdir -p out/include/SGL
         cp ./XandO ./out/XandO
-        cp -r ./include ./out/SGL/include
+        cp -r ./include ./out/include/SGL
         cp ./*.so ./out/
         cp -r ./engine ./out/engine
         cp -r ./scenes ./out/scenes
