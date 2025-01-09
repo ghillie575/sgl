@@ -1,3 +1,5 @@
+set(CMAKE_INSTALL_RPATH "$ORIGIN")
+set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 cmake_minimum_required(VERSION 3.10)
 
 # Project name and version
