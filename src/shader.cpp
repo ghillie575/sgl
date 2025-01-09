@@ -1,10 +1,10 @@
-#include <shader.h>
+#include <SGL/shader.h>
 #include <string>
 #include <fstream>
 #include <sstream>
 #include <iostream>
 #include <glad/glad.h>
-#include <logger.h>
+#include <SGL/logger.h>
 Shader::Shader() {}
 Shader::Shader(const char *vertexPath, const char *fragmentPath)
 {

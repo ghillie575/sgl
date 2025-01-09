@@ -3,15 +3,15 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include "object.h"
+#include <SGL/object.h>
 #include <vector>
 #include <unordered_map>
 #include <string>
 #include <functional>
-#include "logger.h"
-#include "time_utils.h"
-#include "objectfactory.h"
-#include "camera.h"
+#include <SGL/logger.h>
+#include <SGL/time_utils.h>
+#include <SGL/objectfactory.h>
+#include <SGL/camera.h>
 class Window
 {
 private:

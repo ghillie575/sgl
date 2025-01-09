@@ -1,10 +1,10 @@
 #include <vector>
 #include <iostream>
-#include <shader.h>
+#include <SGL/shader.h>
 #include <cstddef>
 #include <glm/glm.hpp>
-#include <transform.h>
-#include <logger.h>
+#include <SGL/transform.h>
+#include <SGL/logger.h>
 #ifndef OBJECT_H
 #define OBJECT_H
 

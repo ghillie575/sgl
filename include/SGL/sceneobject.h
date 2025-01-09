@@ -1,6 +1,6 @@
 #include <nlohmann/json.hpp>
-#include <transform.h>
-#include <object.h>
+#include <SGL/transform.h>
+#include <SGL/object.h>
 #ifndef SCENE_OBJECT_H
 #define SCENE_OBJECT_H
 class SceneObject {

@@ -4,7 +4,7 @@
 #include <string>
 #include <memory>
 #include <functional>
-#include <object.h>
+#include <SGL/object.h>
 /**
  * @class ObjectFactory
  * @brief A factory class for creating GameObject instances.

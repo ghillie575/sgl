@@ -1,9 +1,9 @@
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 
-#include <object.h>
+#include <SGL/object.h>
 
-#include <logger.h>
+#include <SGL/logger.h>
 
 class Cube : public GameObject
 {

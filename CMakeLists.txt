@@ -10,19 +10,20 @@ find_package(glfw3 3.3 REQUIRED)
 # Include directories
 include_directories(${OPENGL_INCLUDE_DIR} ${GLFW_INCLUDE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/include)
-include_directories(${CMAKE_SOURCE_DIR}/lib)
 
 # Gather source files
 file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp ${CMAKE_SOURCE_DIR}/src/*.c)
 
 # Create shared library
 add_library(sgl SHARED ${SOURCES})
+add_library(glad SHARED ${CMAKE_SOURCE_DIR}/src/glad/glad.c)
 
 # Create executable
 add_executable(XandO main.cpp)
 
 # Link libraries
-target_link_libraries(XandO glfw OpenGL::GL sgl)
+target_link_libraries(sgl glfw OpenGL::GL glad)
+target_link_libraries(XandO sgl)
 
 # Set installation prefix
 set(CMAKE_INSTALL_PREFIX ".")

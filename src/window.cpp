@@ -4,7 +4,7 @@
  * @author Petr Fučík
  */
 
-#include <window.h>
+#include <SGL/window.h>
 #include <iostream>
 #include <filesystem>
 #include <vector>

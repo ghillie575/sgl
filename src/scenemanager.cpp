@@ -1,10 +1,10 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
-#include <window.h>
-#include <sceneobject.h>
-#include <scenedata.h>
-#include <object.h>
-#include <logger.h>
+#include <SGL/window.h>
+#include <SGL/sceneobject.h>
+#include <SGL/scenedata.h>
+#include <SGL/object.h>
+#include <SGL/logger.h>
 #include <fstream>
 
 Logger logger = Logger("\e[36mSceneLoader");

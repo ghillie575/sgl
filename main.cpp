@@ -3,8 +3,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <cstddef>
-#include <window.h>
-#include <object.h>
+#include <SGL/window.h>
+#include <SGL/object.h>
 #include <sstream>
 #include <iterator>
 #include <fstream>
@@ -12,12 +12,12 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <scenemanager.h>
-#include <scenedata.h>
-#include <sceneobject.h>
+#include <SGL/scenemanager.h>
+#include <SGL/scenedata.h>
+#include <SGL/sceneobject.h>
 #include <chrono>
 #include <thread>
-#include <gameobjects/cube.h>  
+#include <SGL/gameobjects/cube.h>  
 GameObject obj;
 float movespeed = 0.01f;
 void processInput(Window *window)

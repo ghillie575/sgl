@@ -1,8 +1,8 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 #include <iostream>
-#include <transform.h>
-#include <object.h>
+#include <SGL/transform.h>
+#include <SGL/object.h>
 class Component
 {
 private:
