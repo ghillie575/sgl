@@ -7,7 +7,7 @@ on:
     branches: ["dev"]
 
 jobs:
-  build:
+  build_and_package:
     runs-on: ubuntu-latest
     env:
       CMAKE_BUILD_TYPE: Release
@@ -27,13 +27,6 @@ jobs:
         cd build
         cmake --build .
 
-  package:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-    - uses: actions/checkout@v4
-
     - name: Package
       run: |
         cd build
@@ -44,14 +37,7 @@ jobs:
         cp ./*.so ../out/
         cp -r ./engine ../out/engine
         cp -r ./scenes ../out/scenes
-        zip -r build-sgl.zip out
-
-  upload_artifact:
-    runs-on: ubuntu-latest
-    needs: package
-
-    steps:
-    - uses: actions/checkout@v4
+        zip -r ../build-sgl.zip ../out
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
