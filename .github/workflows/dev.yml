@@ -20,7 +20,7 @@ jobs:
         sudo apt-get install -y zip g++ cmake curl git libglfw3 libglfw3-dev >> /dev/null
 
     - name: Configure Project
-      run: cmake -S . -B build
+      run: cmake -S . -B build -DCMAKE_INSTALL_RPATH="\$ORIGIN"
 
     - name: Build Project
       run: |
@@ -37,7 +37,6 @@ jobs:
         cp ./*.so ../out/
         cp -r ./engine ../out/engine
         cp -r ./scenes ../out/scenes
-        zip -r ../build-sgl.zip ../out
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
