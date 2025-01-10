@@ -7,9 +7,10 @@ on:
     branches: ["main"]
 
 jobs:
-  build:
+  build_and_package:
     runs-on: ubuntu-latest
-
+    env:
+      CMAKE_BUILD_TYPE: Release
     steps:
     - uses: actions/checkout@v4
 
@@ -19,38 +20,26 @@ jobs:
         sudo apt-get install -y zip g++ cmake curl git libglfw3 libglfw3-dev >> /dev/null
 
     - name: Configure Project
-      run: |
-        cmake .
+      run: cmake -S . -B build -DCMAKE_INSTALL_RPATH="\$ORIGIN"
 
     - name: Build Project
       run: |
-        cmake --build . --config Release
+        cd build
+        cmake --build .
 
     - name: Package
       run: |
-        mkdir -p out
-        mkdir -p out/include/SGL
-        cp ./XandO ./out/XandO
-        cp -r ./include/SGL ./out/include/SGL
-        cp ./*.so ./out/
-        cp -r ./engine ./out/engine
-        cp -r ./scenes ./out/scenes
+        cd build
+        mkdir -p ../out
+        mkdir -p ../out/include/SGL
+        cp ./XandO ../out/XandO
+        cp -r ../include/SGL ../out/include/SGL
+        cp ./*.so ../out/
+        cp -r ./engine ../out/engine
+        cp -r ./scenes ../out/scenes
 
-        timestamp=$(date +"%Y%m%d-%H%M")
-        ZIP_FILE_NAME="build-sgl-${timestamp}.zip"
-        cd out
-        zip -r "${ZIP_FILE_NAME}" *
-        mv "${ZIP_FILE_NAME}" ../
-        cd ..
-    - name: Cleanup
-      run: |
-        echo 'Cleaning up...'
-        rm -rf build
-        rm -rf out
-        rm -f "${ZIP_FILE_NAME}"
-    - name : Upload Artifact
+    - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
         name: build-sgl
-        path: build-sgl-*.zip
-
+        path: out
