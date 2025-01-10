@@ -1,0 +1,37 @@
+name: C/C++ CI
+
+on:
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  build_and_package:
+    runs-on: ubuntu-latest
+    env:
+      CMAKE_BUILD_TYPE: Release
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update >> /dev/null
+        sudo apt-get install -y zip g++ cmake curl git libglfw3 libglfw3-dev >> /dev/null
+
+    - name: Configure Project
+      run: cmake -S . -B build -DCMAKE_INSTALL_RPATH="\$ORIGIN"
+
+    - name: Build Project
+      run: |
+        cd build
+        cmake --build .
+
+    - name: Package
+      run: |
+        cd build
+        mkdir -p ../out
+        mkdir -p ../out/include/SGL
+        cp ./XandO ../out/XandO
+        cp -r ../include/SGL ../out/include/SGL
+        cp ./*.so ../out/
+        cp -r ./engine ../out/engine
+        cp -r ./scenes ../out/scenes
