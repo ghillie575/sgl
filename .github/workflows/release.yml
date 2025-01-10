@@ -40,7 +40,7 @@ jobs:
         zip -r build-sgl.zip ./*
 
     - name: Upload Release Asset
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: build-sgl
         path: out/build-sgl.zip
@@ -49,13 +49,13 @@ jobs:
       id: create_release
       uses: actions/create-release@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}  # Use your PAT here
       with:
-        tag_name: ${{ github.ref_name }}
-        release_name: ${{ github.ref_name }}
-        body: "Release for tag ${{ github.ref_name }}"
-        draft: false
-        prerelease: false
+          tag_name: ${{ github.ref_name }}
+          release_name: ${{ github.ref_name }}
+          body: "Release for tag ${{ github.ref_name }}"
+          draft: false
+          prerelease: false
 
     - name: Upload Release Asset to GitHub Release
       uses: actions/upload-release-asset@v1
