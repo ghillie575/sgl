@@ -40,12 +40,13 @@ jobs:
         zip -r build-sgl.zip ./*
 
     - name: Upload Release Asset
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: build-sgl
         path: out/build-sgl.zip
 
     - name: Create GitHub Release
+      id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
