@@ -6,11 +6,11 @@
 class Camera
 {
     private:
-        glm::vec3 position;
-        glm::vec3 rotation;
         glm::mat4 viewMatrix;
         glm::mat4 projectionMatrix;
     public:
+        glm::vec3 position;
+        glm::vec3 rotation;
         Camera();
         glm::mat4 getViewMatrix();
         glm::mat4 getProjectionMatrix() const;

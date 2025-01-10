@@ -1,6 +1,6 @@
 #ifndef WINDOW_H
 #define WINDOW_H
-
+#define SGL_VERSION "V0.1.2"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <SGL/object.h>
@@ -17,7 +17,7 @@ class Window
 private:
     int height;
     int width;
-    const char *title;
+    std::string title;
     int fps;
     GLFWwindow *window;
     std::unordered_map<std::string, Shader> shaderRegistry;
@@ -27,15 +27,8 @@ private:
     std::function<void(Window*)> inputCallback;
     std::function<void(Window*)> onTypeRegister;
     void camInit();
-    
-
-    static void framebufferSizeCallback(GLFWwindow *window, int width, int height)
-    {
-        Window *win = static_cast<Window*>(glfwGetWindowUserPointer(window));
-        win->width = width;
-        win->height = height;
-        glViewport(0, 0, width, height);
-    }
+    void camUpdate();
+    static void framebufferSizeCallback(GLFWwindow *window, int width, int height);
    void CalculateFrameRate();
    bool closed = true;
    bool dobbleBuffering = true;

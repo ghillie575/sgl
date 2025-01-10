@@ -18,6 +18,7 @@
 #include <thread>
 #include <SGL/gameobjects/cube.h>  
 #include <SGL/components/TestComponent.h>
+SceneData data = SceneData();
 void processInput(Window *window)
 {
     
@@ -54,6 +55,18 @@ void onTypeRegister(Window* window){
 //main
 int main(int, char **)
 {
+    std::cout << R"(
+                                     
+   _____    _____   _      
+  / ____|  / ____| | |     
+ | (___   | |  __  | |     
+  \___ \  | | |_ | | |     
+  ____) | | |__| | | |____ 
+ |_____/   \_____| |______|  
+
+    simple game library                         
+    )" << std::endl;
+    std::cout << "Using sgl " << SGL_VERSION << std::endl;
     //create the window
     Window window = Window(1000, 1000, "SGL", true); 
     //set callbacks
