@@ -27,6 +27,8 @@ Window::Window(int height, int width, const char *title)
     this->height = height;
     this->width = width;
     this->title = title;
+    std::cout << "Hello, from XandO!\n";
+
     
 }
 
@@ -44,6 +46,7 @@ Window::Window(int height, int width, const char *title, bool debug)
     this->width = width;
     this->title = title;
     this->debug = debug;
+    std::cout << "Hello, from XandO!\n";
   
 }
 void Window::camInit()
@@ -133,7 +136,7 @@ void Window::init()
     }
     camInit();
     glEnable(GL_DEPTH_TEST);
-    factory.registerObjectCreationFunction("default", []() { return std::make_shared<GameObject>(); });
+    factory.registerObject("default", []() { return std::make_shared<GameObject>(); });
     logger.log(LogLevel::INFO, "Loading shaders");
     std::vector<fs::path> files;
     getAllFiles("engine/shaders", files);
@@ -148,6 +151,10 @@ void Window::init()
             shaderRegistry[file.stem().string()] = current;
         }
     }
+    logger.log(LogLevel::INFO, "Shaders loaded");
+    logger.log(LogLevel::INFO,"Loading types");
+    onTypeRegister(this);
+
 }
 
 /**
@@ -176,6 +183,12 @@ Shader* Window::getShader(const std::string& shaderName)
  */
 void Window::start()
 {
+    
+    for (const auto &obj : objects)
+    {
+        obj->start();
+    }
+    
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     while (!glfwWindowShouldClose(window))
     {
@@ -287,5 +300,14 @@ void Window::setDobbleBuffering(bool value)
 {
     dobbleBuffering = value;
     
+}
+void Window::setOnTypeRegister(std::function<void(Window*)> callback)
+{
+    if (callback == nullptr)
+    {
+        logger.log(LogLevel::ERROR, "OnTypeRegister function cannot be null");
+        throw std::invalid_argument("OnTypeRegister function cannot be null");
+    }
+    onTypeRegister = callback;
 }
 

@@ -16,7 +16,7 @@ public:
     }
     void render() override
     {
-        transform.setRotation(glm::vec3((float)glfwGetTime() * glm::radians(50.0f) * 50));
+        
         GameObject::render(); // Call the base class render method
     }
 };

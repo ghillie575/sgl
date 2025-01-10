@@ -1,6 +1,7 @@
 #include <nlohmann/json.hpp>
 #include <SGL/transform.h>
 #include <SGL/object.h>
+#include <SGL/component.h>
 #ifndef SCENE_OBJECT_H
 #define SCENE_OBJECT_H
 class SceneObject {
@@ -13,8 +14,9 @@ public:
     std::string name = "x";
     std::string type = "default";
     std::string texture = "blank.jpg";
+    std::vector<std::string> components;
     SceneObject();
-
+    void addComponent(std::string type); 
     // Add fromJson method to parse JSON data
     void fromJson(const nlohmann::json& json);
     void setObjectName(std::string name);
@@ -22,5 +24,6 @@ public:
     nlohmann::json toJson() const;
     private:
     std::string generateRandomID(int length);
+       
 };
 #endif

@@ -25,6 +25,7 @@ private:
     Logger logger;
     std::function<void(Window*)> updateCallback;
     std::function<void(Window*)> inputCallback;
+    std::function<void(Window*)> onTypeRegister;
     void camInit();
     
 
@@ -58,6 +59,7 @@ public:
     bool IsClosed();
     void start();
     void setDobbleBuffering(bool value);
+    void setOnTypeRegister(std::function<void(Window*)> callback);
     
 };
 #endif
