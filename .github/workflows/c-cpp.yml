@@ -1,0 +1,49 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update >> /dev/null
+        sudo apt-get install -y zip g++ cmake curl git libglfw3 libglfw3-dev >> /dev/null
+
+    - name: Configure Project
+      run: |
+        cmake .
+
+    - name: Build Project
+      run: |
+        cmake --build . --config Release
+
+    - name: Package
+      run: |
+        mkdir -p out
+        cp ./XandO ./out/XandO
+        cp -r ./include ./out/include
+        cp ./libsgl.so ./out/libsgl.so
+        cp -r ./engine ./out/engine
+        cp -r ./scenes ./out/scenes
+
+        timestamp=$(date +"%Y%m%d-%H%M")
+        ZIP_FILE_NAME="build-sgl-${timestamp}.zip"
+        cd out
+        zip -r "${ZIP_FILE_NAME}" *
+        mv "${ZIP_FILE_NAME}" ../
+        cd ..
+    - name: Cleanup
+      run: |
+        echo 'Cleaning up...'
+        rm -rf build
+        rm -rf out
+        rm -f "${ZIP_FILE_NAME}"
