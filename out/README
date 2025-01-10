@@ -1,35 +1,32 @@
-<<<<<<< HEAD
-# V 1.0.1
-=======
->>>>>>> 173aa0b (dev)
-# Build Directory README
+# SGL V0.1.2
+====================================
 
 This directory contains the compiled build of the XandO engine, along with its associated assets and scenes.
 
 ## Directory Structure
+------------------------
 
 * `engine/`: This folder contains the engine's assets, including graphics, audio, and other resources.
 * `scenes/`: This folder contains the scenes used to demonstrate the engine's features.
-* `XandO`: This is the executable file for the SGL engine, which can be run to demonstrate its features.
+* `XandO`: This is the executable file for the test scene, which can be run to demonstrate its features.
 
 ## Running the Engine
+--------------------
 
-To run the engine, simply execute the `XandO` file. This will launch the engine and load the default scene.
+To run the engine, simply execute the `XandO` file. This will launch and load the default scene.
 
-## Scenes
+## Creating a Project
+--------------------
 
-The `scenes/` folder contains several scenes that demonstrate different features of the engine. These scenes can be loaded by selecting them from the engine's menu.
+To create a project using the XandO engine, follow these steps:
 
-## Assets
+1. Run the `install.sh` script to set up the project template.
+2. Select "Create project" and enter the project directory and name.
+3. Wait until the project is created.
+4. Navigate into the project directory and run the following commands:
+    mkdir build
+    cd build
+    cmake ..
+    cmake --build .
+   
 
-The `engine/` folder contains all the assets used by the engine, including graphics, audio, and other resources. These assets are used to create the scenes and demonstrate the engine's features.
-
-## Notes
-
-* Make sure to run the engine in a compatible environment to ensure proper functionality.
-* The engine's features and scenes are subject to change as the project evolves.
-<<<<<<< HEAD
-* For more information on the engine's development, please refer to the project's documentation (https://docs.openspm.org/sgl/) .
-=======
-* For more information on the engine's development, please refer to the project's documentation.
->>>>>>> 173aa0b (dev)

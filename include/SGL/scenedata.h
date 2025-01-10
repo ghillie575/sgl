@@ -1,4 +1,4 @@
-#include <sceneobject.h>
+#include <SGL/sceneobject.h>
 #include<vector>
 #ifndef SCENEDATA_H
 #define SCENEDATA_H

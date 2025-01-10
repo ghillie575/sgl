@@ -1,4 +1,4 @@
-#include <camera.h>
+#include <SGL/camera.h>
 /**
  * @brief Constructs a Camera object with default position, rotation, 
  * view matrix, and projection matrix.

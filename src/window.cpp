@@ -4,7 +4,7 @@
  * @author Petr Fučík
  */
 
-#include <window.h>
+#include <SGL/window.h>
 #include <iostream>
 #include <filesystem>
 #include <vector>
@@ -27,6 +27,8 @@ Window::Window(int height, int width, const char *title)
     this->height = height;
     this->width = width;
     this->title = title;
+    std::cout << "Hello, from XandO!\n";
+
     
 }
 
@@ -44,11 +46,20 @@ Window::Window(int height, int width, const char *title, bool debug)
     this->width = width;
     this->title = title;
     this->debug = debug;
+    std::cout << "Hello, from XandO!\n";
   
+}
+void Window::camUpdate(){
+        camera.setProjectionMatrix(glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f));
+        for (auto &obj : this->shaderRegistry)
+        {
+            obj.second.setMat4("projection", this->camera.getProjectionMatrix());
+        }
 }
 void Window::camInit()
 {
     camera.setPosition(glm::vec3(0.0f, 0.0f, -2.0f));
+    camera.setRotation(glm::vec3(0.0f, 0.0f, 0.0f));
     camera.setProjectionMatrix(glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f));
 }
 /**
@@ -95,7 +106,14 @@ void getAllFiles(const fs::path &directory, std::vector<fs::path> &files)
         }
     }
 }
-
+    void Window::framebufferSizeCallback(GLFWwindow *window, int width, int height)
+    {
+        Window *self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        self->height = height;
+        self->width = width;
+        self->camUpdate();
+        glViewport(0, 0, width, height);
+    }
 /**
  * Initializes the window
  */
@@ -119,7 +137,7 @@ void Window::init()
         glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
     }
     const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-    window = glfwCreateWindow(width, height, title, NULL, NULL);
+    window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
     if (window == NULL)
     {
         logger.log(LogLevel::ERROR, "Failed to create GLFW window");
@@ -131,9 +149,10 @@ void Window::init()
         logger.log(LogLevel::ERROR, "Failed to initialize GLAD");
         throw std::runtime_error("Failed to initialize GLAD");
     }
+    glfwSetWindowUserPointer(window, this);
     camInit();
     glEnable(GL_DEPTH_TEST);
-    factory.registerObjectCreationFunction("default", []() { return std::make_shared<GameObject>(); });
+    factory.registerObject("default", []() { return std::make_shared<GameObject>(); });
     logger.log(LogLevel::INFO, "Loading shaders");
     std::vector<fs::path> files;
     getAllFiles("engine/shaders", files);
@@ -148,6 +167,12 @@ void Window::init()
             shaderRegistry[file.stem().string()] = current;
         }
     }
+    logger.log(LogLevel::INFO, "Shaders loaded");
+    logger.log(LogLevel::INFO,"Loading types");
+    onTypeRegister(this);
+    logger.log(LogLevel::INFO, "Types loaded");
+    glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
+    logger.log(LogLevel::INFO, "Window initialized");
 }
 
 /**
@@ -176,6 +201,12 @@ Shader* Window::getShader(const std::string& shaderName)
  */
 void Window::start()
 {
+    
+    for (const auto &obj : objects)
+    {
+        obj->start();
+    }
+    
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     while (!glfwWindowShouldClose(window))
     {
@@ -287,5 +318,14 @@ void Window::setDobbleBuffering(bool value)
 {
     dobbleBuffering = value;
     
+}
+void Window::setOnTypeRegister(std::function<void(Window*)> callback)
+{
+    if (callback == nullptr)
+    {
+        logger.log(LogLevel::ERROR, "OnTypeRegister function cannot be null");
+        throw std::invalid_argument("OnTypeRegister function cannot be null");
+    }
+    onTypeRegister = callback;
 }
 

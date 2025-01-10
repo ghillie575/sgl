@@ -1,4 +1,4 @@
-#include <object.h>
+#include <SGL/object.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -16,6 +16,7 @@ GameObject::GameObject()
 {
     this->transform.setScaling(glm::vec3(1,1,1));
     this->id = generateRandomID(10);
+    this->logger = Logger("",debug);
     
 }
 void GameObject::loadModel(std::string modelName)
@@ -188,6 +189,15 @@ std::string GameObject::generateRandomID(int length) {
 
     return id;
 }
+void GameObject::start(){
+    for (size_t i = 0; i < components.size(); i++)
+    {
+        components[i]->gameObject = this;
+        components[i]->transform = &transform;
+        components[i]->Start();
+    }
+    
+}
 void GameObject::render()
 {
     glBindTexture(GL_TEXTURE_2D, texture);
@@ -196,7 +206,10 @@ void GameObject::render()
     shader->setMat4("model", model);
     
     glBindVertexArray(VAO);
-
+     for (size_t i = 0; i < components.size(); i++)
+    {
+        components[i]->Update();
+    }
     if (mode == lines)
     {
         glDrawElements(GL_LINES, polCount, GL_UNSIGNED_INT, 0);
@@ -214,4 +227,11 @@ void GameObject::freeResources()
 void GameObject::setDrawMode(drawAs mode)
 {
     this->mode = mode;
+}
+void GameObject::addComponent(Window* window, std::string type){
+    std::shared_ptr<Component> objc = window->factory.createComponent(type);
+    components.push_back(objc);
+}
+void GameObject::debugger(){
+    logger = Logger("\e[36mGameObject", debug);
 }

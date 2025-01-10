@@ -1,4 +1,4 @@
-#include <scenedata.h>
+#include <SGL/scenedata.h>
 
     SceneData::SceneData() {}
     SceneData::~SceneData() {

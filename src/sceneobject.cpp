@@ -1,4 +1,4 @@
-#include <sceneobject.h>
+#include <SGL/sceneobject.h>
 #include <random>
 void SceneObject::fromJson(const nlohmann::json &json)
 {
@@ -30,6 +30,11 @@ void SceneObject::fromJson(const nlohmann::json &json)
             mode = triangles;
         }
     }
+    if (json.contains("components")) {
+    for (const auto& componentJson : json.at("components")) {
+        components.push_back(componentJson.get<std::string>());
+        }
+    }
 }
 SceneObject::SceneObject()
 {
@@ -57,6 +62,9 @@ nlohmann::json SceneObject::toJson() const
     json["name"] = name;
     json["type"] = type;
     json["texture"] = texture;
+    for (const auto& component : components) {
+        json["components"].push_back(component);
+    }
     return json;
 }
 std::string SceneObject::generateRandomID(int length)
@@ -75,4 +83,7 @@ std::string SceneObject::generateRandomID(int length)
     }
 
     return id;
+}
+void SceneObject::addComponent(std::string type){
+    components.push_back(type);
 }

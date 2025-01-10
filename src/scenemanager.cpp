@@ -1,10 +1,10 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
-#include <window.h>
-#include <sceneobject.h>
-#include <scenedata.h>
-#include <object.h>
-#include <logger.h>
+#include <SGL/window.h>
+#include <SGL/sceneobject.h>
+#include <SGL/scenedata.h>
+#include <SGL/object.h>
+#include <SGL/logger.h>
 #include <fstream>
 
 Logger logger = Logger("\e[36mSceneLoader");
@@ -29,6 +29,8 @@ void loadScene(Window* window, const std::string& json) {
             logger.log(LogLevel::DEBUG, "Object shader: " + object.shader);
             std::shared_ptr<GameObject> obj = window->factory.createObject(object.type);
             if (obj) {
+                obj->debug = window->debug;
+                obj->debugger();
                 logger.log(LogLevel::DEBUG, "Successfully created object of type: " + object.type);
                 obj->setDrawMode(object.mode);
                 logger.log(LogLevel::DEBUG, "Set texture for object: " + object.texture);
@@ -40,6 +42,10 @@ void loadScene(Window* window, const std::string& json) {
                 obj->id = object.id;
                 obj->name = object.name;
                 obj->useTexture(object.texture);
+                for (const auto& component : object.components) {
+                    obj->addComponent(window,component);
+                }
+                
                 window->registerObject(obj);
                 logger.log(LogLevel::INFO, "Registered object with ID: " + obj->id);
             } else {

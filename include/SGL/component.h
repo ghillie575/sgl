@@ -1,8 +1,8 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 #include <iostream>
-#include <transform.h>
-#include <object.h>
+#include <SGL/transform.h>
+#include <SGL/object.h>
 class Component
 {
 private:
@@ -11,9 +11,16 @@ private:
 public:
     Transform *transform;
     GameObject *gameObject;
-    void Start();
-    void Update();
+    Logger logger;
+    virtual void Start();
+    virtual void Update();
     void setProperty(std::string propName, void *value);
+    template <typename T>
+    void setProperty(std::string propName, T value) {
+        setProperty(propName, static_cast<void*>(&value));
+    }
+    std::string toJson();
+    void fromJson(const nlohmann::json& json);
     void removeProperty(std::string propName);
     void *getProperty(std::string propName);
     template <typename T>
@@ -24,5 +31,7 @@ public:
         }
         return nullptr;
     }
+    Component(std::string name);
+    Component();
 };
 #endif

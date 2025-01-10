@@ -1,9 +1,9 @@
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 
-#include <object.h>
+#include <SGL/object.h>
 
-#include <logger.h>
+#include <SGL/logger.h>
 
 class Cube : public GameObject
 {
@@ -16,7 +16,7 @@ public:
     }
     void render() override
     {
-        transform.setRotation(glm::vec3((float)glfwGetTime() * glm::radians(50.0f) * 50));
+        
         GameObject::render(); // Call the base class render method
     }
 };
