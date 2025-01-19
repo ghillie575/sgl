@@ -15,16 +15,21 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # Gather source files
 file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp ${CMAKE_SOURCE_DIR}/src/*.c)
-
+file(GLOB SOURCES_OBJECTLIB ${CMAKE_SOURCE_DIR}/sgl-objectlib-sample/*.cpp)
 # Create shared library
 add_library(sgl SHARED ${SOURCES})
+add_library(sgl-objectlib-sample SHARED ${SOURCES_OBJECTLIB})
 add_library(glad SHARED ${CMAKE_SOURCE_DIR}/src/glad/glad.c)
+
+# Set output directory for sgl-objectlib-sample
+set_target_properties(sgl-objectlib-sample PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/engine/libraries")
 
 # Create executable
 add_executable(XandO main.cpp)
 
 # Link libraries
 target_link_libraries(sgl glfw OpenGL::GL glad)
+target_link_libraries(sgl-objectlib-sample glfw OpenGL::GL glad)
 target_link_libraries(XandO sgl)
 
 # Set installation prefix

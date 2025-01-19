@@ -1,5 +1,5 @@
-#ifndef TRIANGLE_H
-#define TRIANGLE_H
+#ifndef CUBE_H
+#define CUBE_H
 
 #include <SGL/object.h>
 

@@ -12,7 +12,6 @@
 #include <string>
 #include <stdexcept>
 #include <memory>
-
 namespace fs = std::filesystem;
 
 /**
@@ -152,7 +151,10 @@ void Window::init()
     glfwSetWindowUserPointer(window, this);
     camInit();
     glEnable(GL_DEPTH_TEST);
-    factory.registerObject("default", []() { return std::make_shared<GameObject>(); });
+    logger.log(LogLevel::INFO, "Loading libraries");
+    LibraryLoader loader("engine/libraries");
+    loader.loadLibraries(this);
+    logger.log(LogLevel::INFO, "Libraries loaded");
     logger.log(LogLevel::INFO, "Loading shaders");
     std::vector<fs::path> files;
     getAllFiles("engine/shaders", files);
@@ -169,7 +171,9 @@ void Window::init()
     }
     logger.log(LogLevel::INFO, "Shaders loaded");
     logger.log(LogLevel::INFO,"Loading types");
+    loader.executeOnTypeRegister(this);
     onTypeRegister(this);
+    factory.registerObject("default", []() { return std::make_shared<GameObject>(); });
     logger.log(LogLevel::INFO, "Types loaded");
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
     logger.log(LogLevel::INFO, "Window initialized");
