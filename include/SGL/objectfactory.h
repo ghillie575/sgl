@@ -19,6 +19,26 @@ class ObjectFactory {
     private:
     Logger logger = Logger("\e[36mTYPE");
 public:
+     void freeResources() {
+    if (!creationFunctions.empty()) {
+        for (auto& entry : creationFunctions) {
+            if (entry.second) {
+            }
+        }
+        
+        creationFunctions.clear();
+    }
+    if (componentFunctions.empty()) {
+        for (auto& entry : componentFunctions) {
+            if (entry.second) {
+            }
+        }
+        
+        componentFunctions.clear();
+    }
+}
+    ~ObjectFactory() {
+    }
     /**
      * @brief Register a new object creation function with the factory.
      *

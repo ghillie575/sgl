@@ -234,6 +234,7 @@ void Window::start()
         logger.log(LogLevel::DEBUG, "Freeing resources for object with ID: " + obj->id);
         obj->freeResources();
     }
+    factory.freeResources();
     glfwTerminate();
     closed = true;
     logger.log(LogLevel::INFO, "Window terminated");

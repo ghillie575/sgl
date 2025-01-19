@@ -40,7 +40,7 @@ install(TARGETS sgl DESTINATION lib)
 
 # Install header files
 file(GLOB HEADER_FILES "${CMAKE_SOURCE_DIR}/include/*.h")
-install(FILES ${HEADER_FILES} DESTINATION include/sgl)
+install(FILES ${HEADER_FILES} DESTINATION include/SGL)
 
 # Copy engine and scenes folders from root project dir to build dir
 file(COPY ${CMAKE_SOURCE_DIR}/engine DESTINATION ${CMAKE_BINARY_DIR})
