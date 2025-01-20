@@ -24,7 +24,6 @@ void LibraryLoader::loadLibraries(Window* window)
             }
         }
     }
-    //executeOnTypeRegister(window);
     logger.log(LogLevel::INFO, "Finished loading libraries.");
 }
 
@@ -70,7 +69,7 @@ LibraryLoader::DynamicLibrary::DynamicLibrary(const std::string& libPath)
     if (!handle)
         throw std::runtime_error("Failed to load library: " + libPath);
 #else
-    handle = dlopen(libPath.c_str(), RTLD_LAZY);
+    handle = dlopen(libPath.c_str(), RTLD_LAZY | RTLD_GLOBAL);
     if (!handle)
         throw std::runtime_error(dlerror());
 #endif
@@ -80,10 +79,10 @@ LibraryLoader::DynamicLibrary::DynamicLibrary(const std::string& libPath)
 LibraryLoader::DynamicLibrary::~DynamicLibrary()
 {
 #if defined(_WIN32) || defined(_WIN64)
-    if (handle)
+    if (!handle)
         FreeLibrary(static_cast<HMODULE>(handle));
 #else
-    if (handle)
+    if (!handle)
         dlclose(handle);
 #endif
 }

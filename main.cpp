@@ -44,7 +44,7 @@ void createScene() {
     sobj1.model = "basic/3d/cube";
     sobj1.shader = "default";
     data.addObject(&sobj1);
-    sobj1.type = "cube";
+    sobj1.type = "triangle";
     sobj1.addComponent("TestComponent");
     saveScene(&data,"2d_triangles");
 }

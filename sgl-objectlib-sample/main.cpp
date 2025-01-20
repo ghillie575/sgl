@@ -14,7 +14,6 @@ public:
     }
     void render() override
     {
-        
         GameObject::render(); // Call the base class render method
     }
 };

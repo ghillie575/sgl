@@ -275,9 +275,15 @@ void Window::setInputCallback(std::function<void(Window*)> callback)
 void Window::registerObject(std::shared_ptr<GameObject> obj)
 {
     logger.log(LogLevel::DEBUG, "Registering object with ID: " + obj->id);
-    if (obj->shader == nullptr)
+    if (!obj->shaderName.empty())
     {
         obj->useShader(getShader(obj->shaderName));
+    }
+    else if (obj->shader == nullptr)
+    {
+        obj->useShader(getShader("default"));
+    }else{
+        obj->useShader(getShader("default"));
     }
     obj->build();  // Now calls the correct build() method
     objects.push_back(std::move(obj));

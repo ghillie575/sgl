@@ -5,11 +5,11 @@
             "components": [
                 "TestComponent"
             ],
-            "id": "6059329035",
+            "id": "4134603344",
             "mode": "trg",
             "model": "basic/3d/cube",
             "name": "x",
-            "shader": "default",
+            "shader": "triangle",
             "texture": "blank.jpg",
             "transform": {
                 "position": [

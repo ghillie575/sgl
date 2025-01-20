@@ -16,7 +16,7 @@
  */
 class Component;
 class ObjectFactory {
-    private:
+private:
     Logger logger = Logger("\e[36mTYPE");
 public:
      void freeResources() {
@@ -65,7 +65,11 @@ public:
      */
     std::shared_ptr<GameObject> createObject(const std::string& objectType) const {
         auto it = creationFunctions.find(objectType);
-        return (it != creationFunctions.end()) ? it->second() : nullptr;
+        if (it != creationFunctions.end() && it->second) {
+            return it->second();
+        } else {
+            return nullptr;
+        }
     }
 
     template <typename T>
