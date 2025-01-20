@@ -5,7 +5,7 @@ on:
     branches: ["*"]
 
 jobs:
-  build_and_package:
+  build:
     runs-on: ubuntu-latest
     env:
       CMAKE_BUILD_TYPE: Release
