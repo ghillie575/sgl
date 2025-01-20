@@ -2,11 +2,14 @@
     "count": 1,
     "objects": [
         {
-            "id": "7726032686",
+            "components": [
+                "TestComponent"
+            ],
+            "id": "4134603344",
             "mode": "trg",
             "model": "basic/3d/cube",
             "name": "x",
-            "shader": "default",
+            "shader": "triangle",
             "texture": "blank.jpg",
             "transform": {
                 "position": [
@@ -17,7 +20,7 @@
                 "rotation": [
                     0.0,
                     0.0,
-                    45.0
+                    0.0
                 ],
                 "scaling": [
                     0.10000000149011612,

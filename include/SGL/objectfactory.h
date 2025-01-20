@@ -16,9 +16,29 @@
  */
 class Component;
 class ObjectFactory {
-    private:
+private:
     Logger logger = Logger("\e[36mTYPE");
 public:
+     void freeResources() {
+    if (!creationFunctions.empty()) {
+        for (auto& entry : creationFunctions) {
+            if (entry.second) {
+            }
+        }
+        
+        creationFunctions.clear();
+    }
+    if (componentFunctions.empty()) {
+        for (auto& entry : componentFunctions) {
+            if (entry.second) {
+            }
+        }
+        
+        componentFunctions.clear();
+    }
+}
+    ~ObjectFactory() {
+    }
     /**
      * @brief Register a new object creation function with the factory.
      *
@@ -45,7 +65,11 @@ public:
      */
     std::shared_ptr<GameObject> createObject(const std::string& objectType) const {
         auto it = creationFunctions.find(objectType);
-        return (it != creationFunctions.end()) ? it->second() : nullptr;
+        if (it != creationFunctions.end() && it->second) {
+            return it->second();
+        } else {
+            return nullptr;
+        }
     }
 
     template <typename T>

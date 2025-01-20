@@ -20,15 +20,11 @@ CMakeLists.txt.deps
 CMakeLists.txt.mak
 
 # Ignore build directories
-<<<<<<< HEAD
-build/
-build/*
-=======
 /build/
 /build/*
->>>>>>> e46094e (dev)
 Debug/
 Release/
 */build/
 */Debug/
 */Release/
+engine/libraries/libsgl-objectlib-sample.so

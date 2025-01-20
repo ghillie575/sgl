@@ -8,10 +8,13 @@
 #include <unordered_map>
 #include <string>
 #include <functional>
+
 #include <SGL/logger.h>
 #include <SGL/time_utils.h>
 #include <SGL/objectfactory.h>
 #include <SGL/camera.h>
+
+#include <SGL/libraryloader.h>
 class Window
 {
 private:

@@ -5,7 +5,7 @@ on:
     branches: ["*"]
 
 jobs:
-  build_and_package:
+  build:
     runs-on: ubuntu-latest
     env:
       CMAKE_BUILD_TYPE: Release
@@ -24,14 +24,3 @@ jobs:
       run: |
         cd build
         cmake --build .
-
-    - name: Package
-      run: |
-        cd build
-        mkdir -p ../out
-        mkdir -p ../out/include/SGL
-        cp ./XandO ../out/XandO
-        cp -r ../include/SGL ../out/include/SGL
-        cp ./*.so ../out/
-        cp -r ./engine ../out/engine
-        cp -r ./scenes ../out/scenes
