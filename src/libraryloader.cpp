@@ -26,10 +26,32 @@ void LibraryLoader::loadLibraries(Window* window)
     }
     logger.log(LogLevel::INFO, "Finished loading libraries.");
 }
+void LibraryLoader::loadLibraries(Window* window,std::string dirPath)
+{
+    logger.debug = window->debug;
+    logger.log(LogLevel::INFO, "Scanning directory: " + dirPath);
+
+    for (const auto& entry : fs::directory_iterator(dirPath))
+    {
+        if (entry.is_regular_file() && isLibraryFile(entry.path()))
+        {
+            try
+            {
+                loadLibrary(entry.path().string());
+            }
+            catch (const std::exception& e)
+            {
+                logger.log(LogLevel::ERROR, "Error loading library " + entry.path().string() + ": " + e.what());
+            }
+        }
+    }
+    logger.log(LogLevel::INFO, "Finished loading libraries.");
+}
 
 void LibraryLoader::loadLibrary(const std::string& libPath)
 {
-    auto lib = std::make_unique<DynamicLibrary>(libPath);
+    auto lib = std::make_unique<SGLLibrary>(libPath);
+    lib->open();
     logger.log(LogLevel::INFO, "Loaded file: " + libPath);
     libraries.push_back(std::move(lib));
 }
@@ -62,39 +84,46 @@ bool LibraryLoader::isLibraryFile(const fs::path& path)
 #endif
 }
 
-LibraryLoader::DynamicLibrary::DynamicLibrary(const std::string& libPath)
-{
-#if defined(_WIN32) || defined(_WIN64)
+void SGLLibrary::open(){
+    #if defined(_WIN32) || defined(_WIN64)
     handle = LoadLibrary(libPath.c_str());
     if (!handle)
         throw std::runtime_error("Failed to load library: " + libPath);
 #else
-    handle = dlopen(libPath.c_str(), RTLD_LAZY | RTLD_GLOBAL);
+    handle = dlopen(path.c_str(), RTLD_LAZY | RTLD_GLOBAL);
     if (!handle)
         throw std::runtime_error(dlerror());
 #endif
-    path = libPath;
+    auto libInfo = reinterpret_cast<LibInfo (*)()>(getFunction("libInfo"));
+    if(!libInfo){
+        logger.log(LogLevel::ERROR, "Failed to load libInfo from library: " + path + " Closing library");
+        close();
+        return;
+    }
+    info = libInfo();
+    logger.log(LogLevel::INFO, "Loaded: " + info.id + " | " + info.info);
 }
-
-LibraryLoader::DynamicLibrary::~DynamicLibrary()
+void* SGLLibrary::getFunction(const char* funcName)
 {
-#if defined(_WIN32) || defined(_WIN64)
-    if (!handle)
-        FreeLibrary(static_cast<HMODULE>(handle));
-#else
-    if (!handle)
-        dlclose(handle);
-#endif
-}
-
-void* LibraryLoader::DynamicLibrary::getFunction(const char* funcName)
-{
+    if(!handle){
+        return nullptr;
+    }
 #if defined(_WIN32) || defined(_WIN64)
     void* func = GetProcAddress(static_cast<HMODULE>(handle), funcName);
 #else
     void* func = dlsym(handle, funcName);
 #endif
     if (!func)
-        throw std::runtime_error("Failed to load function: " + std::string(funcName) + " from " + path);
+        return nullptr;
     return func;
+}
+
+void SGLLibrary::close(){
+    #if defined(_WIN32) || defined(_WIN64)
+    if (handle)
+        FreeLibrary(static_cast<HMODULE>(handle));
+#else
+    if (handle)
+        dlclose(handle);
+#endif
 }

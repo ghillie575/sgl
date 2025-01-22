@@ -24,3 +24,9 @@ extern "C"
         window->factory.registerObject("triangle", []() { return std::make_shared<Triangle>(); });
     }
 }
+extern "C"{
+    LibInfo libInfo(){
+        LibInfo info("ghillie575.sgl-objectlib-sample", "SGL Object Library Sample", LibType::OBJECT);;
+        return info;
+    }
+}
