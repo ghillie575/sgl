@@ -13,7 +13,7 @@
 #include <SGL/time_utils.h>
 #include <SGL/objectfactory.h>
 #include <SGL/camera.h>
-
+#include <SGL/UI/ui-element.h>
 #include <SGL/libraryloader.h>
 namespace SGL{
 class Window
@@ -26,6 +26,7 @@ private:
     GLFWwindow *window;
     std::unordered_map<std::string, Shader> shaderRegistry;
     std::vector<std::shared_ptr<GameObject>> objects;
+    std::vector<std::shared_ptr<UI::UIElement>> uiElements;
     Logger logger;
     std::function<void(Window*)> updateCallback;
     std::function<void(Window*)> inputCallback;
@@ -48,6 +49,7 @@ public:
     void setUpdateCallback(std::function<void(Window*)> callback);
     void setInputCallback(std::function<void(Window*)> callback);
     void registerObject(std::shared_ptr<GameObject> obj);
+    void registerUIElement(UI::UIElement element);
     GameObject* getObjectById(const std::string& id);
     GameObject* getObjectByName(const std::string& name);
     Shader* getShader(const std::string& shaderName);

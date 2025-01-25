@@ -222,6 +222,11 @@ void Window::start()
         {
             obj->render();
         }
+        for (auto &element : uiElements)
+        {   if(element->visible){
+            element->draw();
+            }
+        }
 
         updateCallback(this);
         glfwSwapBuffers(window);
@@ -288,7 +293,12 @@ void Window::registerObject(std::shared_ptr<GameObject> obj)
     obj->build();  // Now calls the correct build() method
     objects.push_back(std::move(obj));
 }
-
+void Window::registerUIElement(UI::UIElement element){
+    auto ui = std::make_shared<UI::UIElement>(element);
+    logger.log(LogLevel::DEBUG, "Registering Ui element with ID: " + ui->id);
+    ui->build(this);
+    uiElements.push_back(std::move(ui));
+}
 /**
  * Calculates the current frame rate
  */
