@@ -18,6 +18,7 @@
 #include <thread>
 #include <SGL/gameobjects/cube.h>  
 #include <SGL/components/TestComponent.h>
+#include <SGL/UI/ui-element.h>
 using namespace SGL;
 SceneData data = SceneData();
 void processInput(Window *window)
@@ -82,6 +83,12 @@ int main(int, char **)
     //scene loading
     createScene();
     loadSceneByName(&window,"2d_triangles");
+    UI::UIElement ui = UI::UIElement();
+    ui.loadModel("ui/box");
+    ui.loadTexture("sgl-logo.jpg");
+    ui.rotation = 45.0f;
+    ui.position = glm::vec2(1,1);
+    window.registerUIElement(ui);
     //fps    
     std::thread th1(fpsWatch, &window);
     //main loop

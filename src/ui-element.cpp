@@ -9,7 +9,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <random>
-#define STB_IMAGE_IMPLEMENTATION
 #include <stbi/stb_image.h>
 using namespace SGL;
 
@@ -151,8 +150,12 @@ logger.log(LogLevel::DEBUG, "Generating texture...");
 
     glBindTexture(GL_TEXTURE_2D, texture);
     shader->use();
-    glm::vec3 model = glm::vec3(position.x, position.y, (float)ZIndex/1000.0f);
-    shader->setVec3("model", model);
+    model_mat = glm::mat4(1.0f);
+    model_mat = glm::translate(model_mat, glm::vec3(position.x, position.y,(float)ZIndex/1000.0f));
+    model_mat = glm::rotate(model_mat, glm::radians(180 + rotation), glm::vec3(0.0f, 0.0f, 1.0f));
+    model_mat = glm::rotate(model_mat, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    model_mat = glm::scale(model_mat, glm::vec3(scale.x, scale.y, 1.0f));
+    shader->setMat4("model", model_mat);
     shader->setVec4("color", color);
     glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, polCount, GL_UNSIGNED_INT, 0);

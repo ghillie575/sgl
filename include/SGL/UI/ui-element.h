@@ -4,6 +4,9 @@
 #include <iostream> 
 #include <SGL/shader.h>
 #include <SGL/window.h>
+namespace SGL{
+    class Window;
+}
 namespace SGL::UI{
 
 class UIElement{
@@ -13,13 +16,17 @@ class UIElement{
         void loadTexture(std::string texturePath);
         void setColor(glm::vec4 color);
         void setPosition(glm::vec2 position);
-        glm::vec2 position;
-        int ZIndex;
+        glm::vec2 position = glm::vec2(0,0);
+        glm::vec2 scale = glm::vec2(1,1);
+        float rotation = 0.0f;
+        int ZIndex = 1;
         std::string model;
         std::string id;
+        UIElement();
         bool visible = true;
         void loadModel(std::string modelName);
     private:
+        glm::mat4 model_mat = glm::mat4(1.0f);
         Shader* shader = nullptr;
         unsigned int texture;
         Logger logger = Logger("");

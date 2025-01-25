@@ -16,6 +16,9 @@
 #include <SGL/UI/ui-element.h>
 #include <SGL/libraryloader.h>
 namespace SGL{
+    namespace UI{
+        class UIElement;
+    }
 class Window
 {
 private:
