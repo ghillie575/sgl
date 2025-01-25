@@ -4,7 +4,7 @@
 #include <SGL/object.h>
 
 #include <SGL/logger.h>
-
+namespace SGL::GameObjects{
 class Cube : public GameObject
 {
 public:
@@ -21,5 +21,5 @@ public:
     }
 };
 
-
+}
 #endif // TRIANGLE_H

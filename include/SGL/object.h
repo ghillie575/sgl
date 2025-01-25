@@ -9,6 +9,7 @@
 #include <SGL/window.h> 
 #ifndef OBJECT_H
 #define OBJECT_H
+namespace SGL{
 class Window;
 enum drawAs
 {
@@ -56,5 +57,5 @@ public:
     void addComponent(Window* window, std::string type);
     void debugger();
 };
-
+}
 #endif

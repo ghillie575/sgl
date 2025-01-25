@@ -2,6 +2,7 @@
 #include<vector>
 #ifndef SCENEDATA_H
 #define SCENEDATA_H
+namespace SGL{
 class SceneData {
 public:
     SceneData();
@@ -15,4 +16,5 @@ public:
 private:
     std::vector<SceneObject*> objects_;
 };
+}
 #endif // SCENEDATA_H

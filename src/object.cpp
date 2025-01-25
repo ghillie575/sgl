@@ -12,6 +12,7 @@
 #include <random>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stbi/stb_image.h>
+using namespace SGL;
 GameObject::GameObject()
 {
     this->transform.setScaling(glm::vec3(1,1,1));

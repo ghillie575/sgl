@@ -5,11 +5,12 @@
 #include <SGL/scenedata.h>
 #include <SGL/object.h>
 #include <SGL/logger.h>
+#include <SGL/scenemanager.h>
 #include <fstream>
-
+using namespace SGL;
 Logger logger = Logger("\e[36mSceneLoader");
 
-void loadScene(Window* window, const std::string& json) {
+void SGL::loadScene(Window* window, const std::string& json) {
     logger = Logger("\e[36mSceneLoader", window->debug);
     logger.log(LogLevel::INFO, "Loading scene");
     try {
@@ -58,7 +59,7 @@ void loadScene(Window* window, const std::string& json) {
     logger.log(LogLevel::INFO, "Done");
 }
 
-std::string createScene(SceneData* data) {
+std::string SGL::createScene(SceneData* data) {
     logger.log(LogLevel::DEBUG, "Creating scene from data");
     nlohmann::json sceneJson;
     sceneJson["objects"] = nlohmann::json::array();
@@ -72,22 +73,22 @@ std::string createScene(SceneData* data) {
     return sceneJson.dump(4);
 }
 
-void loadSceneByName(Window* window, const std::string& sceneName) {
+void SGL::loadSceneByName(Window* window, const std::string& sceneName) {
     logger.log(LogLevel::INFO, "Loading scene: " + sceneName);
     std::ifstream file("scenes/" + sceneName + ".json");
     if (file) {
         logger.log(LogLevel::DEBUG, "Scene file opened");
         std::stringstream buffer;
         buffer << file.rdbuf();
-        loadScene(window, buffer.str());
+        SGL::loadScene(window, buffer.str());
     } else {
         logger.log(LogLevel::ERROR, "Unable to open scene file: " + sceneName);
     }
 }
 
-void saveScene(SceneData* data, const std::string& sceneName) {
+void SGL::saveScene(SceneData* data, const std::string& sceneName) {
     logger.log(LogLevel::INFO, "Saving scene to file: " + sceneName);
-    const std::string json = createScene(data);
+    const std::string json = SGL::createScene(data);
     std::ofstream file("scenes/" + sceneName + ".json");
 
     if (file) {

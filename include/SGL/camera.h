@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+namespace SGL{
 class Camera
 {
     private:
@@ -19,5 +20,5 @@ class Camera
         void setProjectionMatrix(const glm::mat4 &projectionMatrix);
         void setViewMatrix(const glm::mat4 &viewMatrix);
 };
-
+}
 #endif

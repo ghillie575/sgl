@@ -1,4 +1,6 @@
 #include <SGL/camera.h>
+using namespace SGL;
+
 /**
  * @brief Constructs a Camera object with default position, rotation, 
  * view matrix, and projection matrix.

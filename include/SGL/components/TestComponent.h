@@ -2,7 +2,7 @@
 #define TESTCOMPONENT_H
 
 #include <SGL/component.h>
-
+namespace SGL::Components{
 class TestComponent : public Component
 {
 public:
@@ -14,5 +14,5 @@ public:
         transform->setRotation(glm::vec3((float)glfwGetTime() * glm::radians(50.0f) * 70));
     }   
 };
-
+}
 #endif // TESTCOMPONENT_H

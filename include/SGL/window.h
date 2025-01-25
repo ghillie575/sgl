@@ -15,6 +15,7 @@
 #include <SGL/camera.h>
 
 #include <SGL/libraryloader.h>
+namespace SGL{
 class Window
 {
 private:
@@ -58,5 +59,6 @@ public:
     void setOnTypeRegister(std::function<void(Window*)> callback);
     
 };
+}
 #endif
 

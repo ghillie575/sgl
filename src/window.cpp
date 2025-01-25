@@ -13,7 +13,7 @@
 #include <stdexcept>
 #include <memory>
 namespace fs = std::filesystem;
-
+using namespace SGL;
 /**
  * Constructor for the Window class
  * @param height The height of the window in pixels

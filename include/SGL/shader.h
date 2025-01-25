@@ -6,6 +6,7 @@
 #include <SGL/logger.h>
 #ifndef SHADER_H
 #define SHADER_H
+namespace SGL{
 class Shader
 {
 public:
@@ -36,5 +37,5 @@ public:
 private:
 void checkCompileErrors(unsigned int shader, std::string type);
 };
-
+}
 #endif

@@ -1,6 +1,7 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 #include <iostream>
+namespace SGL{
 enum LogLevel
 {
     INFO,
@@ -44,4 +45,5 @@ private:
     std::string className = "";
     
 };
+}
 #endif

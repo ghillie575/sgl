@@ -2,7 +2,7 @@
 #include <SGL/object.h>
 
 #include <SGL/logger.h>
-
+using namespace SGL;
 class Triangle : public GameObject
 {
 public:

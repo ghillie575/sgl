@@ -5,6 +5,7 @@
 #include <SGL/window.h>
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
+namespace SGL{
 class Transform
 {
 public:
@@ -31,5 +32,5 @@ public:
     nlohmann::json toJson() const;
     void fromJson(const nlohmann::json &json);
 };
-
+}
 #endif

@@ -18,6 +18,7 @@
 #include <thread>
 #include <SGL/gameobjects/cube.h>  
 #include <SGL/components/TestComponent.h>
+using namespace SGL;
 SceneData data = SceneData();
 void processInput(Window *window)
 {
@@ -45,12 +46,13 @@ void createScene() {
     sobj1.shader = "default";
     data.addObject(&sobj1);
     sobj1.type = "triangle";
+    sobj1.texture = "box.jpg";
     sobj1.addComponent("TestComponent");
     saveScene(&data,"2d_triangles");
 }
 void onTypeRegister(Window* window){
-    window->factory.registerObject("cube", []() { return std::make_shared<Cube>(); });
-    window->factory.registerComponent("TestComponent", []() { return std::make_shared<TestComponent>(); });
+    window->factory.registerObject("cube", []() { return std::make_shared<SGL::GameObjects::Cube>(); });
+    window->factory.registerComponent("TestComponent", []() { return std::make_shared<SGL::Components::TestComponent>(); });
 }
 //main
 int main(int, char **)

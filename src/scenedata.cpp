@@ -1,5 +1,5 @@
 #include <SGL/scenedata.h>
-
+using namespace SGL;
     SceneData::SceneData() {}
     SceneData::~SceneData() {
     }
