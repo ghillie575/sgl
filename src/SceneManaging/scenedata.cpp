@@ -1,4 +1,4 @@
-#include <SGL/scenedata.h>
+#include <SGL/SceneManaging/scenedata.h>
 using namespace SGL;
     SceneData::SceneData() {}
     SceneData::~SceneData() {

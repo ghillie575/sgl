@@ -1,6 +1,6 @@
 #include <iostream>
 #include <SGL/window.h>
-#include <SGL/scenedata.h>
+#include <SGL/SceneManaging/scenedata.h>
 #ifndef SCENEMANAGER_H
 #define SCENEMANAGER_H
 namespace SGL{

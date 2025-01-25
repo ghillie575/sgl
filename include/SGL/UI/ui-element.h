@@ -38,6 +38,7 @@ class UIElement{
         std::vector<float> vert;
         void useShader(const char* shaderName,Window* window);
         void useShader(Shader* shader);
+        std::string texture_str;
         
         
 };

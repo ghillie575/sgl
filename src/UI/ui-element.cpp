@@ -19,7 +19,7 @@ namespace SGL::UI{
         this->ZIndex = 0;
     }
     void UIElement::loadTexture(std::string texturePath){
-
+    texture_str = texturePath;
 logger.log(LogLevel::DEBUG, "Generating texture...");
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);

@@ -1,4 +1,4 @@
-#include <SGL/sceneobject.h>
+#include <SGL/SceneManaging/sceneobject.h>
 #include <random>
 using namespace SGL;
 void SceneObject::fromJson(const nlohmann::json &json)

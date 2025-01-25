@@ -161,12 +161,14 @@ void Window::init()
     for (const auto &file : files)
     {
         if (file.extension() == ".vs")
-        {
-            logger.log(LogLevel::INFO, "Loading shader: " + file.stem().string());
+        {   logger.log(LogLevel::INFO, "Loading shader: " + file.stem().string());
             Shader current = Shader(file.string().c_str(), (file.parent_path().string() + std::string("/") + file.stem().string() + ".fs").c_str());
+            
             current.setMat4("view", camera.getViewMatrix());
             current.setMat4("projection", camera.getProjectionMatrix());
-            shaderRegistry[file.stem().string()] = current;
+            shaderRegistry[file.stem().string()] = current;  
+            
+            
         }
     }
     logger.log(LogLevel::INFO, "Shaders loaded");
@@ -212,21 +214,22 @@ void Window::start()
     }
     
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    while (!glfwWindowShouldClose(window))
-    {
+    while (!glfwWindowShouldClose(window)){
         inputCallback(this);
         CalculateFrameRate();
         
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        for (auto &obj : objects)
-        {
-            obj->render();
-        }
         for (auto &element : uiElements)
         {   if(element->visible){
             element->draw();
             }
         }
+         glUseProgram(0);
+        for (auto &obj : objects)
+        {
+            obj->render();
+        }
+        
 
         updateCallback(this);
         glfwSwapBuffers(window);

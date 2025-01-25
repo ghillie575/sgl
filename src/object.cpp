@@ -132,7 +132,7 @@ void GameObject::useTexture(std::string texturePath){
 }
 void GameObject::build()
 {
-    setColor(color);
+    
     float vertices[vert.size()];
     unsigned int indices[ind.size()];
     std::copy(vert.begin(), vert.end(), vertices);
@@ -204,8 +204,8 @@ void GameObject::render()
     glBindTexture(GL_TEXTURE_2D, texture);
     glm::mat4 model = transform.getTransformationMatrix();
     shader->use();
+    setColor(color);
     shader->setMat4("model", model);
-    
     glBindVertexArray(VAO);
      for (size_t i = 0; i < components.size(); i++)
     {

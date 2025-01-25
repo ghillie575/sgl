@@ -11,9 +11,12 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <SGL/scenemanager.h>
-#include <SGL/scenedata.h>
-#include <SGL/sceneobject.h>
+#include <SGL/SceneManaging/scenemanager.h>
+#include <SGL/SceneManaging/scenedata.h>
+#include <SGL/SceneManaging/sceneobject.h>
+#include <SGL/LayoutManaging/layoutmanager.h>
+#include <SGL/LayoutManaging/layoutdata.h>
+#include <SGL/LayoutManaging/layoutobject.h>
 #include <chrono>
 #include <thread>
 #include <SGL/gameobjects/cube.h>  
@@ -21,6 +24,7 @@
 #include <SGL/UI/ui-element.h>
 using namespace SGL;
 SceneData data = SceneData();
+LayoutManaging::LayoutData layoutData = LayoutManaging::LayoutData();
 void processInput(Window *window)
 {
     
@@ -50,6 +54,19 @@ void createScene() {
     sobj1.texture = "box.jpg";
     sobj1.addComponent("TestComponent");
     saveScene(&data,"2d_triangles");
+}
+void buildLayout(){
+   LayoutManaging::LayoutObject obj = LayoutManaging::LayoutObject();
+   obj.model = "ui/box";
+   obj.texture_str = "sgl-logo.jpg";
+   obj.id = "ui1";
+   obj.position = glm::vec2(1,1);
+   obj.rotation = 45;
+   obj.scale = glm::vec2(1,1);
+   obj.ZIndex = 1;
+   obj.color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+   layoutData.addObject(&obj);
+   LayoutManaging::saveLayout(&layoutData,"basic_layout");
 }
 void onTypeRegister(Window* window){
     window->factory.registerObject("cube", []() { return std::make_shared<SGL::GameObjects::Cube>(); });
@@ -83,12 +100,8 @@ int main(int, char **)
     //scene loading
     createScene();
     loadSceneByName(&window,"2d_triangles");
-    UI::UIElement ui = UI::UIElement();
-    ui.loadModel("ui/box");
-    ui.loadTexture("sgl-logo.jpg");
-    ui.rotation = 45.0f;
-    ui.position = glm::vec2(1,1);
-    window.registerUIElement(ui);
+    buildLayout();
+    LayoutManaging::loadLayoutByName("basic_layout",&window);
     //fps    
     std::thread th1(fpsWatch, &window);
     //main loop
