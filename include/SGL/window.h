@@ -64,7 +64,8 @@ public:
     void start();
     void setDobbleBuffering(bool value);
     void setOnTypeRegister(std::function<void(Window*)> callback);
-    
+    bool isKeyPressed(int key);
+    bool isMouseButtonPressed(int button);
 };
 }
 #endif

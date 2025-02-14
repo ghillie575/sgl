@@ -24,9 +24,27 @@
 #include <SGL/UI/ui-element.h>
 using namespace SGL;
 SceneData data = SceneData();
+GameObject *obj = new GameObject();
+int boxSpeed = 1;
 LayoutManaging::LayoutData layoutData = LayoutManaging::LayoutData();
 void processInput(Window *window)
 {
+    if (window->isKeyPressed(GLFW_KEY_W))
+    {
+        obj->transform.translate(glm::vec2(0, boxSpeed) * window->time.getDeltaTime());
+    }
+    if (window->isKeyPressed(GLFW_KEY_S))
+    {
+        obj->transform.translate(glm::vec2(0, -boxSpeed) * window->time.getDeltaTime());
+    }
+    if (window->isKeyPressed(GLFW_KEY_A))
+    {
+        obj->transform.translate(glm::vec2(-boxSpeed, 0) * window->time.getDeltaTime());
+    }
+    if (window->isKeyPressed(GLFW_KEY_D))
+    {
+        obj->transform.translate(glm::vec2(boxSpeed, 0) * window->time.getDeltaTime());
+    }
 }
 void Update(Window *window)
 {
@@ -45,12 +63,14 @@ void createScene()
     Transform t1 = Transform();
     t1.setScaling(glm::vec2(0.1, 0.1));
     t1.translate(glm::vec3(0, 0, 0));
+    t1.zindex = 1;
     sobj1.transform = t1;
     sobj1.model = "basic/2d/square";
     sobj1.shader = "default";
+    sobj1.name = "box";
     data.addObject(&sobj1);
     sobj1.type = "triangle";
-    sobj1.texture = "sgl-logo.jpg";
+    sobj1.texture = "box.jpg";
     SceneObject sobj2 = SceneObject();
     Transform t2 = Transform();
     t2.setScaling(glm::vec2(1, 0.1));
@@ -136,13 +156,14 @@ int main(int, char **)
     glfwTerminate();
     // create the window
     Window window = Window(1000, 1000, "SGL", true);
+     window.setDobbleBuffering(true);
+
     window.preInit(3, 2);
     // set callbacks
     window.setUpdateCallback(Update);
     window.setInputCallback(processInput);
     window.setOnTypeRegister(onTypeRegister);
     // set double buffering
-    window.setDobbleBuffering(true);
     // Window init
     window.init();
     // scene loading
@@ -152,6 +173,7 @@ int main(int, char **)
     LayoutManaging::loadLayoutByName("basic_layout", &window);
     // fps
     std::thread th1(fpsWatch, &window);
+    obj = window.getObjectByName("box");
     // main loop
     window.start();
     // wait for exit
