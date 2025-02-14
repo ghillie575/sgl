@@ -165,6 +165,8 @@ int main(int, char **)
     window.setOnTypeRegister(onTypeRegister);
     // set double buffering
     // Window init
+    window.lightColor = glm::vec3(1, 1, 1);
+    window.ambientStrength = 0.3;
     window.init();
     // scene loading
     createScene();

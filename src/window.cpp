@@ -206,6 +206,7 @@ void Window::init()
 
             current.setMat4("view", camera.getViewMatrix());
             current.setMat4("projection", camera.getProjectionMatrix());
+            current.setFloat("ambientStrength", ambientStrength);
             shaderRegistry[file.stem().string()] = current;
         }
     }
@@ -219,6 +220,16 @@ void Window::init()
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
     logger.log(LogLevel::INFO, "Window initialized");
     glfwShowWindow(window);
+    // visualize light source
+    GameObject light = GameObject();
+    light.name = "light";
+    light.useShader(getShader("light"));
+    light.loadModel("basic/2d/square");
+    light.setDrawMode(drawAs::triangles);
+    light.transform.position = lightpos;
+    light.shader->setVec3("lightColor", lightColor);
+    light.transform.scaling = glm::vec2(0.1, 0.1);
+    registerObject(std::make_shared<GameObject>(light));
 }
 
 /**
@@ -251,8 +262,8 @@ void Window::start()
     for (const auto &obj : objects)
     {
         obj->start();
+        obj->setColor(obj->color * lightColor);
     }
-
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     while (!glfwWindowShouldClose(window))
     {

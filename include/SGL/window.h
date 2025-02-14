@@ -46,6 +46,11 @@ public:
     Camera camera;
     Time time = Time();
     ObjectFactory factory;
+    //lightning
+    float ambientStrength = 1;
+    glm::vec2 lightpos = glm::vec2(0.9, 0.9);
+    glm::vec3 lightColor = glm::vec3(1, 1, 1);
+
     Window(int height, int width, const char *title);
     Window(int height, int width, const char *title, bool debug);
     void init();

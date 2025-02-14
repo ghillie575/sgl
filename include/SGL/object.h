@@ -26,11 +26,11 @@ private:
     unsigned int texture;
     Logger logger = Logger("");
     std::string generateRandomID(int length);
-    glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     unsigned int VBO, VAO, EBO;
 
 public:
     bool debug = false;
+    glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);
     std::vector<std::shared_ptr<Component>> components;
     std::string id;
     std::string name = "x";
@@ -52,7 +52,7 @@ public:
     void loadModel(std::string modelName);
     void printModelData();
     void useTexture(std::string texturePath);
-    void setColor(glm::vec4 color);
+    void setColor(glm::vec3 color);
     void start();
     void addComponent(Window* window, std::string type);
     void debugger();

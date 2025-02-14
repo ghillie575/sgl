@@ -72,9 +72,9 @@ void GameObject::loadModel(std::string modelName)
     
      
 }
-void GameObject::setColor(glm::vec4 color){
+void GameObject::setColor(glm::vec3 color){
     this->color = color;
-    shader->setVec4("color", color);
+    shader->setVec3("color", color);
 }
 void GameObject::printModelData()
 {
