@@ -1,6 +1,6 @@
 #ifndef WINDOW_H
 #define WINDOW_H
-#define SGL_VERSION "dev-V0.1.3"
+#define SGL_VERSION "main-stable-V0.1.3"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <SGL/object.h>
