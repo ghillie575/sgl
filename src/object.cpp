@@ -15,7 +15,7 @@
 using namespace SGL;
 GameObject::GameObject()
 {
-    this->transform.setScaling(glm::vec3(1,1,1));
+    this->transform.setScaling(glm::vec2(1,1));
     this->id = generateRandomID(10);
     this->logger = Logger("",debug);
     

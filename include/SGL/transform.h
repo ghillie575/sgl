@@ -11,21 +11,21 @@ class Transform
 public:
     Transform() : position(0.0f), rotation(0.0f), scaling(1.0f) {}
 
-    glm::vec3 position = glm::vec3(0, 0, 0);
-    glm::vec3 rotation = glm::vec3(0, 0, 0);
-    glm::vec3 scaling = glm::vec3(1, 1, 1);
+    glm::vec2 position = glm::vec2(0, 0);
+    glm::vec2 rotation = glm::vec2(0, 0);
+    glm::vec2 scaling = glm::vec2(1, 1);
+    float zindex = 0;
+    void setPosition(const glm::vec2 &position);
+    void setRotation(const glm::vec2 &rotation);
+    void setScaling(const glm::vec2 &scaling);
 
-    void setPosition(const glm::vec3 &position);
-    void setRotation(const glm::vec3 &rotation);
-    void setScaling(const glm::vec3 &scaling);
+    glm::vec2 getPosition() const;
+    glm::vec2 getRotation() const;
+    glm::vec2 getScaling() const;
 
-    glm::vec3 getPosition() const;
-    glm::vec3 getRotation() const;
-    glm::vec3 getScaling() const;
-
-    void translate(const glm::vec3 &translation);
-    void rotate(const glm::vec3 &rotation);
-    void scale(const glm::vec3 &scale);
+    void translate(const glm::vec2 &translation);
+    void rotate(const glm::vec2 &rotation);
+    void scale(const glm::vec2 &scale);
 
     glm::mat4 getTransformationMatrix() const;
 
