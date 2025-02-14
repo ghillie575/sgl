@@ -12,6 +12,7 @@
 #include <string>
 #include <stdexcept>
 #include <memory>
+#include <unistd.h>
 namespace fs = std::filesystem;
 using namespace SGL;
 /**
@@ -116,16 +117,13 @@ void getAllFiles(const fs::path &directory, std::vector<fs::path> &files)
 /**
  * Initializes the window
  */
-void Window::init()
-{
-    closed = false;
+void Window::preInit(){
     if (!glfwInit())
     {
         logger.log(LogLevel::ERROR, "Failed to initialize GLFW");
         throw std::runtime_error("Failed to initialize GLFW");
     }
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+    
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     if (dobbleBuffering)
     {
@@ -143,12 +141,52 @@ void Window::init()
         throw std::runtime_error("Failed to create GLFW window");
     }
     glfwMakeContextCurrent(window);
+    glfwHideWindow(window);
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         logger.log(LogLevel::ERROR, "Failed to initialize GLAD");
         throw std::runtime_error("Failed to initialize GLAD");
     }
     glfwSetWindowUserPointer(window, this);
+}
+void Window::preInit(int glVersionMajor, int glVersionMinor){
+    if (!glfwInit())
+    {
+        logger.log(LogLevel::ERROR, "Failed to initialize GLFW");
+        throw std::runtime_error("Failed to initialize GLFW");
+    }
+    logger.log(LogLevel::WARN, "Initializing GLFW with OpenGL version " + std::to_string(glVersionMajor) + "." + std::to_string(glVersionMinor));
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, glVersionMajor);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, glVersionMinor);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    if (dobbleBuffering)
+    {
+        glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
+    }
+    else
+    {
+        glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
+    }
+    const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+    window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+    if (window == NULL)
+    {
+        logger.log(LogLevel::ERROR, "Failed to create GLFW window");
+        throw std::runtime_error("Failed to create GLFW window");
+    }
+    glfwMakeContextCurrent(window);
+    glfwHideWindow(window);
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        logger.log(LogLevel::ERROR, "Failed to initialize GLAD");
+        throw std::runtime_error("Failed to initialize GLAD");
+    }
+    glfwSetWindowUserPointer(window, this);
+}
+void Window::init()
+{
+   
+    closed = false;
     camInit();
     glEnable(GL_DEPTH_TEST);
     logger.log(LogLevel::INFO, "Loading libraries");
@@ -179,6 +217,7 @@ void Window::init()
     logger.log(LogLevel::INFO, "Types loaded");
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
     logger.log(LogLevel::INFO, "Window initialized");
+    glfwShowWindow(window);
 }
 
 /**

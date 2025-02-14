@@ -25,13 +25,13 @@ public:
         switch (level)
         {
         case INFO:
-            levelStr = "\e[94minfo\e[0m";
+            levelStr = "\e[94mINFO\e[0m";
             break;
         case WARN:
-            levelStr = "\e[93mwarn\e[0m";
+            levelStr = "\e[93mWARN\e[0m";
             break;
         case ERROR:
-            levelStr = "\e[91merror\e[0m";
+            levelStr = "\e[91mERROR\e[0m";
             break;
         case DEBUG:
             if(!debug) return;

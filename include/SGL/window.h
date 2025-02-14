@@ -49,6 +49,8 @@ public:
     Window(int height, int width, const char *title);
     Window(int height, int width, const char *title, bool debug);
     void init();
+    void preInit();
+    void preInit(int glVersionMajor, int glVersionMinor);
     void setUpdateCallback(std::function<void(Window*)> callback);
     void setInputCallback(std::function<void(Window*)> callback);
     void registerObject(std::shared_ptr<GameObject> obj);

@@ -86,9 +86,43 @@ int main(int, char **)
 
     simple game library                         
     )" << std::endl;
-    std::cout << "Using sgl " << SGL_VERSION << std::endl;
+    std::cout << "Using sgl version: " << SGL_VERSION << std::endl;
+    std::cout << "Using glfw version: " << GLFW_VERSION_MAJOR << "." << GLFW_VERSION_MINOR << "." << GLFW_VERSION_REVISION << std::endl;
+    std::cout << "This is a test program\nThis program is designed to test comatibility of sgl engine woth your hardware" << std::endl;
+    std::cout << "Running on: " << std::endl;
+    std::cout << "OS: ";
+    #ifdef _WIN32
+    std::cout << "Windows" << std::endl;
+    #else
+    #ifdef __APPLE__
+    std::cout << "MacOS" << std::endl;
+    #else
+    std::cout << "Linux" << std::endl;
+    #endif
+    #endif
+     std::cout << "CPU Architecture: ";
+    #ifdef __x86_64__
+    std::cout << "x64" << std::endl;
+    #else
+    std::cout << "x86" << std::endl;
+    #endif
+    glfwInit();
+glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+GLFWwindow* gwindow = glfwCreateWindow(1, 1, "Headless", NULL, NULL);
+glfwMakeContextCurrent(gwindow);
+gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+    std::cout << "GL: " << glGetString(GL_VERSION) << std::endl;
+    std::cout << "GLSL: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+    std::cout << "OpenGL: " << glGetString(GL_RENDERER) << std::endl;
+    std::cout << "OpenGL vendor: " << glGetString(GL_VENDOR) << std::endl;
+    std::cout << "\n" << std::endl;
+    std::cout << "Press enter to continue" << std::endl;
+    std::cin.get();
+    std::cout << "---- Begin of engine init -----" << std::endl;
+    glfwTerminate();
     //create the window
     Window window = Window(1000, 1000, "SGL", true); 
+    window.preInit(3,2);
     //set callbacks
     window.setUpdateCallback(Update);
     window.setInputCallback(processInput);
