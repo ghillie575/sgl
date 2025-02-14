@@ -12,8 +12,9 @@
 #include <string>
 #include <stdexcept>
 #include <memory>
+#include <unistd.h>
 namespace fs = std::filesystem;
-
+using namespace SGL;
 /**
  * Constructor for the Window class
  * @param height The height of the window in pixels
@@ -27,8 +28,6 @@ Window::Window(int height, int width, const char *title)
     this->width = width;
     this->title = title;
     std::cout << "Hello, from XandO!\n";
-
-    
 }
 
 /**
@@ -46,19 +45,20 @@ Window::Window(int height, int width, const char *title, bool debug)
     this->title = title;
     this->debug = debug;
     std::cout << "Hello, from XandO!\n";
-  
 }
-void Window::camUpdate(){
-        camera.setProjectionMatrix(glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f));
-        for (auto &obj : this->shaderRegistry)
-        {
-            obj.second.setMat4("projection", this->camera.getProjectionMatrix());
-        }
+void Window::camUpdate()
+{
+    camera.setProjectionMatrix(glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f));
+    for (auto &obj : this->shaderRegistry)
+    {
+        obj.second.setMat4("projection", this->camera.getProjectionMatrix());
+    }
 }
 void Window::camInit()
 {
-    camera.setPosition(glm::vec3(0.0f, 0.0f, -2.0f));
-    camera.setRotation(glm::vec3(0.0f, 0.0f, 0.0f));
+    camera.setPosition(glm::vec2(0.0f, 0.0f));
+    camera.setRotation(glm::vec2(0.0f, 0.0f));
+    camera.zpos = -3;
     camera.setProjectionMatrix(glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f));
 }
 /**
@@ -66,13 +66,13 @@ void Window::camInit()
  * @param id The ID of the GameObject to retrieve
  * @return A pointer to the GameObject with the given ID, or nullptr if no such object exists
  */
-GameObject* Window::getObjectById(const std::string& id)
+GameObject *Window::getObjectById(const std::string &id)
 {
- auto it = std::find_if(objects.begin(), objects.end(), [&](const std::shared_ptr<GameObject>& obj) {
-    return obj->id == id;  // Access id through the shared_ptr
-});
-return (it != objects.end()) ? it->get() : nullptr;  // Use it->get() to return the raw pointer
-
+    auto it = std::find_if(objects.begin(), objects.end(), [&](const std::shared_ptr<GameObject> &obj)
+                           {
+                               return obj->id == id; // Access id through the shared_ptr
+                           });
+    return (it != objects.end()) ? it->get() : nullptr; // Use it->get() to return the raw pointer
 }
 
 /**
@@ -80,13 +80,13 @@ return (it != objects.end()) ? it->get() : nullptr;  // Use it->get() to return 
  * @param name The name of the GameObject to retrieve
  * @return A pointer to the GameObject with the given name, or nullptr if no such object exists
  */
-GameObject* Window::getObjectByName(const std::string& name)
+GameObject *Window::getObjectByName(const std::string &name)
 {
-    auto it = std::find_if(objects.begin(), objects.end(), [&](const std::shared_ptr<GameObject>& obj) {
-    return obj->name == name;  // Use obj->name to access the name member
-});
-return (it != objects.end()) ? it->get() : nullptr;  // Use it->get() to return a raw pointer
-
+    auto it = std::find_if(objects.begin(), objects.end(), [&](const std::shared_ptr<GameObject> &obj)
+                           {
+                               return obj->name == name; // Use obj->name to access the name member
+                           });
+    return (it != objects.end()) ? it->get() : nullptr; // Use it->get() to return a raw pointer
 }
 
 /**
@@ -105,27 +105,25 @@ void getAllFiles(const fs::path &directory, std::vector<fs::path> &files)
         }
     }
 }
-    void Window::framebufferSizeCallback(GLFWwindow *window, int width, int height)
-    {
-        Window *self = static_cast<Window*>(glfwGetWindowUserPointer(window));
-        self->height = height;
-        self->width = width;
-        self->camUpdate();
-        glViewport(0, 0, width, height);
-    }
+void Window::framebufferSizeCallback(GLFWwindow *window, int width, int height)
+{
+    Window *self = static_cast<Window *>(glfwGetWindowUserPointer(window));
+    self->height = height;
+    self->width = width;
+    self->camUpdate();
+    glViewport(0, 0, width, height);
+}
 /**
  * Initializes the window
  */
-void Window::init()
+void Window::preInit()
 {
-    closed = false;
     if (!glfwInit())
     {
         logger.log(LogLevel::ERROR, "Failed to initialize GLFW");
         throw std::runtime_error("Failed to initialize GLFW");
     }
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     if (dobbleBuffering)
     {
@@ -143,12 +141,53 @@ void Window::init()
         throw std::runtime_error("Failed to create GLFW window");
     }
     glfwMakeContextCurrent(window);
+    glfwHideWindow(window);
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         logger.log(LogLevel::ERROR, "Failed to initialize GLAD");
         throw std::runtime_error("Failed to initialize GLAD");
     }
     glfwSetWindowUserPointer(window, this);
+}
+void Window::preInit(int glVersionMajor, int glVersionMinor)
+{
+    if (!glfwInit())
+    {
+        logger.log(LogLevel::ERROR, "Failed to initialize GLFW");
+        throw std::runtime_error("Failed to initialize GLFW");
+    }
+    logger.log(LogLevel::WARN, "Initializing GLFW with OpenGL version " + std::to_string(glVersionMajor) + "." + std::to_string(glVersionMinor));
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, glVersionMajor);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, glVersionMinor);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    if (dobbleBuffering)
+    {
+        glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
+    }
+    else
+    {
+        glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
+    }
+    const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+    window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+    if (window == NULL)
+    {
+        logger.log(LogLevel::ERROR, "Failed to create GLFW window");
+        throw std::runtime_error("Failed to create GLFW window");
+    }
+    glfwMakeContextCurrent(window);
+    glfwHideWindow(window);
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        logger.log(LogLevel::ERROR, "Failed to initialize GLAD");
+        throw std::runtime_error("Failed to initialize GLAD");
+    }
+    glfwSetWindowUserPointer(window, this);
+}
+void Window::init()
+{
+
+    closed = false;
     camInit();
     glEnable(GL_DEPTH_TEST);
     logger.log(LogLevel::INFO, "Loading libraries");
@@ -164,19 +203,22 @@ void Window::init()
         {
             logger.log(LogLevel::INFO, "Loading shader: " + file.stem().string());
             Shader current = Shader(file.string().c_str(), (file.parent_path().string() + std::string("/") + file.stem().string() + ".fs").c_str());
+
             current.setMat4("view", camera.getViewMatrix());
             current.setMat4("projection", camera.getProjectionMatrix());
             shaderRegistry[file.stem().string()] = current;
         }
     }
     logger.log(LogLevel::INFO, "Shaders loaded");
-    logger.log(LogLevel::INFO,"Loading types");
+    logger.log(LogLevel::INFO, "Loading types");
     loader.executeOnTypeRegister(this);
     onTypeRegister(this);
-    factory.registerObject("default", []() { return std::make_shared<GameObject>(); });
+    factory.registerObject("default", []()
+                           { return std::make_shared<GameObject>(); });
     logger.log(LogLevel::INFO, "Types loaded");
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
     logger.log(LogLevel::INFO, "Window initialized");
+    glfwShowWindow(window);
 }
 
 /**
@@ -194,7 +236,7 @@ bool Window::shaderExists(const std::string &shaderName)
  * @param shaderName The name of the shader to retrieve
  * @return A pointer to the shader with the given name, or nullptr if no such shader exists
  */
-Shader* Window::getShader(const std::string& shaderName)
+Shader *Window::getShader(const std::string &shaderName)
 {
     auto it = shaderRegistry.find(shaderName);
     return (it != shaderRegistry.end()) ? &it->second : nullptr;
@@ -205,19 +247,27 @@ Shader* Window::getShader(const std::string& shaderName)
  */
 void Window::start()
 {
-    
+
     for (const auto &obj : objects)
     {
         obj->start();
     }
-    
+
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     while (!glfwWindowShouldClose(window))
     {
         inputCallback(this);
         CalculateFrameRate();
-        
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        for (auto &element : uiElements)
+        {
+            if (element->visible)
+            {
+                element->draw();
+            }
+        }
+        glUseProgram(0);
         for (auto &obj : objects)
         {
             obj->render();
@@ -238,7 +288,7 @@ void Window::start()
     glfwTerminate();
     closed = true;
     logger.log(LogLevel::INFO, "Window terminated");
-    
+
     return;
 }
 
@@ -246,7 +296,7 @@ void Window::start()
  * Sets the update callback function
  * @param callback The function to call on each frame
  */
-void Window::setUpdateCallback(std::function<void(Window*)> callback)
+void Window::setUpdateCallback(std::function<void(Window *)> callback)
 {
     if (callback == nullptr)
     {
@@ -259,7 +309,7 @@ void Window::setUpdateCallback(std::function<void(Window*)> callback)
  * Sets the input processing callback function
  * @param callback The function to call on each frame for input processing
  */
-void Window::setInputCallback(std::function<void(Window*)> callback)
+void Window::setInputCallback(std::function<void(Window *)> callback)
 {
     if (callback == nullptr)
     {
@@ -282,16 +332,21 @@ void Window::registerObject(std::shared_ptr<GameObject> obj)
     else if (obj->shader == nullptr)
     {
         obj->useShader(getShader("default"));
-    }else{
+    }
+    else
+    {
         obj->useShader(getShader("default"));
     }
-    obj->build();  // Now calls the correct build() method
+    obj->build(); // Now calls the correct build() method
     objects.push_back(std::move(obj));
 }
-
-/**
- * Calculates the current frame rate
- */
+void Window::registerUIElement(UI::UIElement element)
+{
+    auto ui = std::make_shared<UI::UIElement>(element);
+    logger.log(LogLevel::DEBUG, "Registering Ui element with ID: " + ui->id);
+    ui->build(this);
+    uiElements.push_back(std::move(ui));
+}
 void Window::CalculateFrameRate()
 {
     static double previousTime = glfwGetTime();
@@ -328,9 +383,8 @@ bool Window::IsClosed()
 void Window::setDobbleBuffering(bool value)
 {
     dobbleBuffering = value;
-    
 }
-void Window::setOnTypeRegister(std::function<void(Window*)> callback)
+void Window::setOnTypeRegister(std::function<void(Window *)> callback)
 {
     if (callback == nullptr)
     {
@@ -339,4 +393,22 @@ void Window::setOnTypeRegister(std::function<void(Window*)> callback)
     }
     onTypeRegister = callback;
 }
+/**
+ * Checks if a key is pressed
+ * @param key The key to check
+ * @return True if the key is pressed, false otherwise
+ */
+bool Window::isKeyPressed(int key)
+{
+    return glfwGetKey(window, key) == GLFW_PRESS;
+}
 
+/**
+ * Checks if a mouse button is pressed
+ * @param button The mouse button to check
+ * @return True if the mouse button is pressed, false otherwise
+ */
+bool Window::isMouseButtonPressed(int button)
+{
+    return glfwGetMouseButton(window, button) == GLFW_PRESS;
+}

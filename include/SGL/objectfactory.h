@@ -14,6 +14,7 @@
  * This class allows registering creation functions for different types of 
  * GameObjects and creating instances of those objects when needed.
  */
+namespace SGL{
 class Component;
 class ObjectFactory {
 private:
@@ -96,4 +97,5 @@ private:
     std::map<std::string, std::function<std::shared_ptr<GameObject>()>> creationFunctions;
      std::map<std::string, std::function<std::shared_ptr<Component>()>> componentFunctions;
 };
+}
 #endif

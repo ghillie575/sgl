@@ -12,9 +12,10 @@
 #include <random>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stbi/stb_image.h>
+using namespace SGL;
 GameObject::GameObject()
 {
-    this->transform.setScaling(glm::vec3(1,1,1));
+    this->transform.setScaling(glm::vec2(1,1));
     this->id = generateRandomID(10);
     this->logger = Logger("",debug);
     
@@ -131,7 +132,7 @@ void GameObject::useTexture(std::string texturePath){
 }
 void GameObject::build()
 {
-    setColor(color);
+    
     float vertices[vert.size()];
     unsigned int indices[ind.size()];
     std::copy(vert.begin(), vert.end(), vertices);
@@ -203,8 +204,8 @@ void GameObject::render()
     glBindTexture(GL_TEXTURE_2D, texture);
     glm::mat4 model = transform.getTransformationMatrix();
     shader->use();
+    setColor(color);
     shader->setMat4("model", model);
-    
     glBindVertexArray(VAO);
      for (size_t i = 0; i < components.size(); i++)
     {

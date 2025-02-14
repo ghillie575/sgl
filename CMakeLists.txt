@@ -14,7 +14,7 @@ include_directories(${OPENGL_INCLUDE_DIR} ${GLFW_INCLUDE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # Gather source files
-file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp ${CMAKE_SOURCE_DIR}/src/*.c)
+file(GLOB SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp ${CMAKE_SOURCE_DIR}/src/*.c ${CMAKE_SOURCE_DIR}/src/LayoutManaging/*.cpp ${CMAKE_SOURCE_DIR}/src/SceneManaging/*.cpp ${CMAKE_SOURCE_DIR}/src/UI/*.cpp) 
 file(GLOB SOURCES_OBJECTLIB ${CMAKE_SOURCE_DIR}/sgl-objectlib-sample/*.cpp)
 # Create shared library
 add_library(sgl SHARED ${SOURCES})

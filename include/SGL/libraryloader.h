@@ -14,7 +14,7 @@
 #endif
 
 #include <SGL/logger.h>
-
+namespace SGL{
 namespace fs = std::filesystem;
 class Window;
 enum LibType{
@@ -62,5 +62,5 @@ private:
 
     bool isLibraryFile(const fs::path& path);
 };
-
+}
 #endif // LIBRARYLOADER_H

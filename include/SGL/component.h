@@ -3,6 +3,7 @@
 #include <iostream>
 #include <SGL/transform.h>
 #include <SGL/object.h>
+namespace SGL{
 class Component
 {
 private:
@@ -34,4 +35,5 @@ public:
     Component(std::string name);
     Component();
 };
+}
 #endif

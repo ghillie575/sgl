@@ -1,4 +1,5 @@
 #include <SGL/component.h>
+using namespace SGL;
 void Component::setProperty(std::string propName, void *value)
 {
     properties[propName] = value;

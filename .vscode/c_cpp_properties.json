@@ -5,14 +5,15 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/include",
-                "/usr/include/GL",               // Path to OpenGL headers
-                "/usr/include/GLFW"        // Path to GLFW headers
+                "/usr/include/GL",
+                "/usr/include/GLFW"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/g++",   // Path to your g++ compiler
+            "compilerPath": "/usr/bin/g++",
             "cStandard": "c11",
             "cppStandard": "c++17",
-            "intelliSenseMode": "linux-gcc-x64" // IntelliSense mode for GCC on Linux
+            "intelliSenseMode": "linux-gcc-x64",
+            "configurationProvider": "ms-vscode.cmake-tools"
         }
     ],
     "version": 4
