@@ -43,6 +43,7 @@ namespace SGL
         static void mouse_callback(GLFWwindow * window, double xpos, double ypos);
         void CalculateFrameRate();
         bool closed = true;
+        float FOV = 50.0f;
         bool dobbleBuffering = true;
 
     public:
@@ -53,6 +54,8 @@ namespace SGL
         Window(int height, int width, const char *title);
         Window(int height, int width, const char *title, bool debug);
         bool isKeyPressed(int key);
+        void close();
+        void setCamFOV(float fov);
         void init();
         void preInit();
         void preInit(int glVersionMajor, int glVersionMinor);
@@ -62,6 +65,7 @@ namespace SGL
         void registerObject(std::shared_ptr<GameObject> obj);
         void registerUIElement(UI::UIElement element);
         GameObject *getObjectById(const std::string &id);
+        UI::UIElement *getUiElementById(const std::string &id);
         GameObject *getObjectByName(const std::string &name);
         Shader *getShader(const std::string &shaderName);
         bool shaderExists(const std::string &shaderName);

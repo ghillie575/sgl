@@ -22,33 +22,59 @@
 #include <SGL/gameobjects/cube.h>
 #include <SGL/components/TestComponent.h>
 #include <SGL/UI/ui-element.h>
+#include <SGL/utils/free_fly_cam.h>
 using namespace SGL;
-bool firstMouse = true;
-float yaw = -90.0f;
-float pitch = 0.0f;
-float lastX = 800.0f / 2.0;
-float lastY = 600.0 / 2.0;
+FreeFlyCam cam = FreeFlyCam();
 SceneData data = SceneData();
 LayoutManaging::LayoutData layoutData = LayoutManaging::LayoutData();
-float camSpeed = 2.5f;
+UI::UIElement *fovBar;
+UI::UIElement *speedBar;
+float fov = 45.0f;
 void processInput(Window *window)
 {
-    if (window->isKeyPressed(GLFW_KEY_W))
+    if (window->isKeyPressed(GLFW_KEY_ESCAPE))
     {
-        window->camera.moveForward(camSpeed * window->time.getDeltaTime());
+        window->close();
     }
-    if (window->isKeyPressed(GLFW_KEY_S))
+    if (window->isKeyPressed(GLFW_KEY_KP_ADD))
     {
-        window->camera.moveBackward(camSpeed * window->time.getDeltaTime());
+        cam.camSpeed += 10 * window->time.getDeltaTime();
+        if (cam.camSpeed > 50)
+        {
+            cam.camSpeed = 50;
+        }
+        speedBar->scale = glm::vec2(0.1, cam.camSpeed / 15);
     }
-    if (window->isKeyPressed(GLFW_KEY_A))
+    if (window->isKeyPressed(GLFW_KEY_KP_SUBTRACT))
     {
-        window->camera.moveLeft(camSpeed * window->time.getDeltaTime());
+        cam.camSpeed -= 10 * window->time.getDeltaTime();
+        if (cam.camSpeed < 10)
+        {
+            cam.camSpeed = 10;
+        }
+        speedBar->scale = glm::vec2(0.1, cam.camSpeed / 15);
     }
-    if (window->isKeyPressed(GLFW_KEY_D))
+    if (window->isKeyPressed(GLFW_KEY_UP))
     {
-        window->camera.moveRight(camSpeed * window->time.getDeltaTime());
+        fov += 10 * window->time.getDeltaTime();
+        if (fov > 100)
+        {
+            fov = 100;
+        }
+        fovBar->scale = glm::vec2(fov / 50, 0.1);
+        window->setCamFOV(fov);
     }
+    if (window->isKeyPressed(GLFW_KEY_DOWN))
+    {
+        fov -= 10 * window->time.getDeltaTime();
+        if (fov < 50)
+        {
+            fov = 50;
+        }
+        fovBar->scale = glm::vec2(fov / 50, 0.1);
+        window->setCamFOV(fov);
+    }
+    cam.inputCallback(window);
 }
 void Update(Window *window)
 {
@@ -63,7 +89,9 @@ void fpsWatch(Window *window)
                   << "DeltaTime: " << window->time.getDeltaTime() << std::endl
                   << "Camera position: (" << window->camera.cameraPos.x << ", " << window->camera.cameraPos.y << ", " << window->camera.cameraPos.z << ")" << std::endl
                   << "Camera rotation: (" << window->camera.rotation.x << ", " << window->camera.rotation.y << ", " << window->camera.rotation.z << ")" << std::endl
-                  << "Camera front: (" << window->camera.cameraFront.x << ", " << window->camera.cameraFront.y << ", " << window->camera.cameraFront.z << ")" << std::endl;
+                  << "Camera front: (" << window->camera.cameraFront.x << ", " << window->camera.cameraFront.y << ", " << window->camera.cameraFront.z << ")" << std::endl
+                  << "Camera speed: " << cam.camSpeed << std::endl;
+        ;
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
 }
@@ -84,54 +112,33 @@ void createScene()
 }
 void buildLayout()
 {
+    // fov bar
     LayoutManaging::LayoutObject obj = LayoutManaging::LayoutObject();
     obj.model = "ui/box";
     obj.texture_str = "sgl-logo.jpg";
     obj.id = "ui1";
-    obj.position = glm::vec2(1, 1);
-    obj.rotation = 45;
-    obj.scale = glm::vec2(1, 1);
+    obj.position = glm::vec2(0, 1);
+    obj.rotation = 0;
+    obj.scale = glm::vec2(1, 0.1);
     obj.ZIndex = 1;
     obj.color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     layoutData.addObject(&obj);
+    // speed bar
+    LayoutManaging::LayoutObject obj1 = LayoutManaging::LayoutObject();
+    obj1.model = "ui/box";
+    obj1.texture_str = "sgl-logo.jpg";
+    obj1.id = "ui2";
+    obj1.position = glm::vec2(1, 0);
+    obj1.rotation = 0;
+    obj1.scale = glm::vec2(0.1, 1);
+    obj1.ZIndex = 1;
+    obj1.color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    layoutData.addObject(&obj1);
     LayoutManaging::saveLayout(&layoutData, "basic_layout");
 }
 void mouseCallback(Window *window, double xpos, double ypos)
 {
-    if (firstMouse)
-    {
-        lastX = xpos;
-        lastY = ypos;
-        firstMouse = false;
-    }
-
-    float xoffset = xpos - lastX;
-    float yoffset = lastY - ypos;
-    lastX = xpos;
-    lastY = ypos;
-
-    float sensitivity = 0.1f;
-    xoffset *= sensitivity;
-    yoffset *= sensitivity;
-
-    yaw += xoffset;
-    pitch += yoffset;
-
-    // Constrain pitch between -89 and 89 degrees
-    if (pitch > 89.0f)
-        pitch = 89.0f;
-    if (pitch < -89.0f)
-        pitch = -89.0f;
-
-    // Convert to camera rotation (in degrees)
-    window->camera.rotation.x = pitch;
-    window->camera.rotation.y = yaw;
-
-    // Keep y rotation between 0 and 360 degrees
-    if (window->camera.rotation.y > 360.0f)
-        window->camera.rotation.y -= 360.0f;
-    if (window->camera.rotation.y < 0.0f)
-        window->camera.rotation.y += 360.0f;
+    cam.mouseCallback(window, xpos, ypos);
 }
 void onTypeRegister(Window *window)
 {
@@ -189,6 +196,7 @@ int main(int, char **)
     std::cin.get();
     std::cout << "---- Begin of engine init -----" << std::endl;
     glfwTerminate();
+    cam.camSpeed = 10;
     // create the window
     Window window = Window(1000, 1000, "SGL", true); // strongly recommended to be set to true, setting it to false may cause graphical issues or window initialization failure
     window.setDobbleBuffering(true);
@@ -207,7 +215,9 @@ int main(int, char **)
     loadSceneByName(&window, "2d_triangles");
     buildLayout();
     LayoutManaging::loadLayoutByName("basic_layout", &window);
-    // fps
+    fovBar = window.getUiElementById("ui1");
+    speedBar = window.getUiElementById("ui2");
+    //  fps
     std::thread th1(fpsWatch, &window);
     // main loop
     window.start();

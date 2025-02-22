@@ -2,10 +2,7 @@
     "count": 1,
     "objects": [
         {
-            "components": [
-                "TestComponent"
-            ],
-            "id": "7524429560",
+            "id": "0190479967",
             "mode": "trg",
             "model": "basic/3d/cube",
             "name": "x",
@@ -14,7 +11,7 @@
             "transform": {
                 "position": [
                     0.0,
-                    0.0,
+                    -5.0,
                     0.0
                 ],
                 "rotation": [
@@ -23,9 +20,9 @@
                     0.0
                 ],
                 "scaling": [
-                    0.10000000149011612,
-                    0.10000000149011612,
-                    0.10000000149011612
+                    10.0,
+                    10.0,
+                    1.0
                 ]
             },
             "type": "triangle"

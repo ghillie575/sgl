@@ -63,7 +63,7 @@ namespace SGL
     {
         try
         {
-            camera.setProjectionMatrix(glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f));
+            camera.setProjectionMatrix(glm::perspective(glm::radians(FOV), (float)width / (float)height, 0.1f, 100.0f));
             for (auto &obj : this->shaderRegistry)
             {
                 obj.second.setMat4("projection", this->camera.getProjectionMatrix());
@@ -107,7 +107,20 @@ namespace SGL
             throw;
         }
     }
-
+    UI::UIElement *Window::getUiElementById(const std::string &id)
+    {
+        try
+        {
+            auto it = std::find_if(uiElements.begin(), uiElements.end(), [&](const std::shared_ptr<UI::UIElement> &obj)
+                                   { return obj->id == id; });
+            return (it != uiElements.end()) ? it->get() : nullptr;
+        }
+        catch (const std::exception &e)
+        {
+            logger.log(LogLevel::ERROR, "Exception in getObjectById: " + std::string(e.what()));
+            throw;
+        }
+    }
     // Get object by name
     GameObject *Window::getObjectByName(const std::string &name)
     {
@@ -531,7 +544,7 @@ namespace SGL
         try
         {
             Window *self = static_cast<Window *>(glfwGetWindowUserPointer(window));
-            self->mouseCallback(self,xpos,ypos);
+            self->mouseCallback(self, xpos, ypos);
         }
         catch (const std::exception &e)
         {
@@ -540,4 +553,13 @@ namespace SGL
             throw;
         }
     }
-} // namespace SGL
+    void Window::close()
+    {
+        glfwSetWindowShouldClose(window, true);
+    }
+    void Window::setCamFOV(float fov)
+    {
+        this->FOV = fov;
+        camUpdate();
+    }
+}
