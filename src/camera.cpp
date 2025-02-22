@@ -1,4 +1,6 @@
 #include <SGL/camera.h>
+using namespace SGL;
+
 /**
  * @brief Constructs a Camera object with default position, rotation, 
  * view matrix, and projection matrix.
@@ -16,7 +18,7 @@ Camera::Camera()
 }
 
 glm::mat4 Camera::getViewMatrix() { 
-    viewMatrix = glm::translate(viewMatrix, position);
+    viewMatrix = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
     return viewMatrix; 
 }
 glm::mat4 Camera::getProjectionMatrix() const { return projectionMatrix; }
@@ -27,3 +29,15 @@ void Camera::setProjectionMatrix(const glm::mat4 &projectionMatrix) { this->proj
 void Camera::setViewMatrix(const glm::mat4 &viewMatrix) { 
     this->viewMatrix = viewMatrix;
  }
+ void Camera::moveForward(float speed) {
+    cameraPos += speed * cameraFront;
+}
+void Camera::moveBackward(float speed) {
+    cameraPos -= speed * cameraFront;
+}
+void Camera::moveLeft(float speed) {
+    cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * speed;
+}
+void Camera::moveRight(float speed) {
+    cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * speed;
+}

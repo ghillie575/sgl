@@ -4,6 +4,7 @@
 #include <SGL/component.h>
 #ifndef SCENE_OBJECT_H
 #define SCENE_OBJECT_H
+namespace SGL{
 class SceneObject {
 public:
     Transform transform;
@@ -26,4 +27,5 @@ public:
     std::string generateRandomID(int length);
        
 };
+}
 #endif

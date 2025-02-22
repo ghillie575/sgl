@@ -1,7 +1,7 @@
 #include <SGL/libraryloader.h>
 #include <stdexcept>
 #include <iostream>
-
+using namespace SGL;
 LibraryLoader::LibraryLoader(const std::string& directory)
     : libraryDirectory(directory), logger("LibraryLoader") {}
 

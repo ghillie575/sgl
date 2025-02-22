@@ -2,19 +2,19 @@
 #include <SGL/object.h>
 
 #include <SGL/logger.h>
-
+using namespace SGL;
 class Triangle : public GameObject
 {
 public:
     void build() override
     {
         Logger logger = Logger("Triangle");
-        logger.log(LogLevel::INFO, "Building Triangle object");
+        logger.log(LogLevel::INFO, "Building Triangle object with ID: " + id);
         GameObject::build(); // Call the base class build method
     }
-    void render() override
+    void render(Window* window) override
     {
-        GameObject::render(); // Call the base class render method
+        GameObject::render(window); // Call the base class render method
     }
 };
 extern "C"

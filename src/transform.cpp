@@ -3,7 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <nlohmann/json.hpp>
-
+using namespace SGL;
 using json = nlohmann::json;
 glm::mat4 Transform::getTransformationMatrix() const
 {

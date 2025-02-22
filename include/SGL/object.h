@@ -9,6 +9,7 @@
 #include <SGL/window.h> 
 #ifndef OBJECT_H
 #define OBJECT_H
+namespace SGL{
 class Window;
 enum drawAs
 {
@@ -26,7 +27,7 @@ private:
     Logger logger = Logger("");
     std::string generateRandomID(int length);
     glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-    
+    unsigned int VBO, VAO, EBO;
 
 public:
     bool debug = false;
@@ -35,7 +36,7 @@ public:
     std::string name = "x";
     Shader* shader = nullptr;
     std::string shaderName = "";
-    unsigned int VBO, VAO, EBO;
+    
     Transform transform;
     drawAs mode;
     std::vector<unsigned int> ind;
@@ -43,7 +44,7 @@ public:
     int polCount;
     GameObject();
     virtual void build();
-    virtual void render();
+    virtual void render(Window* window);
     void useShader(const char* shaderName);
     void useShader(Shader* shader);
     void freeResources();
@@ -56,5 +57,5 @@ public:
     void addComponent(Window* window, std::string type);
     void debugger();
 };
-
+}
 #endif

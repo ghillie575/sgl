@@ -27,4 +27,7 @@ Release/
 */build/
 */Debug/
 */Release/
-engine/libraries/libsgl-objectlib-sample.so
+engine/libraries/
+engine/libraries/*
+/engine/libraries/
+/engine/libraries/*

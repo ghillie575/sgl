@@ -5,6 +5,7 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <SGL/logger.h>
+using namespace SGL;
 Shader::Shader() {}
 Shader::Shader(const char *vertexPath, const char *fragmentPath)
 {

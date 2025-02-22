@@ -4,7 +4,7 @@
 #include <SGL/object.h>
 
 #include <SGL/logger.h>
-
+namespace SGL::GameObjects{
 class Cube : public GameObject
 {
 public:
@@ -14,12 +14,12 @@ public:
         logger.log(LogLevel::INFO, "Building Cube object");
         GameObject::build(); // Call the base class build method
     }
-    void render() override
+    void render(Window* window) override
     {
         
-        GameObject::render(); // Call the base class render method
+        GameObject::render(window); // Call the base class render method
     }
 };
 
-
+}
 #endif // TRIANGLE_H
