@@ -25,9 +25,21 @@
 using namespace SGL;
 SceneData data = SceneData();
 LayoutManaging::LayoutData layoutData = LayoutManaging::LayoutData();
+float camSpeed = 2.5f;
 void processInput(Window *window)
 {
-    
+    if (window->isKeyPressed(GLFW_KEY_W)) {
+        window->camera.moveForward(camSpeed * window->time.getDeltaTime());
+    }
+    if (window->isKeyPressed(GLFW_KEY_S)) {
+        window->camera.moveBackward(camSpeed * window->time.getDeltaTime());
+    }
+    if (window->isKeyPressed(GLFW_KEY_A)) {
+        window->camera.moveLeft(camSpeed * window->time.getDeltaTime());
+    }
+    if (window->isKeyPressed(GLFW_KEY_D)) {
+        window->camera.moveRight(camSpeed * window->time.getDeltaTime());
+    }
 }
 void Update(Window *window)
 {
@@ -36,7 +48,8 @@ void fpsWatch(Window* window)
 {
     while(!window->IsClosed())
     {
-        window->getCurrentFps();
+        int fps = window->getCurrentFps();
+        std::cout << "___________________" << std::endl << "FPS: " << fps << std::endl << "DeltaTime: " << window->time.getDeltaTime() << std::endl;
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
     
@@ -121,14 +134,16 @@ gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     std::cout << "---- Begin of engine init -----" << std::endl;
     glfwTerminate();
     //create the window
-    Window window = Window(1000, 1000, "SGL", true); 
-    window.preInit(3,2);
+    Window window = Window(1000, 1000, "SGL", true); \
+    //strongly recommended to be set to true, setting it to false may cause graphical issues or window initialization failure
+    window.setDobbleBuffering(true);
+    //preinit with OpenGL 3.3
+    window.preInit(3,3);
     //set callbacks
     window.setUpdateCallback(Update);
     window.setInputCallback(processInput);
     window.setOnTypeRegister(onTypeRegister);
     //set double buffering
-    window.setDobbleBuffering(true);
     //Window init
     window.init();
     //scene loading

@@ -274,7 +274,7 @@ void Window::start() {
             }
             glUseProgram(0);
             for (auto &obj : objects) {
-                obj->render();
+                obj->render(this);
             }
             updateCallback(this);
             glfwSwapBuffers(window);
@@ -364,7 +364,6 @@ void Window::CalculateFrameRate() {
 // Get current frames per second
 int Window::getCurrentFps() {
     try {
-        logger.log(LogLevel::DEBUG, "Current FPS: " + std::to_string(fps));
         return fps;
     } catch (const std::exception &e) {
         logger.log(LogLevel::ERROR, "Exception in getCurrentFps: " + std::string(e.what()));
@@ -400,5 +399,7 @@ void Window::setOnTypeRegister(std::function<void(Window*)> callback) {
     }
     onTypeRegister = callback;
 }
-
+bool Window::isKeyPressed(int key){
+    return glfwGetKey(window, key) == GLFW_PRESS;
+}
 } // namespace SGL

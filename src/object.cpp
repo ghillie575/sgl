@@ -199,13 +199,14 @@ void GameObject::start(){
     }
     
 }
-void GameObject::render()
+void GameObject::render(Window* window)
 {
     glBindTexture(GL_TEXTURE_2D, texture);
     glm::mat4 model = transform.getTransformationMatrix();
     shader->use();
     setColor(color);
     shader->setMat4("model", model);
+    shader->setMat4("view", window->camera.getViewMatrix());
     glBindVertexArray(VAO);
      for (size_t i = 0; i < components.size(); i++)
     {

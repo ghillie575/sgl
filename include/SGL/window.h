@@ -48,6 +48,7 @@ public:
     ObjectFactory factory;
     Window(int height, int width, const char *title);
     Window(int height, int width, const char *title, bool debug);
+    bool isKeyPressed(int key);
     void init();
     void preInit();
     void preInit(int glVersionMajor, int glVersionMinor);

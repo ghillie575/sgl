@@ -44,7 +44,7 @@ public:
     int polCount;
     GameObject();
     virtual void build();
-    virtual void render();
+    virtual void render(Window* window);
     void useShader(const char* shaderName);
     void useShader(Shader* shader);
     void freeResources();
