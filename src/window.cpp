@@ -1,394 +1,404 @@
-/**
- * @file window.cpp
- * @brief Contains the implementation of the Window class
- * @author Petr Fučík
- */
-
-#include <SGL/window.h>
-#include <iostream>
-#include <filesystem>
-#include <vector>
-#include <unordered_map>
-#include <string>
+// Copyright (c) 2025 Mikhail Karakou
 #include <stdexcept>
+#include <iostream>
+#include <vector>
+#include <string>
 #include <memory>
-#include <unistd.h>
-namespace fs = std::filesystem;
-using namespace SGL;
-/**
- * Constructor for the Window class
- * @param height The height of the window in pixels
- * @param width The width of the window in pixels
- * @param title The title of the window
- */
+#include <algorithm>
+#include <functional>
+#include <filesystem>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <SGL/logger.h>
+#include <SGL/shader.h>
+#include <SGL/object.h>
+#include <SGL/libraryloader.h>
+#include <SGL/window.h>
+#include <SGL/UI/ui-element.h>
+
+namespace SGL {
+
+// Constructor for Window class
 Window::Window(int height, int width, const char *title)
     : logger("\e[95mENGINE")
 {
-    this->height = height;
-    this->width = width;
-    this->title = title;
-    std::cout << "Hello, from XandO!\n";
-
-    
+    try {
+        this->height = height;
+        this->width = width;
+        this->title = title;
+        std::cout << "Hello, from XandO!\n";
+    } catch (const std::exception &e) {
+        logger.log(LogLevel::ERROR, "Exception in Window constructor: " + std::string(e.what()));
+        throw;
+    }
 }
 
-/**
- * Constructor for the Window class with debug flag
- * @param height The height of the window in pixels
- * @param width The width of the window in pixels
- * @param title The title of the window
- * @param debug If true, the window will be created with debug logging enabled
- */
+// Constructor for Window class with debug option
 Window::Window(int height, int width, const char *title, bool debug)
     : logger("\e[95mENGINE", debug)
 {
-    this->height = height;
-    this->width = width;
-    this->title = title;
-    this->debug = debug;
-    std::cout << "Hello, from XandO!\n";
-  
-}
-void Window::camUpdate(){
-        camera.setProjectionMatrix(glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f));
-        for (auto &obj : this->shaderRegistry)
-        {
-            obj.second.setMat4("projection", this->camera.getProjectionMatrix());
-        }
-}
-void Window::camInit()
-{
-    camera.setPosition(glm::vec3(0.0f, 0.0f, -2.0f));
-    camera.setRotation(glm::vec3(0.0f, 0.0f, 0.0f));
-    camera.setProjectionMatrix(glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f));
-}
-/**
- * Returns a pointer to the GameObject with the given ID
- * @param id The ID of the GameObject to retrieve
- * @return A pointer to the GameObject with the given ID, or nullptr if no such object exists
- */
-GameObject* Window::getObjectById(const std::string& id)
-{
- auto it = std::find_if(objects.begin(), objects.end(), [&](const std::shared_ptr<GameObject>& obj) {
-    return obj->id == id;  // Access id through the shared_ptr
-});
-return (it != objects.end()) ? it->get() : nullptr;  // Use it->get() to return the raw pointer
-
-}
-
-/**
- * Returns a pointer to the GameObject with the given name
- * @param name The name of the GameObject to retrieve
- * @return A pointer to the GameObject with the given name, or nullptr if no such object exists
- */
-GameObject* Window::getObjectByName(const std::string& name)
-{
-    auto it = std::find_if(objects.begin(), objects.end(), [&](const std::shared_ptr<GameObject>& obj) {
-    return obj->name == name;  // Use obj->name to access the name member
-});
-return (it != objects.end()) ? it->get() : nullptr;  // Use it->get() to return a raw pointer
-
-}
-
-/**
- * Retrieves all files in the given directory and its subdirectories
- * @param directory The directory to search in
- * @param files A vector to store the found files
- */
-void getAllFiles(const fs::path &directory, std::vector<fs::path> &files)
-{
-    // Iterate through the directory and its subdirectories
-    for (const auto &entry : fs::recursive_directory_iterator(directory))
-    {
-        if (fs::is_regular_file(entry))
-        {
-            files.push_back(entry.path());
-        }
+    try {
+        this->height = height;
+        this->width = width;
+        this->title = title;
+        this->debug = debug;
+        std::cout << "Hello, from XandO!\n";
+    } catch (const std::exception &e) {
+        logger.log(LogLevel::ERROR, "Exception in Window constructor with debug: " + std::string(e.what()));
+        throw;
     }
 }
-    void Window::framebufferSizeCallback(GLFWwindow *window, int width, int height)
-    {
+
+// Update camera projection matrix
+void Window::camUpdate() {
+    try {
+        camera.setProjectionMatrix(glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f));
+        for (auto &obj : this->shaderRegistry) {
+            obj.second.setMat4("projection", this->camera.getProjectionMatrix());
+        }
+    } catch (const std::exception &e) {
+        logger.log(LogLevel::ERROR, "Exception in camUpdate: " + std::string(e.what()));
+        throw;
+    }
+}
+
+// Initialize camera settings
+void Window::camInit() {
+    try {
+        camera.setPosition(glm::vec3(0.0f, 0.0f, -2.0f));
+        camera.setRotation(glm::vec3(0.0f, 0.0f, 0.0f));
+        camera.setProjectionMatrix(glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f));
+    } catch (const std::exception &e) {
+        logger.log(LogLevel::ERROR, "Exception in camInit: " + std::string(e.what()));
+        throw;
+    }
+}
+
+// Get object by ID
+GameObject* Window::getObjectById(const std::string& id) {
+    try {
+        auto it = std::find_if(objects.begin(), objects.end(), [&](const std::shared_ptr<GameObject>& obj) {
+            return obj->id == id;
+        });
+        return (it != objects.end()) ? it->get() : nullptr;
+    } catch (const std::exception &e) {
+        logger.log(LogLevel::ERROR, "Exception in getObjectById: " + std::string(e.what()));
+        throw;
+    }
+}
+
+// Get object by name
+GameObject* Window::getObjectByName(const std::string& name) {
+    try {
+        auto it = std::find_if(objects.begin(), objects.end(), [&](const std::shared_ptr<GameObject>& obj) {
+            return obj->name == name;
+        });
+        return (it != objects.end()) ? it->get() : nullptr;
+    } catch (const std::exception &e) {
+        logger.log(LogLevel::ERROR, "Exception in getObjectByName: " + std::string(e.what()));
+        throw;
+    }
+}
+
+// Get all files in a directory
+void getAllFiles(const fs::path &directory, std::vector<fs::path> &files) {
+    try {
+        for (const auto &entry : fs::recursive_directory_iterator(directory)) {
+            if (fs::is_regular_file(entry)) {
+                files.push_back(entry.path());
+            }
+        }
+    } catch (const std::exception &e) {
+        std::cerr << "Exception in getAllFiles: " << e.what() << std::endl;
+        throw;
+    }
+}
+
+// Callback for framebuffer size changes
+void Window::framebufferSizeCallback(GLFWwindow *window, int width, int height) {
+    try {
         Window *self = static_cast<Window*>(glfwGetWindowUserPointer(window));
         self->height = height;
         self->width = width;
         self->camUpdate();
         glViewport(0, 0, width, height);
+    } catch (const std::exception &e) {
+        Window *self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        self->logger.log(LogLevel::ERROR, "Exception in framebufferSizeCallback: " + std::string(e.what()));
+        throw;
     }
-/**
- * Initializes the window
- */
-void Window::preInit(){
-    if (!glfwInit())
-    {
-        logger.log(LogLevel::ERROR, "Failed to initialize GLFW");
-        throw std::runtime_error("Failed to initialize GLFW");
-    }
-    
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    if (dobbleBuffering)
-    {
-        glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
-    }
-    else
-    {
-        glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
-    }
-    const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-    window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
-    if (window == NULL)
-    {
-        logger.log(LogLevel::ERROR, "Failed to create GLFW window");
-        throw std::runtime_error("Failed to create GLFW window");
-    }
-    glfwMakeContextCurrent(window);
-    glfwHideWindow(window);
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        logger.log(LogLevel::ERROR, "Failed to initialize GLAD");
-        throw std::runtime_error("Failed to initialize GLAD");
-    }
-    glfwSetWindowUserPointer(window, this);
 }
-void Window::preInit(int glVersionMajor, int glVersionMinor){
-    if (!glfwInit())
-    {
-        logger.log(LogLevel::ERROR, "Failed to initialize GLFW");
-        throw std::runtime_error("Failed to initialize GLFW");
-    }
-    logger.log(LogLevel::WARN, "Initializing GLFW with OpenGL version " + std::to_string(glVersionMajor) + "." + std::to_string(glVersionMinor));
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, glVersionMajor);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, glVersionMinor);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    if (dobbleBuffering)
-    {
-        glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
-    }
-    else
-    {
-        glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
-    }
-    const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-    window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
-    if (window == NULL)
-    {
-        logger.log(LogLevel::ERROR, "Failed to create GLFW window");
-        throw std::runtime_error("Failed to create GLFW window");
-    }
-    glfwMakeContextCurrent(window);
-    glfwHideWindow(window);
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        logger.log(LogLevel::ERROR, "Failed to initialize GLAD");
-        throw std::runtime_error("Failed to initialize GLAD");
-    }
-    glfwSetWindowUserPointer(window, this);
-}
-void Window::init()
-{
-   
-    closed = false;
-    camInit();
-    glEnable(GL_DEPTH_TEST);
-    logger.log(LogLevel::INFO, "Loading libraries");
-    LibraryLoader loader("engine/libraries");
-    loader.loadLibraries(this);
-    logger.log(LogLevel::INFO, "Libraries loaded");
-    logger.log(LogLevel::INFO, "Loading shaders");
-    std::vector<fs::path> files;
-    getAllFiles("engine/shaders", files);
-    for (const auto &file : files)
-    {
-        if (file.extension() == ".vs")
-        {   logger.log(LogLevel::INFO, "Loading shader: " + file.stem().string());
-            Shader current = Shader(file.string().c_str(), (file.parent_path().string() + std::string("/") + file.stem().string() + ".fs").c_str());
-            
-            current.setMat4("view", camera.getViewMatrix());
-            current.setMat4("projection", camera.getProjectionMatrix());
-            shaderRegistry[file.stem().string()] = current;  
-            
-            
+
+// Pre-initialize window settings
+void Window::preInit() {
+    try {
+        if (!glfwInit()) {
+            logger.log(LogLevel::ERROR, "Failed to initialize GLFW");
+            throw std::runtime_error("Failed to initialize GLFW");
         }
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        if (dobbleBuffering) {
+            glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
+        } else {
+            glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
+        }
+        const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+        if (window == NULL) {
+            logger.log(LogLevel::ERROR, "Failed to create GLFW window");
+            throw std::runtime_error("Failed to create GLFW window");
+        }
+        glfwMakeContextCurrent(window);
+        glfwHideWindow(window);
+        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+            logger.log(LogLevel::ERROR, "Failed to initialize GLAD");
+            throw std::runtime_error("Failed to initialize GLAD");
+        }
+        glfwSetWindowUserPointer(window, this);
+    } catch (const std::exception &e) {
+        logger.log(LogLevel::ERROR, "Exception in preInit: " + std::string(e.what()));
+        throw;
     }
-    logger.log(LogLevel::INFO, "Shaders loaded");
-    logger.log(LogLevel::INFO,"Loading types");
-    loader.executeOnTypeRegister(this);
-    onTypeRegister(this);
-    factory.registerObject("default", []() { return std::make_shared<GameObject>(); });
-    logger.log(LogLevel::INFO, "Types loaded");
-    glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
-    logger.log(LogLevel::INFO, "Window initialized");
-    glfwShowWindow(window);
 }
 
-/**
- * Checks if a shader with the given name exists
- * @param shaderName The name of the shader to check
- * @return True if the shader exists, false otherwise
- */
-bool Window::shaderExists(const std::string &shaderName)
-{
-    return shaderRegistry.find(shaderName) != shaderRegistry.end();
-}
-
-/**
- * Returns a pointer to the shader with the given name
- * @param shaderName The name of the shader to retrieve
- * @return A pointer to the shader with the given name, or nullptr if no such shader exists
- */
-Shader* Window::getShader(const std::string& shaderName)
-{
-    auto it = shaderRegistry.find(shaderName);
-    return (it != shaderRegistry.end()) ? &it->second : nullptr;
-}
-
-/**
- * Starts the window's main loop
- */
-void Window::start()
-{
-    
-    for (const auto &obj : objects)
-    {
-        obj->start();
+// Pre-initialize window settings with OpenGL version
+void Window::preInit(int glVersionMajor, int glVersionMinor) {
+    try {
+        if (!glfwInit()) {
+            logger.log(LogLevel::ERROR, "Failed to initialize GLFW");
+            throw std::runtime_error("Failed to initialize GLFW");
+        }
+        logger.log(LogLevel::WARN, "Initializing GLFW with OpenGL version " + std::to_string(glVersionMajor) + "." + std::to_string(glVersionMinor));
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, glVersionMajor);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, glVersionMinor);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        if (dobbleBuffering) {
+            glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
+        } else {
+            glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
+        }
+        const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+        if (window == NULL) {
+            logger.log(LogLevel::ERROR, "Failed to create GLFW window");
+            throw std::runtime_error("Failed to create GLFW window");
+        }
+        glfwMakeContextCurrent(window);
+        glfwHideWindow(window);
+        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+            logger.log(LogLevel::ERROR, "Failed to initialize GLAD");
+            throw std::runtime_error("Failed to initialize GLAD");
+        }
+        glfwSetWindowUserPointer(window, this);
+    } catch (const std::exception &e) {
+        logger.log(LogLevel::ERROR, "Exception in preInit with version: " + std::string(e.what()));
+        throw;
     }
-    
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    while (!glfwWindowShouldClose(window)){
-        inputCallback(this);
-        CalculateFrameRate();
-        
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        for (auto &element : uiElements)
-        {   if(element->visible){
-            element->draw();
+}
+
+// Initialize window and load resources
+void Window::init() {
+    try {
+        closed = false;
+        camInit();
+        glEnable(GL_DEPTH_TEST);
+        logger.log(LogLevel::INFO, "Loading libraries");
+        LibraryLoader loader("engine/libraries");
+        loader.loadLibraries(this);
+        logger.log(LogLevel::INFO, "Libraries loaded");
+        logger.log(LogLevel::INFO, "Loading shaders");
+        std::vector<fs::path> files;
+        getAllFiles("engine/shaders", files);
+        for (const auto &file : files) {
+            if (file.extension() == ".vs") {
+                logger.log(LogLevel::INFO, "Loading shader: " + file.stem().string());
+                Shader current = Shader(file.string().c_str(), (file.parent_path().string() + std::string("/") + file.stem().string() + ".fs").c_str());
+                current.setMat4("view", camera.getViewMatrix());
+                current.setMat4("projection", camera.getProjectionMatrix());
+                shaderRegistry[file.stem().string()] = current;
             }
         }
-         glUseProgram(0);
-        for (auto &obj : objects)
-        {
-            obj->render();
-        }
-        
-
-        updateCallback(this);
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+        logger.log(LogLevel::INFO, "Shaders loaded");
+        logger.log(LogLevel::INFO, "Loading types");
+        loader.executeOnTypeRegister(this);
+        onTypeRegister(this);
+        factory.registerObject("default", []() { return std::make_shared<GameObject>(); });
+        logger.log(LogLevel::INFO, "Types loaded");
+        glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
+        logger.log(LogLevel::INFO, "Window initialized");
+        glfwShowWindow(window);
+    } catch (const std::exception &e) {
+        logger.log(LogLevel::ERROR, "Exception in init: " + std::string(e.what()));
+        throw;
     }
-    logger.log(LogLevel::INFO, "Terminating window");
-    logger.log(LogLevel::INFO, "Cleaning up");
-    for (auto &obj : objects)
-    {
-        logger.log(LogLevel::DEBUG, "Freeing resources for object with ID: " + obj->id);
-        obj->freeResources();
-    }
-    factory.freeResources();
-    glfwTerminate();
-    closed = true;
-    logger.log(LogLevel::INFO, "Window terminated");
-    
-    return;
 }
 
-/**
- * Sets the update callback function
- * @param callback The function to call on each frame
- */
-void Window::setUpdateCallback(std::function<void(Window*)> callback)
-{
-    if (callback == nullptr)
-    {
+// Check if shader exists
+bool Window::shaderExists(const std::string &shaderName) {
+    try {
+        return shaderRegistry.find(shaderName) != shaderRegistry.end();
+    } catch (const std::exception &e) {
+        logger.log(LogLevel::ERROR, "Exception in shaderExists: " + std::string(e.what()));
+        throw;
+    }
+}
+
+// Get shader by name
+Shader* Window::getShader(const std::string& shaderName) {
+    try {
+        auto it = shaderRegistry.find(shaderName);
+        return (it != shaderRegistry.end()) ? &it->second : nullptr;
+    } catch (const std::exception &e) {
+        logger.log(LogLevel::ERROR, "Exception in getShader: " + std::string(e.what()));
+        throw;
+    }
+}
+
+// Start the window rendering loop
+void Window::start() {
+    try {
+        for (const auto &obj : objects) {
+            obj->start();
+        }
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        while (!glfwWindowShouldClose(window)) {
+            inputCallback(this);
+            CalculateFrameRate();
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            for (auto &element : uiElements) {
+                if (element->visible) {
+                    element->draw();
+                }
+            }
+            glUseProgram(0);
+            for (auto &obj : objects) {
+                obj->render();
+            }
+            updateCallback(this);
+            glfwSwapBuffers(window);
+            glfwPollEvents();
+        }
+        logger.log(LogLevel::INFO, "Terminating window");
+        logger.log(LogLevel::INFO, "Cleaning up");
+        for (auto &obj : objects) {
+            logger.log(LogLevel::DEBUG, "Freeing resources for object with ID: " + obj->id);
+            obj->freeResources();
+        }
+        factory.freeResources();
+        glfwTerminate();
+        closed = true;
+        logger.log(LogLevel::INFO, "Window terminated");
+    } catch (const std::exception &e) {
+        logger.log(LogLevel::ERROR, "Exception in start: " + std::string(e.what()));
+        throw;
+    }
+}
+
+// Set update callback function
+void Window::setUpdateCallback(std::function<void(Window*)> callback) {
+    if (callback == nullptr) {
+        logger.log(LogLevel::ERROR, "Update function cannot be null");
         throw std::invalid_argument("Update function cannot be null");
     }
     updateCallback = callback;
 }
 
-/**
- * Sets the input processing callback function
- * @param callback The function to call on each frame for input processing
- */
-void Window::setInputCallback(std::function<void(Window*)> callback)
-{
-    if (callback == nullptr)
-    {
+// Set input callback function
+void Window::setInputCallback(std::function<void(Window*)> callback) {
+    if (callback == nullptr) {
+        logger.log(LogLevel::ERROR, "Input processor function cannot be null");
         throw std::invalid_argument("Input processor function cannot be null");
     }
     inputCallback = callback;
 }
 
-/**
- * Registers a GameObject with the window
- * @param obj The GameObject to register
- */
-void Window::registerObject(std::shared_ptr<GameObject> obj)
-{
-    logger.log(LogLevel::DEBUG, "Registering object with ID: " + obj->id);
-    if (!obj->shaderName.empty())
-    {
-        obj->useShader(getShader(obj->shaderName));
+// Register a game object
+void Window::registerObject(std::shared_ptr<GameObject> obj) {
+    try {
+        logger.log(LogLevel::DEBUG, "Registering object with ID: " + obj->id);
+        if (!obj->shaderName.empty()) {
+            obj->useShader(getShader(obj->shaderName));
+        } else if (obj->shader == nullptr) {
+            obj->useShader(getShader("default"));
+        } else {
+            obj->useShader(getShader("default"));
+        }
+        obj->build();
+        objects.push_back(std::move(obj));
+    } catch (const std::exception &e) {
+        logger.log(LogLevel::ERROR, "Exception in registerObject: " + std::string(e.what()));
+        throw;
     }
-    else if (obj->shader == nullptr)
-    {
-        obj->useShader(getShader("default"));
-    }else{
-        obj->useShader(getShader("default"));
+}
+
+// Register a UI element
+void Window::registerUIElement(UI::UIElement element) {
+    try {
+        auto ui = std::make_shared<UI::UIElement>(element);
+        logger.log(LogLevel::DEBUG, "Registering Ui element with ID: " + ui->id);
+        ui->build(this);
+        uiElements.push_back(std::move(ui));
+    } catch (const std::exception &e) {
+        logger.log(LogLevel::ERROR, "Exception in registerUIElement: " + std::string(e.what()));
+        throw;
     }
-    obj->build();  // Now calls the correct build() method
-    objects.push_back(std::move(obj));
-}
-void Window::registerUIElement(UI::UIElement element){
-    auto ui = std::make_shared<UI::UIElement>(element);
-    logger.log(LogLevel::DEBUG, "Registering Ui element with ID: " + ui->id);
-    ui->build(this);
-    uiElements.push_back(std::move(ui));
-}
-/**
- * Calculates the current frame rate
- */
-void Window::CalculateFrameRate()
-{
-    static double previousTime = glfwGetTime();
-    double currentTime = glfwGetTime();
-    double deltaTime = currentTime - previousTime;
-    previousTime = currentTime;
-    time.setDeltaTime(deltaTime);
-    fps = (int)(1.0 / deltaTime);
 }
 
-/**
- * Returns the current frame rate
- * @return The current frame rate
- */
-int Window::getCurrentFps()
-{
-    logger.log(LogLevel::DEBUG, "Current FPS: " + std::to_string(fps));
-    return fps;
+// Calculate frame rate
+void Window::CalculateFrameRate() {
+    try {
+        static double previousTime = glfwGetTime();
+        double currentTime = glfwGetTime();
+        double deltaTime = currentTime - previousTime;
+        previousTime = currentTime;
+        time.setDeltaTime(deltaTime);
+        fps = (int)(1.0 / deltaTime);
+    } catch (const std::exception &e) {
+        logger.log(LogLevel::ERROR, "Exception in CalculateFrameRate: " + std::string(e.what()));
+        throw;
+    }
 }
 
-/**
- * Checks if the window is closed
- * @return True if the window is closed, false otherwise
- */
-bool Window::IsClosed()
-{
-    return closed;
+// Get current frames per second
+int Window::getCurrentFps() {
+    try {
+        logger.log(LogLevel::DEBUG, "Current FPS: " + std::to_string(fps));
+        return fps;
+    } catch (const std::exception &e) {
+        logger.log(LogLevel::ERROR, "Exception in getCurrentFps: " + std::string(e.what()));
+        throw;
+    }
 }
 
-/**
- * Sets whether the window should use double buffering
- * @param value True if the window should use double buffering, false otherwise
- */
-void Window::setDobbleBuffering(bool value)
-{
-    dobbleBuffering = value;
-    
+// Check if window is closed
+bool Window::IsClosed() {
+    try {
+        return closed;
+    } catch (const std::exception &e) {
+        logger.log(LogLevel::ERROR, "Exception in IsClosed: " + std::string(e.what()));
+        throw;
+    }
 }
-void Window::setOnTypeRegister(std::function<void(Window*)> callback)
-{
-    if (callback == nullptr)
-    {
+
+// Set double buffering option
+void Window::setDobbleBuffering(bool value) {
+    try {
+        dobbleBuffering = value;
+    } catch (const std::exception &e) {
+        logger.log(LogLevel::ERROR, "Exception in setDobbleBuffering: " + std::string(e.what()));
+        throw;
+    }
+}
+
+// Set on type register callback function
+void Window::setOnTypeRegister(std::function<void(Window*)> callback) {
+    if (callback == nullptr) {
         logger.log(LogLevel::ERROR, "OnTypeRegister function cannot be null");
         throw std::invalid_argument("OnTypeRegister function cannot be null");
     }
     onTypeRegister = callback;
 }
 
+} // namespace SGL
