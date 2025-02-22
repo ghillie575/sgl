@@ -1,6 +1,6 @@
 #ifndef WINDOW_H
 #define WINDOW_H
-#define SGL_VERSION "dev-stable-V0.1.3"
+#define SGL_VERSION "main-stable-V0.1.4"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <SGL/object.h>
@@ -15,58 +15,65 @@
 #include <SGL/camera.h>
 #include <SGL/UI/ui-element.h>
 #include <SGL/libraryloader.h>
-namespace SGL{
-    namespace UI{
+namespace SGL
+{
+    namespace UI
+    {
         class UIElement;
     }
-class Window
-{
-private:
-    int height;
-    int width;
-    std::string title;
-    int fps;
-    GLFWwindow *window;
-    std::unordered_map<std::string, Shader> shaderRegistry;
-    std::vector<std::shared_ptr<GameObject>> objects;
-    std::vector<std::shared_ptr<UI::UIElement>> uiElements;
-    Logger logger;
-    std::function<void(Window*)> updateCallback;
-    std::function<void(Window*)> inputCallback;
-    std::function<void(Window*)> onTypeRegister;
-    void camInit();
-    void camUpdate();
-    static void framebufferSizeCallback(GLFWwindow *window, int width, int height);
-   void CalculateFrameRate();
-   bool closed = true;
-   bool dobbleBuffering = true;
+    class Window
+    {
+    private:
+        int height;
+        int width;
+        std::string title;
+        int fps;
+        GLFWwindow *window;
+        std::unordered_map<std::string, Shader> shaderRegistry;
+        std::vector<std::shared_ptr<GameObject>> objects;
+        std::vector<std::shared_ptr<UI::UIElement>> uiElements;
+        Logger logger;
+        std::function<void(Window *)> updateCallback;
+        std::function<void(Window *)> inputCallback;
+        std::function<void(Window *)> onTypeRegister;
+        std::function<void(Window *, double, double)> mouseCallback;
+        void camInit();
+        void camUpdate();
+        static void framebufferSizeCallback(GLFWwindow *window, int width, int height);
+        static void mouse_callback(GLFWwindow * window, double xpos, double ypos);
+        void CalculateFrameRate();
+        bool closed = true;
+        float FOV = 50.0f;
+        bool dobbleBuffering = true;
 
-public:
-    bool debug = false;
-    Camera camera;
-    Time time = Time();
-    ObjectFactory factory;
-    Window(int height, int width, const char *title);
-    Window(int height, int width, const char *title, bool debug);
-    bool isKeyPressed(int key);
-    void init();
-    void preInit();
-    void preInit(int glVersionMajor, int glVersionMinor);
-    void setUpdateCallback(std::function<void(Window*)> callback);
-    void setInputCallback(std::function<void(Window*)> callback);
-    void registerObject(std::shared_ptr<GameObject> obj);
-    void registerUIElement(UI::UIElement element);
-    GameObject* getObjectById(const std::string& id);
-    GameObject* getObjectByName(const std::string& name);
-    Shader* getShader(const std::string& shaderName);
-    bool shaderExists(const std::string &shaderName);
-    int getCurrentFps();
-    bool IsClosed();
-    void start();
-    void setDobbleBuffering(bool value);
-    void setOnTypeRegister(std::function<void(Window*)> callback);
-    
-};
+    public:
+        bool debug = false;
+        Camera camera;
+        Time time = Time();
+        ObjectFactory factory;
+        Window(int height, int width, const char *title);
+        Window(int height, int width, const char *title, bool debug);
+        bool isKeyPressed(int key);
+        void close();
+        void setCamFOV(float fov);
+        void init();
+        void preInit();
+        void preInit(int glVersionMajor, int glVersionMinor);
+        void setUpdateCallback(std::function<void(Window *)> callback);
+        void setInputCallback(std::function<void(Window *)> callback);
+        void setMouseCallback(std::function<void(Window *, double, double)> callback);
+        void registerObject(std::shared_ptr<GameObject> obj);
+        void registerUIElement(UI::UIElement element);
+        GameObject *getObjectById(const std::string &id);
+        UI::UIElement *getUiElementById(const std::string &id);
+        GameObject *getObjectByName(const std::string &name);
+        Shader *getShader(const std::string &shaderName);
+        bool shaderExists(const std::string &shaderName);
+        int getCurrentFps();
+        bool IsClosed();
+        void start();
+        void setDobbleBuffering(bool value);
+        void setOnTypeRegister(std::function<void(Window *)> callback);
+    };
 }
 #endif
-
