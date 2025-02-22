@@ -31,3 +31,4 @@ engine/libraries/
 engine/libraries/*
 /engine/libraries/
 /engine/libraries/*
+.qodo/history.sqlite

@@ -90,7 +90,7 @@ void fpsWatch(Window *window)
                   << "Camera position: (" << window->camera.cameraPos.x << ", " << window->camera.cameraPos.y << ", " << window->camera.cameraPos.z << ")" << std::endl
                   << "Camera rotation: (" << window->camera.rotation.x << ", " << window->camera.rotation.y << ", " << window->camera.rotation.z << ")" << std::endl
                   << "Camera front: (" << window->camera.cameraFront.x << ", " << window->camera.cameraFront.y << ", " << window->camera.cameraFront.z << ")" << std::endl
-                  << "Camera speed: " << cam.camSpeed << "\r" << std::flush;
+                  << "Camera speed: " << cam.camSpeed << std::endl;
         ;
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
