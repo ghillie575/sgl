@@ -9,7 +9,7 @@ public:
     void build() override
     {
         Logger logger = Logger("Triangle");
-        logger.log(LogLevel::INFO, "Building Triangle object");
+        logger.log(LogLevel::INFO, "Building Triangle object with ID: " + id);
         GameObject::build(); // Call the base class build method
     }
     void render(Window* window) override
