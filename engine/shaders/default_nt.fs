@@ -8,6 +8,7 @@ in vec3 FragPos;
 uniform sampler2D texture1;
 uniform vec3 lightColor;
 uniform vec3 lightPos;
+uniform vec3 camPos;
 uniform float ambientStrength;
 void main()
 {
@@ -25,5 +26,5 @@ void main()
     vec3 specular = specularStrength * spec * lightColor;  
 
      vec3 result = (ambient + diffuse + specular) * vertexColor.rgb;
-     FragColor = texture(texture1, TexCoord) * vec4(result, 1.0);
+     FragColor = vec4(result, 1.0);
 }

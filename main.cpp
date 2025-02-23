@@ -23,6 +23,7 @@
 #include <SGL/components/TestComponent.h>
 #include <SGL/UI/ui-element.h>
 #include <SGL/utils/free_fly_cam.h>
+#include <SGL/utils/lighting_debug.h>
 using namespace SGL;
 FreeFlyCam cam = FreeFlyCam();
 SceneData data = SceneData();
@@ -99,16 +100,17 @@ void createScene()
 {
     SceneObject sobj1 = SceneObject();
     Transform t1 = Transform();
-    t1.setScaling(glm::vec3(10, 10, 1));
-    t1.translate(glm::vec3(0, -5, 0));
+    t1.setScaling(glm::vec3(1, 1, 1));
+    t1.translate(glm::vec3(-5, -5, 0));
+    t1.setRotation(glm::vec3(0,45,0));
     sobj1.transform = t1;
     sobj1.model = "basic/3d/cube";
-    sobj1.shader = "default";
+    sobj1.shader = "default_nt";
     data.addObject(&sobj1);
-    sobj1.type = "triangle";
     sobj1.texture = "box.jpg";
+    sobj1.color = glm::vec3(1,0.5f,1);
     // sobj1.addComponent("TestComponent");
-    saveScene(&data, "2d_triangles");
+    saveScene(&data, "basic_scene");
 }
 void buildLayout()
 {
@@ -207,14 +209,16 @@ int main(int, char **)
     window.setInputCallback(processInput);
     window.setOnTypeRegister(onTypeRegister);
     window.setMouseCallback(mouseCallback);
-    // set double buffering
+    //all vairables and settings must be set before init, but after preinit. shader realeted functions must be called after init
+    window.lightEnv.sunColor = glm::vec3(1,1,1);
     // Window init
     window.init();
     // scene loading
     createScene();
-    loadSceneByName(&window, "2d_triangles");
+    loadSceneByName(&window, "basic_scene");
     buildLayout();
     LayoutManaging::loadLayoutByName("basic_layout", &window);
+    visualizeLightSource(&window);
     fovBar = window.getUiElementById("ui1");
     speedBar = window.getUiElementById("ui2");
     //  fps

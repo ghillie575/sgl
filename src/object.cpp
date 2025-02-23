@@ -15,41 +15,44 @@
 using namespace SGL;
 GameObject::GameObject()
 {
-    this->transform.setScaling(glm::vec3(1,1,1));
+    this->transform.setScaling(glm::vec3(1, 1, 1));
     this->id = generateRandomID(10);
-    this->logger = Logger("",debug);
-    
+    this->logger = Logger("", debug);
 }
 void GameObject::loadModel(std::string modelName)
 {
     // Load vertices from .vmodel file
     std::string path = "engine/models/" + modelName + ".vmodel";
     std::ifstream file(path);
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         throw std::runtime_error("Failed to open file: " + path);
     }
 
     std::stringstream buffer;
     buffer << file.rdbuf();
-    file.close();  // Close the file after reading
+    file.close(); // Close the file after reading
 
     std::istringstream iss(buffer.str());
     float value;
 
     // Read all values into a single array
-    while (iss >> value) {
+    while (iss >> value)
+    {
         vert.push_back(value);
     }
 
-    // Check if the number of values is a multiple of 5 (3 for vertex + 2 for texture coordinates)
-    if (vert.size() % 5 != 0) {
+    // Check if the number of values is a multiple of 8 (3 for vertex + 2 for texture coordinates + 3 for normals)
+    if (vert.size() % 8 != 0)
+    {
         throw std::runtime_error("Invalid .vmodel file format: Incorrect number of values.");
     }
 
     // Load indices from .imodel file
     path = "engine/models/" + modelName + ".imodel";
     std::ifstream file1(path);
-    if (!file1.is_open()) {
+    if (!file1.is_open())
+    {
         throw std::runtime_error("Failed to open file: " + path);
     }
 
@@ -61,41 +64,43 @@ void GameObject::loadModel(std::string modelName)
     unsigned int index;
 
     // Read indices into the ind vector
-    while (iss1 >> index) {
+    while (iss1 >> index)
+    {
         ind.push_back(index);
     }
 
     // Calculate the number of polygons (assuming triangles)
     polCount = ind.size();
-    
+
     printModelData();
-    
-     
 }
-void GameObject::setColor(glm::vec4 color){
+void GameObject::setColor(glm::vec4 color)
+{
     this->color = color;
-    shader->setVec4("color", color);
 }
 void GameObject::printModelData()
 {
-   std::ostringstream oss; // Use ostringstream to build the string
+    std::ostringstream oss; // Use ostringstream to build the string
 
     oss << "Vertices and Texture Coordinates for object: " << id << "\n";
-    for (size_t i = 0; i < vert.size(); i += 5) {
+    for (size_t i = 0; i < vert.size(); i += 5)
+    {
         oss << "Vertex \e[91m" << (i / 5) + 1 << "\e[0m: "
             << "\e[35mPosition\e[0m(\e[92m" << vert[i] << " " << vert[i + 1] << " " << vert[i + 2] << "\e[0m) \e[0m"
             << "\e[96mTexture\e[0m(\e[92m" << vert[i + 3] << " " << vert[i + 4] << "\e[0m)\e[0m\n";
     }
 
     oss << "\nIndices:\n";
-    for (size_t i = 0; i < ind.size(); ++i) {
+    for (size_t i = 0; i < ind.size(); ++i)
+    {
         oss << ind[i] << (i < ind.size() - 1 ? ", " : "\n");
     }
 
     oss << "Number of Polygons: " << polCount << "\n";
     logger.log(LogLevel::DEBUG, oss.str());
 }
-void GameObject::useTexture(std::string texturePath){
+void GameObject::useTexture(std::string texturePath)
+{
     logger.log(LogLevel::DEBUG, "Generating texture...");
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
@@ -116,7 +121,7 @@ void GameObject::useTexture(std::string texturePath){
     std::string texturePathStr = "engine/textures/";
     texturePathStr.append(texturePath);
     logger.log(LogLevel::DEBUG, "Loading texture from " + texturePathStr);
-    unsigned char* data = stbi_load(texturePathStr.c_str(), &width, &height, &nrChannels, 0);
+    unsigned char *data = stbi_load(texturePathStr.c_str(), &width, &height, &nrChannels, 0);
     if (data)
     {
         logger.log(LogLevel::DEBUG, "Texture loaded successfully");
@@ -132,15 +137,16 @@ void GameObject::useTexture(std::string texturePath){
 }
 void GameObject::build()
 {
-    
+
     float vertices[vert.size()];
     unsigned int indices[ind.size()];
     std::copy(vert.begin(), vert.end(), vertices);
     std::copy(ind.begin(), ind.end(), indices);
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
-    if(modelUsesEBO){
-    glGenBuffers(1, &EBO);
+    if (modelUsesEBO)
+    {
+        glGenBuffers(1, &EBO);
     }
 
     glBindVertexArray(VAO);
@@ -154,15 +160,17 @@ void GameObject::build()
     {
         glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)0);
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)(2 * sizeof(float)));
         glEnableVertexAttribArray(1);
     }
     else
     {
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0); // Position
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0); // Position
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float))); // Texture
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(3 * sizeof(float))); // Texture
         glEnableVertexAttribArray(1);
+        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(5 * sizeof(float))); // Normals
+        glEnableVertexAttribArray(2);
     }
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
@@ -171,11 +179,12 @@ void GameObject::useShader(const char *shaderName)
 {
     this->shaderName = shaderName;
 }
-void GameObject::useShader(Shader* shader)
+void GameObject::useShader(Shader *shader)
 {
     this->shader = shader;
 }
-std::string GameObject::generateRandomID(int length) {
+std::string GameObject::generateRandomID(int length)
+{
     // Create a random number generator
     std::random_device rd;  // Obtain a random number from hardware
     std::mt19937 eng(rd()); // Seed the generator
@@ -184,31 +193,35 @@ std::string GameObject::generateRandomID(int length) {
     std::uniform_int_distribution<> distr(0, 9);
 
     std::string id;
-    for (int i = 0; i < length; ++i) {
+    for (int i = 0; i < length; ++i)
+    {
         id += std::to_string(distr(eng)); // Generate a random digit and append to the ID
     }
 
     return id;
 }
-void GameObject::start(){
+void GameObject::start()
+{
+
     for (size_t i = 0; i < components.size(); i++)
     {
         components[i]->gameObject = this;
         components[i]->transform = &transform;
         components[i]->Start();
     }
-    
 }
-void GameObject::render(Window* window)
+void GameObject::render(Window *window)
 {
     glBindTexture(GL_TEXTURE_2D, texture);
     glm::mat4 model = transform.getTransformationMatrix();
     shader->use();
     setColor(color);
+    shader->setVec3("camPos",window->camera.cameraPos);
+    shader->setVec4("color", color);
     shader->setMat4("model", model);
     shader->setMat4("view", window->camera.getViewMatrix());
     glBindVertexArray(VAO);
-     for (size_t i = 0; i < components.size(); i++)
+    for (size_t i = 0; i < components.size(); i++)
     {
         components[i]->Update();
     }
@@ -230,10 +243,12 @@ void GameObject::setDrawMode(drawAs mode)
 {
     this->mode = mode;
 }
-void GameObject::addComponent(Window* window, std::string type){
+void GameObject::addComponent(Window *window, std::string type)
+{
     std::shared_ptr<Component> objc = window->factory.createComponent(type);
     components.push_back(objc);
 }
-void GameObject::debugger(){
+void GameObject::debugger()
+{
     logger = Logger("\e[36mGameObject", debug);
 }

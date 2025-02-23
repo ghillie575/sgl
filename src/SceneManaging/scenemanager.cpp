@@ -41,6 +41,8 @@ void SGL::loadScene(Window* window, const std::string& json) {
                 sceneManagerLogger.log(LogLevel::DEBUG, "Applied shader for object: " + object.name);
                 obj->transform = object.transform;
                 obj->id = object.id;
+                obj->setColor(glm::vec4(object.color.x, object.color.y, object.color.z, 1.0f));
+                sceneManagerLogger.log(LogLevel::DEBUG, "Applied color for object: " + object.name + " color: " + std::to_string(object.color.x) + " " + std::to_string(object.color.y) + " " + std::to_string(object.color.x) + " ");
                 obj->name = object.name;
                 obj->useTexture(object.texture);
                 for (const auto& component : object.components) {

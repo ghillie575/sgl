@@ -8,6 +8,7 @@ namespace SGL{
 class SceneObject {
 public:
     Transform transform;
+    glm::vec3 color;
     std::string model;
     drawAs mode = triangles;
     std::string shader;

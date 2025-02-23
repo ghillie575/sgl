@@ -38,7 +38,7 @@ public:
     std::string shaderName = "";
     
     Transform transform;
-    drawAs mode;
+    drawAs mode = drawAs::triangles;
     std::vector<unsigned int> ind;
     std::vector<float> vert;
     int polCount;
