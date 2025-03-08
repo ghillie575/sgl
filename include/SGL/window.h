@@ -15,6 +15,7 @@
 #include <SGL/camera.h>
 #include <SGL/UI/ui-element.h>
 #include <SGL/libraryloader.h>
+#include <SGL/lightning/enviroment.h>
 namespace SGL
 {
     namespace UI
@@ -50,12 +51,14 @@ namespace SGL
         bool debug = false;
         Camera camera;
         Time time = Time();
+        Lightning::Enviroment lightEnv;
         ObjectFactory factory;
         Window(int height, int width, const char *title);
         Window(int height, int width, const char *title, bool debug);
         bool isKeyPressed(int key);
         void close();
         void setCamFOV(float fov);
+        void shaderUpdate();
         void init();
         void preInit();
         void preInit(int glVersionMajor, int glVersionMinor);

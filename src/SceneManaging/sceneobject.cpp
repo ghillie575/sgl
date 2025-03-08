@@ -24,6 +24,9 @@ void SceneObject::fromJson(const nlohmann::json &json)
     if (json.contains("texture")) {
         texture = json["texture"];
     }
+    if (json.contains("material")) {
+        material.fromJson(json["material"]);
+    }
     if (json.contains("mode")) {
         if (json["mode"].dump().compare("ln") == 0) {
             mode = lines;
@@ -57,6 +60,7 @@ nlohmann::json SceneObject::toJson() const
         json["mode"] = "trg";
     }
     json["transform"] = transform.toJson();
+    json["material"] = material.toJson();
     json["model"] = model;
     json["shader"] = shader;
     json["id"] = id;

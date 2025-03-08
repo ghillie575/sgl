@@ -15,6 +15,7 @@ public:
     std::string name = "x";
     std::string type = "default";
     std::string texture = "blank.jpg";
+    Material material = Material();
     std::vector<std::string> components;
     SceneObject();
     void addComponent(std::string type); 

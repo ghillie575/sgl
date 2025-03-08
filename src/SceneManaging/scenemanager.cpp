@@ -28,6 +28,7 @@ void SGL::loadScene(Window* window, const std::string& json) {
             sceneManagerLogger.log(LogLevel::DEBUG, "Object name: " + object.name);
             sceneManagerLogger.log(LogLevel::DEBUG, "Object model: " + object.model);
             sceneManagerLogger.log(LogLevel::DEBUG, "Object shader: " + object.shader);
+            sceneManagerLogger.log(LogLevel::DEBUG, "Object material: " + object.material.toJson().dump(4));
             std::shared_ptr<GameObject> obj = window->factory.createObject(object.type);
             if (obj) {
                 obj->debug = window->debug;
@@ -39,9 +40,10 @@ void SGL::loadScene(Window* window, const std::string& json) {
                 sceneManagerLogger.log(LogLevel::DEBUG, "Loaded model for object: " + object.name);
                 obj->useShader(object.shader.c_str());
                 sceneManagerLogger.log(LogLevel::DEBUG, "Applied shader for object: " + object.name);
-                obj->transform = object.transform;
-                obj->id = object.id;
-                obj->name = object.name;
+                obj->transform = Transform(object.transform);
+                obj->id = std::string(object.id);
+                obj->material = Material(object.material);
+                obj->name = std::string(object.name);
                 obj->useTexture(object.texture);
                 for (const auto& component : object.components) {
                     obj->addComponent(window,component);
