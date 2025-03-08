@@ -350,7 +350,7 @@ namespace SGL
             {
                 obj->start();
             }
-            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            glClearColor(0.1529f, 0.1608f, 0.1686f, 1.0f);
             while (!glfwWindowShouldClose(window))
             {
                 inputCallback(this);

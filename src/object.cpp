@@ -216,8 +216,11 @@ void GameObject::render(Window *window)
     glm::mat4 model = transform.getTransformationMatrix();
     shader->use();
     setColor(color);
-    shader->setVec3("camPos",window->camera.cameraPos);
-    shader->setVec4("color", color);
+    shader->setVec3("camPos", window->camera.cameraPos);
+    shader->setVec3("material.ambient", material.ambient);
+    shader->setVec3("material.diffuse", material.diffuse);
+    shader->setVec3("material.specular", material.specular);
+    shader->setFloat("material.shininess", material.shininess);
     shader->setMat4("model", model);
     shader->setMat4("view", window->camera.getViewMatrix());
     glBindVertexArray(VAO);

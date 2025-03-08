@@ -9,6 +9,7 @@ uniform sampler2D texture1;
 uniform vec3 lightColor;
 uniform vec3 lightPos;
 uniform float ambientStrength;
+uniform vec3 camPos;
 void main()
 {
     vec3 ambient = ambientStrength * lightColor;

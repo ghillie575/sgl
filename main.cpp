@@ -24,6 +24,7 @@
 #include <SGL/UI/ui-element.h>
 #include <SGL/utils/free_fly_cam.h>
 #include <SGL/utils/lighting_debug.h>
+#include <SGL/utils/basic_materials.h>
 using namespace SGL;
 FreeFlyCam cam = FreeFlyCam();
 SceneData data = SceneData();
@@ -97,7 +98,9 @@ void fpsWatch(Window *window)
     }
 }
 void createScene()
-{
+{   Material m = basicPlasticMaterial();
+    m.setColor(glm::vec3(0.2863f, 0.4784f, 0.7882f));
+    Material();
     SceneObject sobj1 = SceneObject();
     Transform t1 = Transform();
     t1.setScaling(glm::vec3(1, 1, 1));
@@ -106,10 +109,10 @@ void createScene()
     sobj1.transform = t1;
     sobj1.model = "basic/3d/cube";
     sobj1.shader = "default_nt";
+    sobj1.material = m;
     data.addObject(&sobj1);
     sobj1.texture = "box.jpg";
-    sobj1.color = glm::vec3(1,0.5f,1);
-    // sobj1.addComponent("TestComponent");
+    //sobj1.addComponent("TestComponent");
     saveScene(&data, "basic_scene");
 }
 void buildLayout()

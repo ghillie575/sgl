@@ -24,8 +24,8 @@ void SceneObject::fromJson(const nlohmann::json &json)
     if (json.contains("texture")) {
         texture = json["texture"];
     }
-    if (json.contains("color")) {
-       color = glm::vec3(json["color"][0], json["color"][1], json["color"][2]);
+    if (json.contains("material")) {
+        material.fromJson(json["material"]);
     }
     if (json.contains("mode")) {
         if (json["mode"].dump().compare("ln") == 0) {
@@ -60,7 +60,7 @@ nlohmann::json SceneObject::toJson() const
         json["mode"] = "trg";
     }
     json["transform"] = transform.toJson();
-    json["color"] = { color.x, color.y, color.z };
+    json["material"] = material.toJson();
     json["model"] = model;
     json["shader"] = shader;
     json["id"] = id;

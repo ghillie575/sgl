@@ -8,7 +8,6 @@ namespace SGL{
 class SceneObject {
 public:
     Transform transform;
-    glm::vec3 color;
     std::string model;
     drawAs mode = triangles;
     std::string shader;
@@ -16,6 +15,7 @@ public:
     std::string name = "x";
     std::string type = "default";
     std::string texture = "blank.jpg";
+    Material material = Material();
     std::vector<std::string> components;
     SceneObject();
     void addComponent(std::string type); 

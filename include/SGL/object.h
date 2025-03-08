@@ -7,6 +7,7 @@
 #include <SGL/logger.h>
 #include <SGL/component.h>
 #include <SGL/window.h> 
+#include <SGL/material.h>
 #ifndef OBJECT_H
 #define OBJECT_H
 namespace SGL{
@@ -36,6 +37,7 @@ public:
     std::string name = "x";
     Shader* shader = nullptr;
     std::string shaderName = "";
+    Material material;
     
     Transform transform;
     drawAs mode = drawAs::triangles;
