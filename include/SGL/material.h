@@ -42,8 +42,13 @@ namespace SGL
         }
         void setColor(glm::vec3 color)
         {
-            ambient = glm::vec3(color);
-            diffuse = glm::vec3(color);
+            ambient = color * 0.7f;;
+            diffuse = color; 
+        }
+        void setColor(float r, float g, float b)
+        {
+            ambient = glm::vec3(r/255, g/255, b/255) * 0.7f;
+            diffuse = glm::vec3(r/255, g/255, b/255);
         }
     };
 }

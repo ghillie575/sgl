@@ -55,6 +55,7 @@ namespace SGL
         ObjectFactory factory;
         Window(int height, int width, const char *title);
         Window(int height, int width, const char *title, bool debug);
+        void unlockCursor();
         bool isKeyPressed(int key);
         void close();
         void setCamFOV(float fov);

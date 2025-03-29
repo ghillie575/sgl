@@ -217,7 +217,10 @@ namespace SGL
             throw;
         }
     }
-
+    void Window::unlockCursor()
+    {
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
     // Pre-initialize window settings with OpenGL version
     void Window::preInit(int glVersionMajor, int glVersionMinor)
     {
@@ -286,9 +289,9 @@ namespace SGL
                     logger.log(LogLevel::INFO, "Loading shader: " + file.stem().string());
                     Shader current = Shader(file.string().c_str(), (file.parent_path().string() + std::string("/") + file.stem().string() + ".fs").c_str());
                     current.setMat4("view", camera.getViewMatrix());
-                    current.setVec3("lightColor",lightEnv.sunColor);
-                    current.setVec3("lightPos",lightEnv.sunPos);
-                    current.setFloat("ambientStrength",lightEnv.ambientStrenght);
+                    current.setVec3("lightColor", lightEnv.sunColor);
+                    current.setVec3("lightPos", lightEnv.sunPos);
+                    current.setFloat("ambientStrength", lightEnv.ambientStrenght);
                     current.setMat4("projection", camera.getProjectionMatrix());
                     shaderRegistry[file.stem().string()] = current;
                 }
