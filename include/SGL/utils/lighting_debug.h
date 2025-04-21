@@ -8,6 +8,7 @@ namespace SGL{
         obj->loadModel("basic/3d/cube");
         obj->transform.setPosition(window->lightEnv.sunPos);
         obj->transform.setScaling(glm::vec3(0.3,0.3,0.3));
+        obj->physObject->processPhysics = false;
         window->registerObject(obj);
     }
 }

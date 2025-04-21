@@ -18,6 +18,7 @@ GameObject::GameObject()
     this->transform.setScaling(glm::vec3(1, 1, 1));
     this->id = generateRandomID(10);
     this->logger = Logger("", debug);
+    this->physObject = new PhysObject();
 }
 void GameObject::loadModel(std::string modelName)
 {
@@ -200,19 +201,32 @@ std::string GameObject::generateRandomID(int length)
 
     return id;
 }
-void GameObject::start()
+void GameObject::start(Window *window)
 {
-
     for (size_t i = 0; i < components.size(); i++)
     {
         components[i]->gameObject = this;
         components[i]->transform = &transform;
+        components[i]->prepare();
+    }
+
+    for (size_t i = 0; i < components.size(); i++)
+    {
         components[i]->Start();
     }
+    physObject->setup(window);
 }
 void GameObject::render(Window *window)
 {
     glBindTexture(GL_TEXTURE_2D, texture);
+    if (physObject->processPhysics)
+    {
+        physx::PxTransform physTransform = physObject->actor->getGlobalPose();
+        std::cout << "PhysObject: " << id << " position: " << physTransform.p.x << ", " << physTransform.p.y << ", " << physTransform.p.z << std::endl;
+        transform.setPosition(glm::vec3(physTransform.p.x, physTransform.p.y, physTransform.p.z));
+        transform.setRotation(glm::eulerAngles(glm::quat(physTransform.q.w, physTransform.q.x, physTransform.q.y, physTransform.q.z)));
+    }
+
     glm::mat4 model = transform.getTransformationMatrix();
     shader->use();
     setColor(color);

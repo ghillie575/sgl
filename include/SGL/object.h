@@ -8,6 +8,7 @@
 #include <SGL/component.h>
 #include <SGL/window.h> 
 #include <SGL/material.h>
+#include <SGL/physics/phys_object.h>
 #ifndef OBJECT_H
 #define OBJECT_H
 namespace SGL{
@@ -32,6 +33,8 @@ private:
 
 public:
     bool debug = false;
+    Window* window = nullptr;
+    PhysObject* physObject = nullptr;
     std::vector<std::shared_ptr<Component>> components;
     std::string id;
     std::string name = "x";
@@ -55,7 +58,7 @@ public:
     void printModelData();
     void useTexture(std::string texturePath);
     void setColor(glm::vec4 color);
-    void start();
+    void start(Window* window);
     void addComponent(Window* window, std::string type);
     void debugger();
 };

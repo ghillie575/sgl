@@ -30,6 +30,7 @@ namespace SGL
             this->height = height;
             this->width = width;
             this->title = title;
+            this->physicsWorld = new PhysicsWorld();
             std::cout << "Hello, from XandO!\n";
         }
         catch (const std::exception &e)
@@ -49,6 +50,7 @@ namespace SGL
             this->width = width;
             this->title = title;
             this->debug = debug;
+            this->physicsWorld = new PhysicsWorld();
             std::cout << "Hello, from XandO!\n";
         }
         catch (const std::exception &e)
@@ -306,6 +308,12 @@ namespace SGL
             glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
             glfwSetCursorPosCallback(window, mouse_callback);
             logger.log(LogLevel::INFO, "Window initialized");
+            if (physicsWorld->processPhysics)
+            {
+                logger.log(LogLevel::INFO, "Physics world initializing");
+                physicsWorld->initializePhysics();
+                logger.log(LogLevel::INFO, "Physics world initialized");
+            }
             glfwShowWindow(window);
         }
         catch (const std::exception &e)
@@ -351,13 +359,22 @@ namespace SGL
         {
             for (const auto &obj : objects)
             {
-                obj->start();
+                obj->start(this);
             }
             glClearColor(0.1529f, 0.1608f, 0.1686f, 1.0f);
+            static double previousTime = glfwGetTime();
             while (!glfwWindowShouldClose(window))
             {
                 inputCallback(this);
-                CalculateFrameRate();
+                double currentTime = glfwGetTime();
+                double deltaTime = currentTime - previousTime;
+                previousTime = currentTime;
+                time.setDeltaTime(deltaTime);
+                fps = (int)(1.0 / deltaTime);
+                if (physicsWorld->processPhysics)
+                {
+                    physicsWorld->step(time.getDeltaTime());
+                }
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 for (auto &element : uiElements)
                 {
@@ -443,6 +460,7 @@ namespace SGL
             {
                 obj->useShader(getShader("default"));
             }
+            obj->window = this;
             obj->build();
             objects.push_back(std::move(obj));
         }
@@ -475,12 +493,6 @@ namespace SGL
     {
         try
         {
-            static double previousTime = glfwGetTime();
-            double currentTime = glfwGetTime();
-            double deltaTime = currentTime - previousTime;
-            previousTime = currentTime;
-            time.setDeltaTime(deltaTime);
-            fps = (int)(1.0 / deltaTime);
         }
         catch (const std::exception &e)
         {

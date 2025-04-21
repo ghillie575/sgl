@@ -16,6 +16,7 @@
 #include <SGL/UI/ui-element.h>
 #include <SGL/libraryloader.h>
 #include <SGL/lightning/enviroment.h>
+#include <SGL/physics/physics_world.h>
 namespace SGL
 {
     namespace UI
@@ -41,13 +42,14 @@ namespace SGL
         void camInit();
         void camUpdate();
         static void framebufferSizeCallback(GLFWwindow *window, int width, int height);
-        static void mouse_callback(GLFWwindow * window, double xpos, double ypos);
+        static void mouse_callback(GLFWwindow *window, double xpos, double ypos);
         void CalculateFrameRate();
         bool closed = true;
         float FOV = 50.0f;
         bool dobbleBuffering = true;
 
     public:
+        PhysicsWorld *physicsWorld;
         bool debug = false;
         Camera camera;
         Time time = Time();

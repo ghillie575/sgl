@@ -15,6 +15,7 @@ public:
     Logger logger;
     virtual void Start();
     virtual void Update();
+    virtual void prepare();
     void setProperty(std::string propName, void *value);
     template <typename T>
     void setProperty(std::string propName, T value) {

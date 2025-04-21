@@ -26,6 +26,9 @@
 #include <SGL/utils/free_fly_cam.h>
 #include <SGL/utils/lighting_debug.h>
 #include <SGL/utils/basic_materials.h>
+#include <SGL/components/physics/rb_dynamic.h>
+#include <SGL/components/physics/rb_static.h>
+#include <SGL/components/physics/coliders/colider_box.h>
 using namespace SGL;
 FreeFlyCam cam = FreeFlyCam();
 SceneData data = SceneData();
@@ -116,17 +119,32 @@ void createScene()
     m.setColor(26, 232, 81);
     SceneObject sobj1 = SceneObject();
     Transform t1 = Transform();
-    t1.setScaling(glm::vec3(100, 1, 100));
-    t1.translate(glm::vec3(-5, -15, 0));
-    t1.setRotation(glm::vec3(0, 45, 0));
+    t1.setScaling(glm::vec3(1, 1, 1));
+    t1.translate(glm::vec3(-5, 0, 0));
+    t1.setRotation(glm::vec3(80, 80, 80));
     sobj1.transform = t1;
     sobj1.model = "basic/3d/cube";
     sobj1.shader = "default_nt";
     sobj1.material = m;
     data.addObject(&sobj1);
     sobj1.texture = "box.jpg";
-    //sobj1.addComponent("TestComponent");
+    // sobj1.addComponent("TestComponent");
     sobj1.addComponent("ColorChangeComponent");
+    sobj1.addComponent("box_colider");
+    sobj1.addComponent("rb_dynamic");
+    SceneObject sobj2 = SceneObject();
+    Transform t2 = Transform();
+    t2.setScaling(glm::vec3(100, 1, 100));
+    t1.setRotation(glm::vec3(0, 0, 0));
+    t2.translate(glm::vec3(0, -20, 0));
+    sobj2.transform = t2;
+    sobj2.model = "basic/3d/cube";
+    sobj2.shader = "default_nt";
+    sobj2.material = Materials::plastic();
+    sobj2.texture = "box.jpg";
+    sobj2.addComponent("rb_static");
+    sobj2.addComponent("box_colider");
+    data.addObject(&sobj2);
     saveScene(&data, "basic_scene");
 }
 void buildLayout()
@@ -165,6 +183,12 @@ void onTypeRegister(Window *window)
                                    { return std::make_shared<SGL::GameObjects::Cube>(); });
     window->factory.registerComponent("TestComponent", []()
                                       { return std::make_shared<SGL::Components::TestComponent>(); });
+    window->factory.registerComponent("rb_static", []()
+                                      { return std::make_shared<RBStatic>(); });
+    window->factory.registerComponent("rb_dynamic", []()
+                                      { return std::make_shared<RBDynamic>(); });
+    window->factory.registerComponent("box_colider", []()
+                                      { return std::make_shared<BoxColider>(); });
     window->factory.registerComponent("ColorChangeComponent", []()
                                       { return std::make_shared<SGL::Components::ColorChangeComponent>(); });
 }
@@ -231,6 +255,8 @@ int main(int, char **)
     window.setMouseCallback(mouseCallback);
     // all vairables and settings must be set before init, but after preinit. shader related functions must be called after init
     window.lightEnv.sunColor = glm::vec3(1, 1, 1);
+    //physics world init
+    //window.physicsWorld->setGravity(glm::vec3(0, -9.81, 0));
     // Window init
     window.init();
     // scene loading
