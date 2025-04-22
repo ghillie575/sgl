@@ -2,7 +2,7 @@
 #define WINDOW_H
 
 // Define the version of the SGL library
-#define SGL_VERSION "main-stable-V0.1.4"
+#define SGL_VERSION "main-stable-V0.1.5"
 
 // Include necessary libraries and headers
 #include <glad/glad.h>
