@@ -54,6 +54,9 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         build-mode: manual
+        build-command: |
+          cmake -S . -B build
+          cmake --build build
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
