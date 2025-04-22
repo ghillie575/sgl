@@ -140,11 +140,11 @@ void createScene()
     t1.setRotation(glm::vec3(60, 60, 60));
     sobj1.transform = t1;
     sobj1.model = "basic/3d/cube";
-    sobj1.shader = "default_nt";
+    sobj1.shader = "default";
     sobj1.name = "cube";
     sobj1.material = m;
     data.addObject(&sobj1);
-    sobj1.texture = "box.jpg";
+    sobj1.texture = "sgl-logo.png.jpg";
     // sobj1.addComponent("TestComponent");
     sobj1.addComponent("ColorChangeComponent");
     sobj1.addComponent("box_colider");
@@ -225,6 +225,7 @@ int main(int, char **)
     )" << std::endl;
     std::cout << "Using sgl version: " << SGL_VERSION << std::endl;
     std::cout << "Using glfw version: " << GLFW_VERSION_MAJOR << "." << GLFW_VERSION_MINOR << "." << GLFW_VERSION_REVISION << std::endl;
+    std::cout << "Using PhysX version: " << PX_PHYSICS_VERSION_MAJOR << "." << PX_PHYSICS_VERSION_MINOR << "." << PX_PHYSICS_VERSION_BUGFIX << std::endl;
     std::cout << "This is a test program\nThis program is designed to test comatibility of sgl engine with your hardware" << std::endl;
     std::cout << "Running on: " << std::endl;
     std::cout << "OS: ";
@@ -257,6 +258,7 @@ int main(int, char **)
     std::cout << "Press enter to continue" << std::endl;
     std::cin.get();
     std::cout << "---- Begin of engine init -----" << std::endl;
+    glfwDestroyWindow(gwindow);
     glfwTerminate();
     cam.camSpeed = 10;
     // create the window

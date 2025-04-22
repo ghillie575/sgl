@@ -102,6 +102,12 @@ void GameObject::printModelData()
 }
 void GameObject::useTexture(std::string texturePath)
 {
+    if (!std::ifstream("engine/textures/" + texturePath))
+    {
+        logger.log(LogLevel::ERROR, "Texture file does not exist: " + texturePath);
+        useTexture("blank.jpg");
+        return;
+    }
     logger.log(LogLevel::DEBUG, "Generating texture...");
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
