@@ -26,7 +26,12 @@ jobs:
       run: |
         cd build
         cmake --build .
-
+    - name : Download and install precompiled physx binaries
+      run: |
+          wget https://ghillie575.github.io/phys.zip -O phys.zip
+          unzip -o phys.zip
+          sudo cp -r phys/include/* /usr/local/include/
+          sudo cp -r phys/lib/* /usr/local/lib/
     - name: Package
       run: |
         cd build

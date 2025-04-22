@@ -16,7 +16,12 @@ jobs:
       run: |
         sudo apt-get update >> /dev/null
         sudo apt-get install -y zip g++ cmake curl git libglfw3 libglfw3-dev >> /dev/null
-
+    - name : Download and install precompiled physx binaries
+      run: |
+          wget https://ghillie575.github.io/phys.zip -O phys.zip
+          unzip -o phys.zip
+          sudo cp -r phys/include/* /usr/local/include/
+          sudo cp -r phys/lib/* /usr/local/lib/
     - name: Configure Project
       run: cmake -S . -B build -DCMAKE_INSTALL_RPATH="\$ORIGIN"
 
