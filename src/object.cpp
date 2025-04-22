@@ -18,6 +18,7 @@ GameObject::GameObject()
     this->transform.setScaling(glm::vec3(1, 1, 1));
     this->id = generateRandomID(10);
     this->logger = Logger("", debug);
+    this->physObject = new PhysObject();
 }
 void GameObject::loadModel(std::string modelName)
 {
@@ -101,6 +102,12 @@ void GameObject::printModelData()
 }
 void GameObject::useTexture(std::string texturePath)
 {
+    if (!std::ifstream("engine/textures/" + texturePath))
+    {
+        logger.log(LogLevel::ERROR, "Texture file does not exist: " + texturePath);
+        useTexture("blank.jpg");
+        return;
+    }
     logger.log(LogLevel::DEBUG, "Generating texture...");
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
@@ -200,19 +207,36 @@ std::string GameObject::generateRandomID(int length)
 
     return id;
 }
-void GameObject::start()
+void GameObject::start(Window *window)
 {
-
     for (size_t i = 0; i < components.size(); i++)
     {
         components[i]->gameObject = this;
         components[i]->transform = &transform;
+        components[i]->prepare();
+    }
+
+    for (size_t i = 0; i < components.size(); i++)
+    {
         components[i]->Start();
     }
+    physObject->setup(window);
 }
 void GameObject::render(Window *window)
 {
     glBindTexture(GL_TEXTURE_2D, texture);
+    if (physObject->processPhysics)
+    {
+        physx::PxTransform physTransform = physObject->actor->getGlobalPose();
+        transform.setPosition(glm::vec3(physTransform.p.x, physTransform.p.y, physTransform.p.z));
+        PxQuat pxQ = physTransform.q;
+        glm::quat q(pxQ.w, pxQ.x, pxQ.y, pxQ.z); // GLM uses (w, x, y, z)
+
+        glm::vec3 eulerRad = glm::eulerAngles(q);
+        glm::vec3 eulerDeg = glm::degrees(eulerRad); // Optional
+        transform.setRotation(eulerDeg);
+    }
+
     glm::mat4 model = transform.getTransformationMatrix();
     shader->use();
     setColor(color);

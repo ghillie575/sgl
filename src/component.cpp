@@ -23,6 +23,7 @@ void *Component::getProperty(std::string propName)
 }
 void Component::Start() {}
 void Component::Update() {}
+void Component::prepare() {}
 Component::Component(std::string name) {
     setProperty<std::string>("type", name);
     logger = Logger(name);

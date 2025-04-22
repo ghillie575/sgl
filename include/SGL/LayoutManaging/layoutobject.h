@@ -1,33 +1,89 @@
 #ifndef LAYOUTOBJECT_H
 #define LAYOUTOBJECT_H
+
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <SGL/UI/ui-element.h>
-namespace SGL::LayoutManaging{
-    class LayoutObject{
-        
+
+namespace SGL::LayoutManaging {
+
+    /**
+     * @brief Represents a layout object that holds data for UI elements.
+     * 
+     * This class is used to manage the properties of a UI element, such as its
+     * position, scale, rotation, color, and other attributes. It also provides
+     * methods to serialize and deserialize the object to/from JSON, and to build
+     * a UIElement from the stored data.
+     */
+    class LayoutObject {
     public:
-    // Fields corresponding to UIElement
-    std::string model;
-    std::string texture_str;
-    std::string id;
-    glm::vec2 position = glm::vec2(0, 0);
-    float rotation = 0.0f;
-    glm::vec2 scale = glm::vec2(1, 1);
-    int ZIndex = 1;
-    glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+        // Fields corresponding to UIElement
 
-    // Method to convert UIElementData to JSON
-    nlohmann::json toJson() const ;
+        /**
+         * @brief The model associated with the UI element.
+         */
+        std::string model;
 
-    // Method to populate UIElementData from JSON
-    void fromJson(const nlohmann::json& j) ;
+        /**
+         * @brief The texture string associated with the UI element.
+         */
+        std::string texture_str;
 
-    // Method to build a UIElement from UIElementData
-    SGL::UI::UIElement build();
-};
+        /**
+         * @brief The unique identifier for the UI element.
+         */
+        std::string id;
+
+        /**
+         * @brief The position of the UI element in 2D space.
+         */
+        glm::vec2 position = glm::vec2(0, 0);
+
+        /**
+         * @brief The rotation of the UI element in degrees.
+         */
+        float rotation = 0.0f;
+
+        /**
+         * @brief The scale of the UI element in 2D space.
+         */
+        glm::vec2 scale = glm::vec2(1, 1);
+
+        /**
+         * @brief The Z-index of the UI element, used for rendering order.
+         */
+        int ZIndex = 1;
+
+        /**
+         * @brief The color of the UI element, represented as an RGBA vector.
+         */
+        glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+
+        /**
+         * @brief Converts the LayoutObject data to a JSON object.
+         * 
+         * @return A JSON object representing the LayoutObject data.
+         */
+        nlohmann::json toJson() const;
+
+        /**
+         * @brief Populates the LayoutObject data from a JSON object.
+         * 
+         * @param j The JSON object containing the data.
+         */
+        void fromJson(const nlohmann::json& j);
+
+        /**
+         * @brief Builds a UIElement object from the LayoutObject data.
+         * 
+         * @return A UIElement object initialized with the LayoutObject data.
+         */
+        SGL::UI::UIElement build();
+    };
+
 }
+
 #endif
