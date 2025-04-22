@@ -140,11 +140,10 @@ void createScene()
     t1.setRotation(glm::vec3(60, 60, 60));
     sobj1.transform = t1;
     sobj1.model = "basic/3d/cube";
-    sobj1.shader = "default";
+    sobj1.shader = "default_nt";
     sobj1.name = "cube";
     sobj1.material = m;
     data.addObject(&sobj1);
-    sobj1.texture = "sgl-logo.png.jpg";
     // sobj1.addComponent("TestComponent");
     sobj1.addComponent("ColorChangeComponent");
     sobj1.addComponent("box_colider");

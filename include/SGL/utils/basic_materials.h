@@ -6,6 +6,10 @@ namespace SGL
 {
     namespace Materials
     {
+        /**
+         * @brief Creates a material representing emerald.
+         * @return Material with emerald properties.
+         */
         Material emerald()
         {
             Material m;
@@ -16,6 +20,10 @@ namespace SGL
             return m;
         }
 
+        /**
+         * @brief Creates a material representing jade.
+         * @return Material with jade properties.
+         */
         Material jade()
         {
             Material m;
@@ -26,6 +34,10 @@ namespace SGL
             return m;
         }
 
+        /**
+         * @brief Creates a material representing obsidian.
+         * @return Material with obsidian properties.
+         */
         Material obsidian()
         {
             Material m;
@@ -36,6 +48,10 @@ namespace SGL
             return m;
         }
 
+        /**
+         * @brief Creates a material representing pearl.
+         * @return Material with pearl properties.
+         */
         Material pearl()
         {
             Material m;
@@ -46,6 +62,10 @@ namespace SGL
             return m;
         }
 
+        /**
+         * @brief Creates a material representing plastic.
+         * @return Material with plastic properties.
+         */
         Material plastic()
         {
             Material m;
@@ -56,6 +76,10 @@ namespace SGL
             return m;
         }
 
+        /**
+         * @brief Creates a material representing turquoise.
+         * @return Material with turquoise properties.
+         */
         Material turquoise()
         {
             Material m;
@@ -66,6 +90,10 @@ namespace SGL
             return m;
         }
 
+        /**
+         * @brief Creates a material representing brass.
+         * @return Material with brass properties.
+         */
         Material brass()
         {
             Material m;
@@ -76,6 +104,10 @@ namespace SGL
             return m;
         }
 
+        /**
+         * @brief Creates a material representing bronze.
+         * @return Material with bronze properties.
+         */
         Material bronze()
         {
             Material m;
@@ -86,6 +118,10 @@ namespace SGL
             return m;
         }
 
+        /**
+         * @brief Creates a material representing chrome.
+         * @return Material with chrome properties.
+         */
         Material chrome()
         {
             Material m;
@@ -96,6 +132,10 @@ namespace SGL
             return m;
         }
 
+        /**
+         * @brief Creates a material representing gold.
+         * @return Material with gold properties.
+         */
         Material gold()
         {
             Material m;
@@ -106,6 +146,10 @@ namespace SGL
             return m;
         }
 
+        /**
+         * @brief Creates a material representing silver.
+         * @return Material with silver properties.
+         */
         Material silver()
         {
             Material m;
@@ -116,6 +160,10 @@ namespace SGL
             return m;
         }
 
+        /**
+         * @brief Creates a material representing copper.
+         * @return Material with copper properties.
+         */
         Material copper()
         {
             Material m;
@@ -126,6 +174,10 @@ namespace SGL
             return m;
         }
 
+        /**
+         * @brief Creates a material representing aluminum.
+         * @return Material with aluminum properties.
+         */
         Material aluminum()
         {
             Material m;

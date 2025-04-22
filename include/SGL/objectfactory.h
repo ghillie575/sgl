@@ -1,5 +1,6 @@
 #ifndef OBJECTFACTORY_H
 #define OBJECTFACTORY_H
+
 #include <map>
 #include <string>
 #include <memory>
@@ -7,39 +8,57 @@
 #include <SGL/object.h>
 #include <SGL/component.h>  
 #include <SGL/logger.h>
+
 /**
  * @class ObjectFactory
- * @brief A factory class for creating GameObject instances.
+ * @brief A factory class for creating GameObject and Component instances.
  *
  * This class allows registering creation functions for different types of 
- * GameObjects and creating instances of those objects when needed.
+ * GameObjects and Components, and creating instances of those objects when needed.
  */
-namespace SGL{
+namespace SGL {
+
 class Component;
+
 class ObjectFactory {
 private:
+    // Logger instance for logging messages related to the ObjectFactory.
     Logger logger = Logger("\e[36mTYPE");
+
 public:
-     void freeResources() {
-    if (!creationFunctions.empty()) {
-        for (auto& entry : creationFunctions) {
-            if (entry.second) {
+    /**
+     * @brief Frees all registered creation functions and clears resources.
+     *
+     * This method clears the maps holding the creation functions for both
+     * GameObjects and Components.
+     */
+    void freeResources() {
+        if (!creationFunctions.empty()) {
+            for (auto& entry : creationFunctions) {
+                if (entry.second) {
+                    // Placeholder for potential cleanup logic.
+                }
             }
+            creationFunctions.clear();
         }
-        
-        creationFunctions.clear();
-    }
-    if (componentFunctions.empty()) {
-        for (auto& entry : componentFunctions) {
-            if (entry.second) {
+
+        if (!componentFunctions.empty()) {
+            for (auto& entry : componentFunctions) {
+                if (entry.second) {
+                    // Placeholder for potential cleanup logic.
+                }
             }
+            componentFunctions.clear();
         }
-        
-        componentFunctions.clear();
     }
-}
-    ~ObjectFactory() {
-    }
+
+    /**
+     * @brief Destructor for ObjectFactory.
+     *
+     * Ensures proper cleanup of resources when the factory is destroyed.
+     */
+    ~ObjectFactory() {}
+
     /**
      * @brief Register a new object creation function with the factory.
      *
@@ -73,6 +92,15 @@ public:
         }
     }
 
+    /**
+     * @brief Register a new component creation function with the factory.
+     *
+     * @tparam T The type of the creation function.
+     * @param componentType The type identifier for the component.
+     * @param creationFunction The function to create a component of the specified type.
+     *
+     * @note The creation function must return a std::shared_ptr<Component>.
+     */
     template <typename T>
     void registerComponent(const std::string& componentType, T&& creationFunction) {
         static_assert(std::is_invocable_r_v<std::shared_ptr<Component>, T>, 
@@ -95,7 +123,11 @@ public:
 private:
     // A map of object type identifiers to their corresponding creation functions.
     std::map<std::string, std::function<std::shared_ptr<GameObject>()>> creationFunctions;
-     std::map<std::string, std::function<std::shared_ptr<Component>()>> componentFunctions;
+
+    // A map of component type identifiers to their corresponding creation functions.
+    std::map<std::string, std::function<std::shared_ptr<Component>()>> componentFunctions;
 };
-}
+
+} // namespace SGL
+
 #endif
