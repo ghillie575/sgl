@@ -2,6 +2,7 @@
 #include <SGL/transform.h>
 #include <SGL/object.h>
 #include <SGL/component.h>
+#include <SGL/physics/phys_propreties.h>
 #ifndef SCENE_OBJECT_H
 #define SCENE_OBJECT_H
 namespace SGL{
@@ -16,6 +17,7 @@ public:
     std::string type = "default";
     std::string texture = "blank.jpg";
     Material material = Material();
+    PhysProperties properties;
     std::vector<std::string> components;
     SceneObject();
     void addComponent(std::string type); 

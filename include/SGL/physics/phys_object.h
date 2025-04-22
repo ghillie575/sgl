@@ -1,6 +1,7 @@
 #ifndef PHYSOBJECT_H
 #define PHYSOBJECT_H
 #include <PxPhysicsAPI.h>
+#include <SGL/physics/phys_propreties.h>
 using namespace physx;
 namespace SGL
 {
@@ -11,6 +12,7 @@ namespace SGL
     public:
         PxGeometry *geometry;
         PxRigidActor *actor;
+        PhysProperties properties;
         bool processPhysics = false;
         PhysObject();
         ~PhysObject();

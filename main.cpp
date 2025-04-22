@@ -35,13 +35,29 @@ SceneData data = SceneData();
 LayoutManaging::LayoutData layoutData = LayoutManaging::LayoutData();
 UI::UIElement *fovBar;
 UI::UIElement *speedBar;
+GameObject *cube;
+RBDynamic *rigidbody;
 bool photoMode = false;
+bool forceset = false;
 float fov = 45.0f;
 void processInput(Window *window)
 {
     if (!photoMode)
     {
-
+        static bool fPressed = false;
+        if (window->isKeyPressed(GLFW_KEY_F))
+        {
+            if (!fPressed)
+            {
+            fPressed = true;
+            rigidbody->addImpulse(glm::vec3(0, 500, 0));
+            std::cout << "F pressed" << std::endl;
+            }
+        }
+        else
+        {
+            fPressed = false;
+        }
         if (window->isKeyPressed(GLFW_KEY_KP_ADD))
         {
             cam.camSpeed += 10 * window->time.getDeltaTime();
@@ -120,11 +136,12 @@ void createScene()
     SceneObject sobj1 = SceneObject();
     Transform t1 = Transform();
     t1.setScaling(glm::vec3(1, 1, 1));
-    t1.translate(glm::vec3(-5, 0, 0));
-    t1.setRotation(glm::vec3(80, 80, 80));
+    t1.translate(glm::vec3(-5, 10, 0));
+    t1.setRotation(glm::vec3(60, 60, 60));
     sobj1.transform = t1;
     sobj1.model = "basic/3d/cube";
     sobj1.shader = "default_nt";
+    sobj1.name = "cube";
     sobj1.material = m;
     data.addObject(&sobj1);
     sobj1.texture = "box.jpg";
@@ -265,10 +282,13 @@ int main(int, char **)
     buildLayout();
     LayoutManaging::loadLayoutByName("basic_layout", &window);
     visualizeLightSource(&window);
+
     fovBar = window.getUiElementById("ui1");
     speedBar = window.getUiElementById("ui2");
+    cube = window.getObjectByName("cube");
     //  fps
     std::thread th1(fpsWatch, &window);
+    rigidbody = cube->getComponent<RBDynamic>();
     // main loop
     window.start();
     // wait for exit

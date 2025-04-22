@@ -222,9 +222,13 @@ void GameObject::render(Window *window)
     if (physObject->processPhysics)
     {
         physx::PxTransform physTransform = physObject->actor->getGlobalPose();
-        std::cout << "PhysObject: " << id << " position: " << physTransform.p.x << ", " << physTransform.p.y << ", " << physTransform.p.z << std::endl;
         transform.setPosition(glm::vec3(physTransform.p.x, physTransform.p.y, physTransform.p.z));
-        transform.setRotation(glm::eulerAngles(glm::quat(physTransform.q.w, physTransform.q.x, physTransform.q.y, physTransform.q.z)));
+        PxQuat pxQ = physTransform.q;
+        glm::quat q(pxQ.w, pxQ.x, pxQ.y, pxQ.z); // GLM uses (w, x, y, z)
+
+        glm::vec3 eulerRad = glm::eulerAngles(q);
+        glm::vec3 eulerDeg = glm::degrees(eulerRad); // Optional
+        transform.setRotation(eulerDeg);
     }
 
     glm::mat4 model = transform.getTransformationMatrix();

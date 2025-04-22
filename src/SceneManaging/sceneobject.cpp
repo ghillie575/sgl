@@ -3,40 +3,61 @@
 using namespace SGL;
 void SceneObject::fromJson(const nlohmann::json &json)
 {
-    if (json.contains("transform")) {
+    if (json.contains("transform"))
+    {
         transform.fromJson(json["transform"]);
     }
-    if (json.contains("model")) {
+    if (json.contains("model"))
+    {
         model = json["model"].get<std::string>();
     }
-    if (json.contains("type")) {
+    if (json.contains("type"))
+    {
         type = json["type"].get<std::string>();
     }
-    if (json.contains("shader")) {
+    if (json.contains("shader"))
+    {
         shader = json["shader"];
     }
-    if (json.contains("id")) {
+    if (json.contains("id"))
+    {
         id = json["id"];
     }
-    if (json.contains("name")) {
+    if (json.contains("name"))
+    {
         name = json["name"];
     }
-    if (json.contains("texture")) {
+    if (json.contains("texture"))
+    {
         texture = json["texture"];
     }
-    if (json.contains("material")) {
+    if (json.contains("material"))
+    {
         material.fromJson(json["material"]);
     }
-    if (json.contains("mode")) {
-        if (json["mode"].dump().compare("ln") == 0) {
+    if (json.contains("mode"))
+    {
+        if (json["mode"].dump().compare("ln") == 0)
+        {
             mode = lines;
-        } else if (json["mode"].dump().compare("trg") == 0) {
+        }
+        else if (json["mode"].dump().compare("trg") == 0)
+        {
             mode = triangles;
         }
     }
-    if (json.contains("components")) {
-    for (const auto& componentJson : json.at("components")) {
-        components.push_back(componentJson.get<std::string>());
+    if (json.contains("components"))
+    {
+        for (const auto &componentJson : json.at("components"))
+        {
+            components.push_back(componentJson.get<std::string>());
+        }
+    }
+    if (json.contains("physics"))
+    {
+        if (json["physics"].contains("properties"))
+        {
+            properties.fromJson(json["physics"]["properties"]);
         }
     }
 }
@@ -44,7 +65,8 @@ SceneObject::SceneObject()
 {
     this->id = generateRandomID(10);
 }
-void SceneObject::setObjectName(std::string name){
+void SceneObject::setObjectName(std::string name)
+{
     this->name = name;
 }
 // Add toJson method to generate JSON data
@@ -61,13 +83,15 @@ nlohmann::json SceneObject::toJson() const
     }
     json["transform"] = transform.toJson();
     json["material"] = material.toJson();
+    json["physics"]["properties"] = properties.toJson();
     json["model"] = model;
     json["shader"] = shader;
     json["id"] = id;
     json["name"] = name;
     json["type"] = type;
     json["texture"] = texture;
-    for (const auto& component : components) {
+    for (const auto &component : components)
+    {
         json["components"].push_back(component);
     }
     return json;
@@ -89,6 +113,7 @@ std::string SceneObject::generateRandomID(int length)
 
     return id;
 }
-void SceneObject::addComponent(std::string type){
+void SceneObject::addComponent(std::string type)
+{
     components.push_back(type);
 }
