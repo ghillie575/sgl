@@ -35,11 +35,14 @@ jobs:
     - name: Package
       run: |
         cd build
+
         mkdir -p ../out
         mkdir -p ../out/include/SGL
-        cp ./XandO ../out/XandO
-        cp -r ../include/SGL/* ../out/include/SGL/
-        cp ./*.so ../out/
+        mkdir -p ../out/lib
+        mkdir -p ../out/engine
+        mkdir -p ../out/scenes
+        mkdir -p ../out/lib
+        cmake --install . --prefix ../out
         cp -r ./engine ../out/engine
         cp -r ./scenes ../out/scenes
 
