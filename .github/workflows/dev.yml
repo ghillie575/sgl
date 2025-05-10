@@ -42,7 +42,7 @@ jobs:
         mkdir -p ../out/engine
         mkdir -p ../out/scenes
         mkdir -p ../out/lib
-        make install --prefix=../out
+        cmake --install . --prefix ../out
         cp -r ./engine ../out/engine
         cp -r ./scenes ../out/scenes
 
