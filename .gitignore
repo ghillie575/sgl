@@ -27,10 +27,6 @@ Release/
 */build/
 */Debug/
 */Release/
-engine/libraries/
-engine/libraries/*
-/engine/libraries/
-/engine/libraries/*
 .qodo/
 .vscode/
 

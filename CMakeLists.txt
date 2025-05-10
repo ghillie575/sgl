@@ -1,12 +1,12 @@
-set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
+set(CMAKE_INSTALL_RPATH "$ORIGIN")
 set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 cmake_minimum_required(VERSION 3.10)
 include(FetchContent)
 # Project name and version
 project(XandO VERSION 0.1.2 LANGUAGES C CXX)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/)
 # Find required packages
 find_package(OpenGL REQUIRED)
 find_package(glfw3 3.3 REQUIRED)
@@ -56,8 +56,8 @@ target_link_libraries(XandO sgl)
 # Set installation prefix
 set(CMAKE_INSTALL_PREFIX ".")
 install(TARGETS sgl glad XandO
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib
+    RUNTIME DESTINATION /
+    LIBRARY DESTINATION /
 )
 install(TARGETS sgl-objectlib-sample
     LIBRARY DESTINATION engine/libraries
@@ -69,12 +69,12 @@ install(FILES
     /usr/local/lib/libPhysXFoundation_static_64.a
     /usr/local/lib/libPhysXExtensions_static_64.a
     /usr/local/lib/libPhysXCooking_static_64.a
-    DESTINATION lib
+    DESTINATION /
 )
 file(GLOB HEADER_FILES "${CMAKE_SOURCE_DIR}/include/SGL/*.h")
 install(FILES ${HEADER_FILES} DESTINATION include/SGL)
 
-install(FILES /usr/lib/x86_64-linux-gnu/libglfw.so DESTINATION lib)
+install(FILES /usr/lib/x86_64-linux-gnu/libglfw.so DESTINATION /)
 # Copy engine and scenes folders from root project dir to build dir
 file(COPY ${CMAKE_SOURCE_DIR}/engine DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/scenes DESTINATION ${CMAKE_BINARY_DIR})
