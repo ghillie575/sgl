@@ -74,7 +74,7 @@ install(FILES
 file(GLOB HEADER_FILES "${CMAKE_SOURCE_DIR}/include/SGL/*.h")
 install(FILES ${HEADER_FILES} DESTINATION include/SGL)
 
-install(FILES /usr/lib/libglfw.so DESTINATION lib)
+install(FILES /usr/lib/x86_64-linux-gnu/libglfw.so DESTINATION lib)
 # Copy engine and scenes folders from root project dir to build dir
 file(COPY ${CMAKE_SOURCE_DIR}/engine DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY ${CMAKE_SOURCE_DIR}/scenes DESTINATION ${CMAKE_BINARY_DIR})
