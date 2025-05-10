@@ -69,7 +69,6 @@ install(FILES
     /usr/local/lib/libPhysXFoundation_static_64.a
     /usr/local/lib/libPhysXExtensions_static_64.a
     /usr/local/lib/libPhysXCooking_static_64.a
-    /usr/local/lib/libPhysXGeometryUtils_static_64.a
     DESTINATION lib
 )
 file(GLOB HEADER_FILES "${CMAKE_SOURCE_DIR}/include/SGL/*.h")
