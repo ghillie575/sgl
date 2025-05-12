@@ -58,6 +58,20 @@ void processInput(Window *window)
         {
             fPressed = false;
         }
+        static bool gPressed = false;
+        if (window->isKeyPressed(GLFW_KEY_G))
+        {
+            if (!gPressed)
+            {
+            gPressed = true;
+            rigidbody->addImpulse(glm::vec3(500, 0, 0));
+            std::cout << "G pressed" << std::endl;
+            }
+        }
+        else
+        {
+            gPressed = false;
+        }
         if (window->isKeyPressed(GLFW_KEY_KP_ADD))
         {
             cam.camSpeed += 10 * window->time.getDeltaTime();

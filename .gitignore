@@ -22,7 +22,6 @@ CMakeLists.txt.mak
 # Ignore build directories
 /build/
 /build/*
-Debug/
 Release/
 */build/
 */Debug/
