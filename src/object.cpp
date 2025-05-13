@@ -277,5 +277,5 @@ void GameObject::addComponent(Window *window, std::string type)
 }
 void GameObject::debugger()
 {
-    logger = Logger("\e[36mGameObject", debug);
+    logger = Logger("GameObject", debug);
 }

@@ -181,41 +181,65 @@ namespace SGL
     // Pre-initialize window settings
     void Window::preInit()
     {
-        try
+       try
         {
             if (!glfwInit())
             {
                 logger.log(LogLevel::ERROR, "Failed to initialize GLFW");
-                throw std::runtime_error("Failed to initialize GLFW");
+                throw std::runtime_error("GLFW initialization failed");
             }
+
+            // Set OpenGL version hints
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-            if (dobbleBuffering)
+
+            // Double buffering
+            glfwWindowHint(GLFW_DOUBLEBUFFER, dobbleBuffering ? GLFW_TRUE : GLFW_FALSE);
+
+            // Get monitor safely
+            GLFWmonitor *monitor = glfwGetPrimaryMonitor();
+            if (!monitor)
             {
-                glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
+                logger.log(LogLevel::ERROR, "Failed to get primary monitor");
+                glfwTerminate();
+                throw std::runtime_error("Primary monitor is NULL");
             }
-            else
+
+            const GLFWvidmode *mode = glfwGetVideoMode(monitor);
+            if (!mode)
             {
-                glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
+                logger.log(LogLevel::ERROR, "Failed to get video mode");
+                glfwTerminate();
+                throw std::runtime_error("Video mode is NULL");
             }
-            const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-            window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
-            if (window == NULL)
+
+            // Create window
+            window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
+            if (!window)
             {
                 logger.log(LogLevel::ERROR, "Failed to create GLFW window");
-                throw std::runtime_error("Failed to create GLFW window");
+                glfwTerminate();
+                throw std::runtime_error("GLFW window creation failed");
             }
+
             glfwMakeContextCurrent(window);
             glfwHideWindow(window);
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+            // Load OpenGL function pointers with GLAD
             if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
             {
                 logger.log(LogLevel::ERROR, "Failed to initialize GLAD");
-                throw std::runtime_error("Failed to initialize GLAD");
+                glfwDestroyWindow(window);
+                glfwTerminate();
+                throw std::runtime_error("GLAD initialization failed");
             }
+
             glfwSetWindowUserPointer(window, this);
+            logger.log(LogLevel::INFO, "OpenGL context initialized successfully");
         }
         catch (const std::exception &e)
         {
-            logger.log(LogLevel::ERROR, "Exception in preInit: " + std::string(e.what()));
+            logger.log(LogLevel::ERROR, "Exception in preInit with version: " + std::string(e.what()));
             throw;
         }
     }
@@ -228,39 +252,62 @@ namespace SGL
     {
         try
         {
+            logger.log(LogLevel::WARN, "Pre-initializing window with OpenGL version: " + std::to_string(glVersionMajor) + "." + std::to_string(glVersionMinor));
             if (!glfwInit())
             {
                 logger.log(LogLevel::ERROR, "Failed to initialize GLFW");
-                throw std::runtime_error("Failed to initialize GLFW");
+                throw std::runtime_error("GLFW initialization failed");
             }
-            logger.log(LogLevel::WARN, "Initializing GLFW with OpenGL version " + std::to_string(glVersionMajor) + "." + std::to_string(glVersionMinor));
+
+            // Set OpenGL version hints
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, glVersionMajor);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, glVersionMinor);
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-            if (dobbleBuffering)
+
+            // Double buffering
+            glfwWindowHint(GLFW_DOUBLEBUFFER, dobbleBuffering ? GLFW_TRUE : GLFW_FALSE);
+
+            // Get monitor safely
+            GLFWmonitor *monitor = glfwGetPrimaryMonitor();
+            if (!monitor)
             {
-                glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
+                logger.log(LogLevel::ERROR, "Failed to get primary monitor");
+                glfwTerminate();
+                throw std::runtime_error("Primary monitor is NULL");
             }
-            else
+
+            const GLFWvidmode *mode = glfwGetVideoMode(monitor);
+            if (!mode)
             {
-                glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_FALSE);
+                logger.log(LogLevel::ERROR, "Failed to get video mode");
+                glfwTerminate();
+                throw std::runtime_error("Video mode is NULL");
             }
-            const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-            window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
-            if (window == NULL)
+
+            // Create window
+            window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
+            if (!window)
             {
                 logger.log(LogLevel::ERROR, "Failed to create GLFW window");
-                throw std::runtime_error("Failed to create GLFW window");
+                glfwTerminate();
+                throw std::runtime_error("GLFW window creation failed");
             }
+
             glfwMakeContextCurrent(window);
             glfwHideWindow(window);
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+            // Load OpenGL function pointers with GLAD
             if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
             {
                 logger.log(LogLevel::ERROR, "Failed to initialize GLAD");
-                throw std::runtime_error("Failed to initialize GLAD");
+                glfwDestroyWindow(window);
+                glfwTerminate();
+                throw std::runtime_error("GLAD initialization failed");
             }
+
             glfwSetWindowUserPointer(window, this);
+            logger.log(LogLevel::INFO, "OpenGL context initialized successfully");
         }
         catch (const std::exception &e)
         {

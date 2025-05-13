@@ -23,7 +23,7 @@ class Component;
 class ObjectFactory {
 private:
     // Logger instance for logging messages related to the ObjectFactory.
-    Logger logger = Logger("\e[36mTYPE");
+    Logger logger = Logger("TYPE");
 
 public:
     /**

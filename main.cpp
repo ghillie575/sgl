@@ -272,7 +272,6 @@ int main(int, char **)
     std::cin.get();
     std::cout << "---- Begin of engine init -----" << std::endl;
     glfwDestroyWindow(gwindow);
-    glfwTerminate();
     cam.camSpeed = 10;
     // create the window
     Window window = Window(1000, 1000, "SGL", true);

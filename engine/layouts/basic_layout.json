@@ -1,5 +1,5 @@
 {
-    "count": 1,
+    "count": 2,
     "objects": [
         {
             "ZIndex": 1,
@@ -12,12 +12,33 @@
             "id": "ui1",
             "model": "ui/box",
             "position": [
+                0.0,
+                1.0
+            ],
+            "rotation": 0.0,
+            "scale": [
+                1.0,
+                0.10000000149011612
+            ],
+            "texture_str": "sgl-logo.jpg"
+        },
+        {
+            "ZIndex": 1,
+            "color": [
+                1.0,
+                1.0,
                 1.0,
                 1.0
             ],
-            "rotation": 45.0,
-            "scale": [
+            "id": "ui2",
+            "model": "ui/box",
+            "position": [
                 1.0,
+                0.0
+            ],
+            "rotation": 0.0,
+            "scale": [
+                0.10000000149011612,
                 1.0
             ],
             "texture_str": "sgl-logo.jpg"

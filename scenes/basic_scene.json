@@ -1,0 +1,120 @@
+{
+    "count": 2,
+    "objects": [
+        {
+            "components": [
+                "ColorChangeComponent",
+                "box_colider",
+                "rb_dynamic"
+            ],
+            "id": "7116983201",
+            "material": {
+                "ambient": [
+                    0.07137254625558853,
+                    0.6368627548217773,
+                    0.22235295176506042
+                ],
+                "diffuse": [
+                    0.10196078568696976,
+                    0.9098039269447327,
+                    0.3176470696926117
+                ],
+                "shininess": 76.80000305175781,
+                "specular": [
+                    0.7278109788894653,
+                    0.6269590258598328,
+                    0.6269590258598328
+                ]
+            },
+            "mode": "trg",
+            "model": "basic/3d/cube",
+            "name": "cube",
+            "physics": {
+                "properties": {
+                    "dynamicFriction": 0.800000011920929,
+                    "isKinematic": false,
+                    "mass": 10.0,
+                    "restitution": 0.0,
+                    "staticFriction": 0.800000011920929
+                }
+            },
+            "shader": "default_nt",
+            "texture": "blank.jpg",
+            "transform": {
+                "position": [
+                    -5.0,
+                    10.0,
+                    0.0
+                ],
+                "rotation": [
+                    60.0,
+                    60.0,
+                    60.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "type": "default"
+        },
+        {
+            "components": [
+                "rb_static",
+                "box_colider"
+            ],
+            "id": "3624554021",
+            "material": {
+                "ambient": [
+                    0.1745000034570694,
+                    0.011749999597668648,
+                    0.011749999597668648
+                ],
+                "diffuse": [
+                    0.6142399907112122,
+                    0.041359998285770416,
+                    0.041359998285770416
+                ],
+                "shininess": 76.80000305175781,
+                "specular": [
+                    0.7278109788894653,
+                    0.6269590258598328,
+                    0.6269590258598328
+                ]
+            },
+            "mode": "trg",
+            "model": "basic/3d/cube",
+            "name": "x",
+            "physics": {
+                "properties": {
+                    "dynamicFriction": 0.800000011920929,
+                    "isKinematic": false,
+                    "mass": 10.0,
+                    "restitution": 0.0,
+                    "staticFriction": 0.800000011920929
+                }
+            },
+            "shader": "default_nt",
+            "texture": "box.jpg",
+            "transform": {
+                "position": [
+                    0.0,
+                    -20.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scaling": [
+                    100.0,
+                    1.0,
+                    100.0
+                ]
+            },
+            "type": "default"
+        }
+    ]
+}

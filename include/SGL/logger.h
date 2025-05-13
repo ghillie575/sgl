@@ -26,7 +26,28 @@ public:
      * @brief Constructs a Logger with a specific class name.
      * @param className The name of the class using the logger.
      */
-    Logger(const std::string &className) : className(className) {}
+    Logger(const std::string &className) : className(className) {
+       if(className == "ENGINE") {
+            this->className = "\e[95m" + className + "\e[0m";
+        }else if (className == "GameObject") {
+            this->className = "\e[33m" + className + "\e[0m";
+        }
+        else if (className == "SceneLoader") {
+            this->className = "\e[34m" + className + "\e[0m";
+        }
+        else if (className == "TYPE") {
+            this->className = "\e[35m" + className + "\e[0m";
+        }
+        else if (className == "SHADER_L") {
+            this->className = "\e[31m" + className + "\e[0m";
+        }
+        else if (className == "LibraryLoader") {
+            this->className = "\e[32m" + className + "\e[0m";
+        }
+        else {
+            this->className = "\e[37m" + className + "\e[0m";
+        }
+    }
 
     /**
      * @brief Constructs a Logger with a specific class name and debug flag.
@@ -35,6 +56,26 @@ public:
      */
     Logger(const std::string &className, bool debug) : className(className) {
         this->debug = debug;
+        if(className == "ENGINE") {
+            this->className = "\e[95m" + className + "\e[0m";
+        }else if (className == "GameObject") {
+            this->className = "\e[33m" + className + "\e[0m";
+        }
+        else if (className == "SceneLoader") {
+            this->className = "\e[34m" + className + "\e[0m";
+        }
+        else if (className == "TYPE") {
+            this->className = "\e[35m" + className + "\e[0m";
+        }
+        else if (className == "SHADER_L") {
+            this->className = "\e[31m" + className + "\e[0m";
+        }
+        else if (className == "LibraryLoader") {
+            this->className = "\e[32m" + className + "\e[0m";
+        }
+        else {
+            this->className = "\e[37m" + className + "\e[0m";
+        }
     }
 
     /**
@@ -54,17 +95,17 @@ public:
             levelStr = "\e[94mINFO\e[0m";
             break;
         case WARN:
-            levelStr = "\e[93mWARN\e[0m";
+            levelStr = "\e[30m\e[43mWARN\e[0m";
             break;
         case ERROR:
-            levelStr = "\e[91mERROR\e[0m";
+            levelStr = "\e[30m\e[41mERROR\e[0m";
             break;
         case DEBUG:
             if (!debug) return;
             levelStr = "\e[90mDEBUG\e[0m";
             break;
         }
-        std::cout << "[\e[92m" << className << "\e[0m] [" << levelStr << "] " << message << std::endl;
+        std::cout << "[\e[92m" << className << "\e[0m] [" << levelStr << "] " << message << std::endl;std::cout.flush();
     }
 
 private:
