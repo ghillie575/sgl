@@ -2,7 +2,7 @@
 #define WINDOW_H
 
 // Define the version of the SGL library
-#define SGL_VERSION "main-stable-V0.1.5"
+#define SGL_VERSION "dev"
 
 // Include necessary libraries and headers
 #include <glad/glad.h>
@@ -87,6 +87,7 @@ namespace SGL
 
         // Closes the window
         void close();
+        void destroyUiElement(std::string id);
 
         // Sets the camera's field of view
         void setCamFOV(float fov);

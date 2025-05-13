@@ -42,8 +42,8 @@ bool forceset = false;
 float fov = 45.0f;
 void processInput(Window *window)
 {
-     static bool uPressed = false;
-        static bool cursorLocked = true;
+    static bool uPressed = false;
+    static bool cursorLocked = true;
     if (window->isKeyPressed(GLFW_KEY_U))
     {
         if (!uPressed)
@@ -65,13 +65,14 @@ void processInput(Window *window)
             }
             std::cout << "U pressed" << std::endl;
         }
-    }else{
+    }
+    else
+    {
         uPressed = false;
     }
     if (!photoMode)
     {
         static bool fPressed = false;
-       
 
         if (window->isKeyPressed(GLFW_KEY_F))
         {
@@ -162,7 +163,9 @@ void fpsWatch(Window *window)
         int fps = window->getCurrentFps();
         std::cout << "___________________" << std::endl
                   << "FPS: " << fps << std::endl
-                  << "DeltaTime: " << window->time.getDeltaTime() << std::endl
+                  << "DeltaTime: " << window->time.getDeltaTime() << "/" << window->time.getDeltaTime() * 1000 << "ms" << std::endl
+                  << "Time: " << glfwGetTime() << std::endl
+                  
                   << "Camera position: (" << window->camera.cameraPos.x << ", " << window->camera.cameraPos.y << ", " << window->camera.cameraPos.z << ")" << std::endl
                   << "Camera rotation: (" << window->camera.rotation.x << ", " << window->camera.rotation.y << ", " << window->camera.rotation.z << ")" << std::endl
                   << "Camera front: (" << window->camera.cameraFront.x << ", " << window->camera.cameraFront.y << ", " << window->camera.cameraFront.z << ")" << std::endl
@@ -181,8 +184,8 @@ void createScene()
     t1.translate(glm::vec3(-5, 10, 0));
     t1.setRotation(glm::vec3(60, 60, 60));
     sobj1.transform = t1;
-    sobj1.model = "tests/vertex_color_test";
-    sobj1.shader = "vertex_color_test";
+    sobj1.model = "basic/3d/cube";
+    sobj1.shader = "default_nt";
     sobj1.name = "cube";
     sobj1.material = m;
     data.addObject(&sobj1);
@@ -190,7 +193,6 @@ void createScene()
     sobj1.addComponent("ColorChangeComponent");
     sobj1.addComponent("box_colider");
     sobj1.addComponent("rb_dynamic");
-    sobj1.addVertexAttribute(3, 3);
     SceneObject sobj2 = SceneObject();
     Transform t2 = Transform();
     t2.setScaling(glm::vec3(100, 1, 100));
@@ -230,6 +232,30 @@ void buildLayout()
     obj1.ZIndex = 1;
     obj1.color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     layoutData.addObject(&obj1);
+    LayoutManaging::LayoutObject obj2 = LayoutManaging::LayoutObject();
+    obj2.model = "ui/triangle";
+    obj2.texture_str = "sgl-logo.jpg";
+    obj2.id = "ui_trg";
+    obj2.position = glm::vec2(0, 0);
+    obj2.rotation = 0;
+    obj2.scale = glm::vec2(1, 2);
+    obj2.ZIndex = 0;
+
+    obj2.color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+    obj2.shader = "vertex_ui_color_test";
+    obj2.addVertexAttribute(3, 2);
+    layoutData.addObject(&obj2);
+
+    LayoutManaging::LayoutObject obj3 = LayoutManaging::LayoutObject();
+    obj3.model = "ui/box";
+    obj3.texture_str = "sgl-logo.jpg";
+    obj3.id = "ui3";
+    obj3.position = glm::vec2(0, 0);
+    obj3.rotation = 0;
+    obj3.scale = glm::vec2(30, 30);
+    obj3.ZIndex = 1;
+    obj3.color = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+    layoutData.addObject(&obj3);
     LayoutManaging::saveLayout(&layoutData, "basic_layout");
 }
 void mouseCallback(Window *window, double xpos, double ypos)
@@ -250,6 +276,37 @@ void onTypeRegister(Window *window)
                                       { return std::make_shared<BoxColider>(); });
     window->factory.registerComponent("ColorChangeComponent", []()
                                       { return std::make_shared<SGL::Components::ColorChangeComponent>(); });
+}
+void playStartAnimation(Window *window)
+{
+    // play start animation
+    SGL::UI::UIElement *startAnimationTrg = window->getUiElementById("ui_trg");
+    SGL::UI::UIElement *startPanel = window->getUiElementById("ui3");
+    startAnimationTrg->setColor(glm::vec4(1, 1, 1, 1));
+    startAnimationTrg->setPosition(glm::vec2(0, 0));
+    while(startAnimationTrg->rotation > -90){
+        startAnimationTrg->rotation -= 60 * window->time.getDeltaTime();
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+    while (startAnimationTrg->position.x < 2)
+    {
+        startAnimationTrg->position.x += 0.8 * window->time.getDeltaTime();
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+    }
+    glm::vec4 panelColor = glm::vec4(0, 0, 0, 0);
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+    while(panelColor.r < 3){
+        panelColor += glm::vec4(1, 1, 1, 1) * window->time.getDeltaTime();
+        startPanel->setColor(panelColor);
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+    window->destroyUiElement("ui_trg");
+    window->destroyUiElement("ui3");
+
+    std::cout << "Start animation finished" << std::endl;
+    return;
 }
 // main
 int main(int, char **)
@@ -329,12 +386,15 @@ int main(int, char **)
     fovBar = window.getUiElementById("ui1");
     speedBar = window.getUiElementById("ui2");
     cube = window.getObjectByName("cube");
+    rigidbody = cube->getComponent<RBDynamic>();
     //  fps
     std::thread th1(fpsWatch, &window);
-    rigidbody = cube->getComponent<RBDynamic>();
+    std::thread th2(playStartAnimation, &window);
+    
     // main loop
     window.start();
     // wait for exit
     th1.join();
+    th2.join();
     return 0;
 }

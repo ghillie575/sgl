@@ -244,6 +244,8 @@ namespace SGL
             throw;
         }
     }
+    
+    
     void Window::unlockCursor()
     {
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -400,6 +402,23 @@ namespace SGL
         catch (const std::exception &e)
         {
             logger.log(LogLevel::ERROR, "Exception in getShader: " + std::string(e.what()));
+            throw;
+        }
+    }
+    void Window::destroyUiElement(std::string id)
+    {
+        try
+        {
+            auto it = std::remove_if(uiElements.begin(), uiElements.end(), [&](const std::shared_ptr<UI::UIElement> &obj)
+                                     { return obj->id == id; });
+            if (it != uiElements.end())
+            {
+                uiElements.erase(it, uiElements.end());
+            }
+        }
+        catch (const std::exception &e)
+        {
+            logger.log(LogLevel::ERROR, "Exception in destroyUiElement: " + std::string(e.what()));
             throw;
         }
     }

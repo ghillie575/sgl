@@ -47,7 +47,7 @@ void GameObject::loadModel(std::string modelName)
     {
         totalSize += vertexAttributes[i].size;
     }
-    
+
     // Check if the number of values is a multiple of 8 (3 for vertex + 2 for texture coordinates + 3 for normals) + vertex attributes
     if (vert.size() % totalSize != 0)
     {
@@ -180,6 +180,12 @@ void GameObject::build()
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, totalSize * sizeof(float), (void *)(5 * sizeof(float))); // Normals
     glEnableVertexAttribArray(2);
     int offset = 8;
+    std::sort(vertexAttributes.begin(), vertexAttributes.end(),
+              [](const VertexAttribute &a, const VertexAttribute &b)
+              {
+                  return a.location < b.location;
+              });
+
     for (size_t i = 0; i < vertexAttributes.size(); i++)
     {
         glVertexAttribPointer(vertexAttributes[i].location, vertexAttributes[i].size, GL_FLOAT, GL_FALSE, totalSize * sizeof(float), (void *)(offset * sizeof(float)));

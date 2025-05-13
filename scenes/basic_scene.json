@@ -7,7 +7,7 @@
                 "box_colider",
                 "rb_dynamic"
             ],
-            "id": "1627692676",
+            "id": "4947238202",
             "material": {
                 "ambient": [
                     0.07137254625558853,
@@ -69,7 +69,7 @@
                 "rb_static",
                 "box_colider"
             ],
-            "id": "6231006440",
+            "id": "1927297467",
             "material": {
                 "ambient": [
                     0.1745000034570694,
