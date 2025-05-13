@@ -42,16 +42,44 @@ bool forceset = false;
 float fov = 45.0f;
 void processInput(Window *window)
 {
+     static bool uPressed = false;
+        static bool cursorLocked = true;
+    if (window->isKeyPressed(GLFW_KEY_U))
+    {
+        if (!uPressed)
+        {
+            uPressed = true;
+            if (cursorLocked)
+            {
+                window->unlockCursor();
+                cursorLocked = false;
+                photoMode = true;
+                cam.photoMode = true;
+            }
+            else
+            {
+                window->lockCursor();
+                cursorLocked = true;
+                photoMode = false;
+                cam.photoMode = false;
+            }
+            std::cout << "U pressed" << std::endl;
+        }
+    }else{
+        uPressed = false;
+    }
     if (!photoMode)
     {
         static bool fPressed = false;
+       
+
         if (window->isKeyPressed(GLFW_KEY_F))
         {
             if (!fPressed)
             {
-            fPressed = true;
-            rigidbody->addImpulse(glm::vec3(0, 500, 0));
-            std::cout << "F pressed" << std::endl;
+                fPressed = true;
+                rigidbody->addImpulse(glm::vec3(0, 500, 0));
+                std::cout << "F pressed" << std::endl;
             }
         }
         else
@@ -63,9 +91,9 @@ void processInput(Window *window)
         {
             if (!gPressed)
             {
-            gPressed = true;
-            rigidbody->addImpulse(glm::vec3(500, 0, 0));
-            std::cout << "G pressed" << std::endl;
+                gPressed = true;
+                rigidbody->addImpulse(glm::vec3(500, 0, 0));
+                std::cout << "G pressed" << std::endl;
             }
         }
         else
@@ -153,8 +181,8 @@ void createScene()
     t1.translate(glm::vec3(-5, 10, 0));
     t1.setRotation(glm::vec3(60, 60, 60));
     sobj1.transform = t1;
-    sobj1.model = "basic/3d/cube";
-    sobj1.shader = "default_nt";
+    sobj1.model = "tests/vertex_color_test";
+    sobj1.shader = "vertex_color_test";
     sobj1.name = "cube";
     sobj1.material = m;
     data.addObject(&sobj1);
@@ -162,6 +190,7 @@ void createScene()
     sobj1.addComponent("ColorChangeComponent");
     sobj1.addComponent("box_colider");
     sobj1.addComponent("rb_dynamic");
+    sobj1.addVertexAttribute(3, 3);
     SceneObject sobj2 = SceneObject();
     Transform t2 = Transform();
     t2.setScaling(glm::vec3(100, 1, 100));
@@ -286,9 +315,9 @@ int main(int, char **)
     window.setMouseCallback(mouseCallback);
     // all vairables and settings must be set before init, but after preinit. shader related functions must be called after init
     window.lightEnv.sunColor = glm::vec3(1, 1, 1);
-    //physics world init
-    //window.physicsWorld->setGravity(glm::vec3(0, -9.81, 0));
-    // Window init
+    // physics world init
+    // window.physicsWorld->setGravity(glm::vec3(0, -9.81, 0));
+    //  Window init
     window.init();
     // scene loading
     createScene();

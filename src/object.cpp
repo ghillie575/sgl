@@ -42,9 +42,14 @@ void GameObject::loadModel(std::string modelName)
     {
         vert.push_back(value);
     }
-
-    // Check if the number of values is a multiple of 8 (3 for vertex + 2 for texture coordinates + 3 for normals)
-    if (vert.size() % 8 != 0)
+    int totalSize = 8;
+    for (size_t i = 0; i < vertexAttributes.size(); i++)
+    {
+        totalSize += vertexAttributes[i].size;
+    }
+    
+    // Check if the number of values is a multiple of 8 (3 for vertex + 2 for texture coordinates + 3 for normals) + vertex attributes
+    if (vert.size() % totalSize != 0)
     {
         throw std::runtime_error("Invalid .vmodel file format: Incorrect number of values.");
     }
@@ -70,7 +75,7 @@ void GameObject::loadModel(std::string modelName)
         ind.push_back(index);
     }
 
-    // Calculate the number of polygons (assuming triangles)
+    // Calculate the number of polygons
     polCount = ind.size();
 
     printModelData();
@@ -163,21 +168,23 @@ void GameObject::build()
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, ind.size() * sizeof(unsigned int), indices, GL_STATIC_DRAW);
-    if (mode == lines)
+    int totalSize = 8;
+    for (size_t i = 0; i < vertexAttributes.size(); i++)
     {
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)0);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)(2 * sizeof(float)));
-        glEnableVertexAttribArray(1);
+        totalSize += vertexAttributes[i].size;
     }
-    else
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, totalSize * sizeof(float), (void *)0); // Position
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, totalSize * sizeof(float), (void *)(3 * sizeof(float))); // Texture
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, totalSize * sizeof(float), (void *)(5 * sizeof(float))); // Normals
+    glEnableVertexAttribArray(2);
+    int offset = 8;
+    for (size_t i = 0; i < vertexAttributes.size(); i++)
     {
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0); // Position
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(3 * sizeof(float))); // Texture
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(5 * sizeof(float))); // Normals
-        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(vertexAttributes[i].location, vertexAttributes[i].size, GL_FLOAT, GL_FALSE, totalSize * sizeof(float), (void *)(offset * sizeof(float)));
+        glEnableVertexAttribArray(vertexAttributes[i].location);
+        offset += vertexAttributes[i].size;
     }
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
@@ -252,23 +259,12 @@ void GameObject::render(Window *window)
     {
         components[i]->Update();
     }
-    if (mode == lines)
-    {
-        glDrawElements(GL_LINES, polCount, GL_UNSIGNED_INT, 0);
-    }
-    else
-    {
-        glDrawElements(GL_TRIANGLES, polCount, GL_UNSIGNED_INT, 0);
-    }
+    glDrawElements(GL_TRIANGLES, polCount, GL_UNSIGNED_INT, 0);
 }
 void GameObject::freeResources()
 {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
-}
-void GameObject::setDrawMode(drawAs mode)
-{
-    this->mode = mode;
 }
 void GameObject::addComponent(Window *window, std::string type)
 {

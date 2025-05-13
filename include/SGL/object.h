@@ -9,6 +9,7 @@
 #include <SGL/window.h>
 #include <SGL/material.h>
 #include <SGL/physics/phys_object.h>
+#include <SGL/vertex_attribute.h>
 
 #ifndef OBJECT_H
 #define OBJECT_H
@@ -20,8 +21,8 @@ namespace SGL
     // Enum to define the drawing mode
     enum drawAs
     {
-        lines,      // Draw as lines
-        triangles   // Draw as triangles
+        lines,    // Draw as lines
+        triangles // Draw as triangles
     };
 
     class Component;
@@ -32,28 +33,28 @@ namespace SGL
     private:
         bool modelUsesEBO = true; // Indicates if the model uses an Element Buffer Object (EBO)
 
-        unsigned int texture;     // Texture ID
-        Logger logger = Logger(""); // Logger instance for debugging
-        std::string generateRandomID(int length); // Generates a random ID for the object
+        unsigned int texture;                                // Texture ID
+        Logger logger = Logger("");                          // Logger instance for debugging
+        std::string generateRandomID(int length);            // Generates a random ID for the object
         glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f); // Object color (RGBA)
-        unsigned int VBO, VAO, EBO; // OpenGL buffer objects: Vertex Buffer Object, Vertex Array Object, Element Buffer Object
+        unsigned int VBO, VAO, EBO;                          // OpenGL buffer objects: Vertex Buffer Object, Vertex Array Object, Element Buffer Object
 
     public:
-        bool debug = false; // Debug mode flag
-        Window *window = nullptr; // Pointer to the associated window
-        PhysObject *physObject = nullptr; // Pointer to the associated physics object
+        std::vector<VertexAttribute> vertexAttributes;      // List of vertex attributes for the object
+        bool debug = false;                                 // Debug mode flag
+        Window *window = nullptr;                           // Pointer to the associated window
+        PhysObject *physObject = nullptr;                   // Pointer to the associated physics object
         std::vector<std::shared_ptr<Component>> components; // List of components attached to the object
-        std::string id; // Unique identifier for the object
-        std::string name = "x"; // Name of the object
-        Shader *shader = nullptr; // Pointer to the shader used by the object
-        std::string shaderName = ""; // Name of the shader
-        Material material; // Material properties of the object
+        std::string id;                                     // Unique identifier for the object
+        std::string name = "x";                             // Name of the object
+        Shader *shader = nullptr;                           // Pointer to the shader used by the object
+        std::string shaderName = "";                        // Name of the shader
+        Material material;                                  // Material properties of the object
 
-        Transform transform; // Transform properties (position, rotation, scale)
-        drawAs mode = drawAs::triangles; // Drawing mode
-        std::vector<unsigned int> ind; // Indices for the model
-        std::vector<float> vert; // Vertices for the model
-        int polCount; // Polygon count
+        Transform transform;             // Transform properties (position, rotation, scale)
+        std::vector<unsigned int> ind;   // Indices for the model
+        std::vector<float> vert;         // Vertices for the model
+        int polCount;                    // Polygon count
 
         // Constructor
         GameObject();
@@ -74,7 +75,6 @@ namespace SGL
         void freeResources();
 
         // Sets the drawing mode
-        void setDrawMode(drawAs mode);
 
         // Loads a model from a file
         void loadModel(std::string modelName);

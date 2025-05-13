@@ -35,17 +35,6 @@ void SceneObject::fromJson(const nlohmann::json &json)
     {
         material.fromJson(json["material"]);
     }
-    if (json.contains("mode"))
-    {
-        if (json["mode"].dump().compare("ln") == 0)
-        {
-            mode = lines;
-        }
-        else if (json["mode"].dump().compare("trg") == 0)
-        {
-            mode = triangles;
-        }
-    }
     if (json.contains("components"))
     {
         for (const auto &componentJson : json.at("components"))
@@ -58,6 +47,15 @@ void SceneObject::fromJson(const nlohmann::json &json)
         if (json["physics"].contains("properties"))
         {
             properties.fromJson(json["physics"]["properties"]);
+        }
+    }
+    if(json.contains("vertexAttributes"))
+    {
+        for (const auto &attributeJson : json.at("vertexAttributes"))
+        {
+            VertexAttribute attribute;
+            attribute.fromJson(attributeJson);
+            vertexAttributes.push_back(attribute);
         }
     }
 }
@@ -73,14 +71,6 @@ void SceneObject::setObjectName(std::string name)
 nlohmann::json SceneObject::toJson() const
 {
     nlohmann::json json;
-    if (mode == lines)
-    {
-        json["mode"] = "ln";
-    }
-    else if (mode == triangles)
-    {
-        json["mode"] = "trg";
-    }
     json["transform"] = transform.toJson();
     json["material"] = material.toJson();
     json["physics"]["properties"] = properties.toJson();
@@ -93,6 +83,11 @@ nlohmann::json SceneObject::toJson() const
     for (const auto &component : components)
     {
         json["components"].push_back(component);
+    }
+    json["vertexAttributes"] = nlohmann::json::array();
+    for (auto attribute : vertexAttributes)
+    {
+        json["vertexAttributes"].push_back(attribute.toJson());
     }
     return json;
 }
@@ -116,4 +111,8 @@ std::string SceneObject::generateRandomID(int length)
 void SceneObject::addComponent(std::string type)
 {
     components.push_back(type);
+}
+void SceneObject::addVertexAttribute(int size, int location)
+{
+    vertexAttributes.push_back(VertexAttribute(size, location));
 }

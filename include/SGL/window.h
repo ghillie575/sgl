@@ -80,6 +80,7 @@ namespace SGL
 
         // Unlocks the cursor
         void unlockCursor();
+        void lockCursor();
 
         // Checks if a specific key is pressed
         bool isKeyPressed(int key);

@@ -35,8 +35,8 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath)
     }
     catch (std::ifstream::failure &e)
     {
-        loadLogger.log(LogLevel::ERROR, std::string("ERROR::SHADER::FILE_NOT_SUCCESFULL") + fragmentPath);
-        loadLogger.log(LogLevel::ERROR, std::string("ERROR::SHADER::FILE_NOT_SUCCESFULL") + vertexPath);
+        loadLogger.log(LogLevel::ERROR, std::string("ERROR::SHADER::FILE_NOT_SUCCESFULL ") + fragmentPath);
+        loadLogger.log(LogLevel::ERROR, std::string("ERROR::SHADER::FILE_NOT_SUCCESFULL ") + vertexPath);
     }
     const char *vShaderCode = vertexCode.c_str();
     const char *fShaderCode = fragmentCode.c_str();

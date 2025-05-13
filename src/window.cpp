@@ -169,6 +169,7 @@ namespace SGL
             self->width = width;
             self->camUpdate();
             glViewport(0, 0, width, height);
+            std::cout << "fbc" << std::endl;
         }
         catch (const std::exception &e)
         {
@@ -246,6 +247,10 @@ namespace SGL
     void Window::unlockCursor()
     {
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
+    void Window::lockCursor()
+    {
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     }
     // Pre-initialize window settings with OpenGL version
     void Window::preInit(int glVersionMajor, int glVersionMinor)

@@ -16,7 +16,6 @@ class SceneObject {
 public:
     Transform transform; ///< Transformation properties of the scene object (position, rotation, scale).
     std::string model; ///< Path to the model file associated with the scene object.
-    drawAs mode = triangles; ///< Drawing mode for rendering (e.g., triangles, lines, etc.).
     std::string shader; ///< Shader program used for rendering the object.
     std::string id; ///< Unique identifier for the scene object.
     std::string name = "x"; ///< Name of the scene object (default is "x").
@@ -25,6 +24,7 @@ public:
     Material material = Material(); ///< Material properties of the object (e.g., color, shininess).
     PhysProperties properties; ///< Physical properties of the object (e.g., mass, friction).
     std::vector<std::string> components; ///< List of components attached to the scene object.
+    std::vector<VertexAttribute> vertexAttributes; ///< List of vertex attributes for the object.
 
     /**
      * @brief Default constructor for SceneObject.
@@ -36,7 +36,7 @@ public:
      * @param type The type of the component to add.
      */
     void addComponent(std::string type);
-
+    void addVertexAttribute(int size, int location);
     /**
      * @brief Parses JSON data to initialize the scene object.
      * @param json The JSON object containing the scene object data.

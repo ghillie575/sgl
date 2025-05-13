@@ -7,7 +7,7 @@
                 "box_colider",
                 "rb_dynamic"
             ],
-            "id": "7116983201",
+            "id": "1627692676",
             "material": {
                 "ambient": [
                     0.07137254625558853,
@@ -26,8 +26,7 @@
                     0.6269590258598328
                 ]
             },
-            "mode": "trg",
-            "model": "basic/3d/cube",
+            "model": "tests/vertex_color_test",
             "name": "cube",
             "physics": {
                 "properties": {
@@ -38,7 +37,7 @@
                     "staticFriction": 0.800000011920929
                 }
             },
-            "shader": "default_nt",
+            "shader": "vertex_color_test",
             "texture": "blank.jpg",
             "transform": {
                 "position": [
@@ -57,14 +56,20 @@
                     1.0
                 ]
             },
-            "type": "default"
+            "type": "default",
+            "vertexAttributes": [
+                {
+                    "location": 3,
+                    "size": 3
+                }
+            ]
         },
         {
             "components": [
                 "rb_static",
                 "box_colider"
             ],
-            "id": "3624554021",
+            "id": "6231006440",
             "material": {
                 "ambient": [
                     0.1745000034570694,
@@ -83,7 +88,6 @@
                     0.6269590258598328
                 ]
             },
-            "mode": "trg",
             "model": "basic/3d/cube",
             "name": "x",
             "physics": {
@@ -114,7 +118,8 @@
                     100.0
                 ]
             },
-            "type": "default"
+            "type": "default",
+            "vertexAttributes": []
         }
     ]
 }
