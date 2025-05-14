@@ -26,13 +26,7 @@ jobs:
         sudo cp -r phys/lib/* /usr/local/lib/
     - name : Install FreeType
       run: |
-        git clone https://gitlab.freedesktop.org/freetype/freetype.git
-        cd freetype
-        mkdir build
-        cd build
-        cmake .. -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=/usr/local
-        make -j$(nproc)
-        sudo make install
+        sudo apt install libfreetype6-dev libfreetype6 pkg-config
     - name: Configure Project
       run: cmake -S . -B build -DCMAKE_INSTALL_RPATH="\$ORIGIN"
 
@@ -47,10 +41,8 @@ jobs:
 
         mkdir -p ../out
         mkdir -p ../out/include/SGL
-        mkdir -p ../out/lib
         mkdir -p ../out/engine
         mkdir -p ../out/scenes
-        mkdir -p ../out/lib
         cmake --install . --prefix ../out
         cp -r ./engine ../out/engine
         cp -r ./scenes ../out/scenes

@@ -75,15 +75,6 @@ install(TARGETS sgl glad XandO
 install(TARGETS sgl-objectlib-sample
     LIBRARY DESTINATION engine/libraries
 )
-# Install targets
-install(FILES
-    /usr/local/lib/libPhysX_static_64.a
-    /usr/local/lib/libPhysXCommon_static_64.a
-    /usr/local/lib/libPhysXFoundation_static_64.a
-    /usr/local/lib/libPhysXExtensions_static_64.a
-    /usr/local/lib/libPhysXCooking_static_64.a
-    DESTINATION .
-)
 file(GLOB HEADER_FILES "${CMAKE_SOURCE_DIR}/include/SGL/*.h")
 install(FILES ${HEADER_FILES} DESTINATION include/SGL)
 
