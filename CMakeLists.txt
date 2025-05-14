@@ -10,10 +10,23 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/)
 # Find required packages
 find_package(OpenGL REQUIRED)
 find_package(glfw3 3.3 REQUIRED)
+find_package(ZLIB REQUIRED)
+find_package(BZip2 REQUIRED)
+find_package(PNG REQUIRED)
+find_package(HarfBuzz QUIET)
+if (NOT TARGET HarfBuzz::HarfBuzz)
+    add_library(HarfBuzz::HarfBuzz UNKNOWN IMPORTED)
+    set_target_properties(HarfBuzz::HarfBuzz PROPERTIES
+        IMPORTED_LOCATION "/usr/lib/x86_64-linux-gnu/libharfbuzz.so"
+        INTERFACE_INCLUDE_DIRECTORIES "/usr/include/harfbuzz"
+    )
+endif()
+find_package(freetype REQUIRED)
 
 # Include directories
 include_directories(${OPENGL_INCLUDE_DIR} ${GLFW_INCLUDE_DIR})
 include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(/usr/local/include/freetype2)
 include_directories(/usr/local/include/PhysX)
 link_directories(/usr/local/lib)
 
@@ -32,7 +45,7 @@ add_library(glad SHARED ${CMAKE_SOURCE_DIR}/src/glad/glad.c)
 add_executable(XandO main.cpp)
 
 # Link libraries
-target_link_libraries(sgl glfw OpenGL::GL glad)
+target_link_libraries(sgl glfw OpenGL::GL glad freetype)
 target_link_libraries(sgl-objectlib-sample glfw OpenGL::GL glad)
 
 target_link_libraries(sgl

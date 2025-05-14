@@ -29,6 +29,7 @@
 #include <SGL/components/physics/rb_dynamic.h>
 #include <SGL/components/physics/rb_static.h>
 #include <SGL/components/physics/coliders/colider_box.h>
+#include <SGL/error_handler.h>
 using namespace SGL;
 FreeFlyCam cam = FreeFlyCam();
 SceneData data = SceneData();
@@ -223,7 +224,7 @@ void buildLayout()
     layoutData.addObject(&obj);
     // speed bar
     LayoutManaging::LayoutObject obj1 = LayoutManaging::LayoutObject();
-    obj1.model = "ui/box";
+    obj1.model = "ui/bo";
     obj1.texture_str = "sgl-logo.jpg";
     obj1.id = "ui2";
     obj1.position = glm::vec2(1, 0);

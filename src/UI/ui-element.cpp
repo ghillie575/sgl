@@ -10,6 +10,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <random>
 #include <stbi/stb_image.h>
+#include <SGL/error_handler.h>
 using namespace SGL;
 
 namespace SGL::UI
@@ -55,6 +56,7 @@ namespace SGL::UI
         else
         {
             logger.log(LogLevel::ERROR, "Failed to load texture " + texturePath);
+            handle_error("Failed to load texture " + texturePath);
         }
         stbi_image_free(data);
     }
@@ -67,7 +69,9 @@ namespace SGL::UI
         std::ifstream file(path);
         if (!file.is_open())
         {
+            handle_error("Failed to load model " + path);
             throw std::runtime_error("Failed to open file: " + path);
+            
         }
 
         std::stringstream buffer;
@@ -90,6 +94,7 @@ namespace SGL::UI
         // Check if the number of values is a multiple of 5 (3 for vertex + 2 for texture coordinates)
         if (vert.size() % totalSize != 0)
         {
+            handle_error("Invalid .vmodel file format: Incorrect number of values: " + std::to_string(vert.size()) + " % " + std::to_string(totalSize) + " != 0");
             throw std::runtime_error("Invalid .vmodel file format: Incorrect number of values.");
         }
 
@@ -98,6 +103,7 @@ namespace SGL::UI
         std::ifstream file1(path);
         if (!file1.is_open())
         {
+            handle_error("Failed to load model " + path);
             throw std::runtime_error("Failed to open file: " + path);
         }
 
@@ -186,6 +192,9 @@ namespace SGL::UI
     {
 
         glBindTexture(GL_TEXTURE_2D, texture);
+        if(!shader){
+            handle_error("Shader is null. UiElement " + id);
+        }
         shader->use();
         model_mat = glm::mat4(1.0f);
         model_mat = glm::translate(model_mat, glm::vec3(position.x, position.y, (float)ZIndex / 1000.0f));

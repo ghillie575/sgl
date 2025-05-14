@@ -17,7 +17,7 @@
 #include <SGL/libraryloader.h>
 #include <SGL/window.h>
 #include <SGL/UI/ui-element.h>
-
+#include <SGL/error_handler.h>
 namespace SGL
 {
 
@@ -36,6 +36,7 @@ namespace SGL
         catch (const std::exception &e)
         {
             logger.log(LogLevel::ERROR, "Exception in Window constructor: " + std::string(e.what()));
+            handle_error("Exception in Window constructor: " + std::string(e.what()));
             throw;
         }
     }
@@ -56,6 +57,7 @@ namespace SGL
         catch (const std::exception &e)
         {
             logger.log(LogLevel::ERROR, "Exception in Window constructor with debug: " + std::string(e.what()));
+            handle_error("Exception in Window constructor with debug: " + std::string(e.what()));
             throw;
         }
     }
@@ -74,6 +76,7 @@ namespace SGL
         catch (const std::exception &e)
         {
             logger.log(LogLevel::ERROR, "Exception in camUpdate: " + std::string(e.what()));
+            handle_error("Exception in camUpdate: " + std::string(e.what()));
             throw;
         }
     }
@@ -90,6 +93,7 @@ namespace SGL
         catch (const std::exception &e)
         {
             logger.log(LogLevel::ERROR, "Exception in camInit: " + std::string(e.what()));
+            handle_error("Exception in camInit: " + std::string(e.what()));
             throw;
         }
     }
@@ -106,6 +110,7 @@ namespace SGL
         catch (const std::exception &e)
         {
             logger.log(LogLevel::ERROR, "Exception in getObjectById: " + std::string(e.what()));
+            handle_error("Exception in getObjectById: " + std::string(e.what()));
             throw;
         }
     }
@@ -120,6 +125,7 @@ namespace SGL
         catch (const std::exception &e)
         {
             logger.log(LogLevel::ERROR, "Exception in getObjectById: " + std::string(e.what()));
+            handle_error("Exception in getObjectById: " + std::string(e.what()));
             throw;
         }
     }
@@ -135,6 +141,7 @@ namespace SGL
         catch (const std::exception &e)
         {
             logger.log(LogLevel::ERROR, "Exception in getObjectByName: " + std::string(e.what()));
+            handle_error("Exception in getObjectByName: " + std::string(e.what()));
             throw;
         }
     }
@@ -182,11 +189,12 @@ namespace SGL
     // Pre-initialize window settings
     void Window::preInit()
     {
-       try
+        try
         {
             if (!glfwInit())
             {
                 logger.log(LogLevel::ERROR, "Failed to initialize GLFW");
+                handle_error("Failed to initialize GLFW");
                 throw std::runtime_error("GLFW initialization failed");
             }
 
@@ -201,7 +209,7 @@ namespace SGL
             if (!monitor)
             {
                 logger.log(LogLevel::ERROR, "Failed to get primary monitor");
-                glfwTerminate();
+                handle_error("Primary monitor is NULL");
                 throw std::runtime_error("Primary monitor is NULL");
             }
 
@@ -209,7 +217,7 @@ namespace SGL
             if (!mode)
             {
                 logger.log(LogLevel::ERROR, "Failed to get video mode");
-                glfwTerminate();
+                handle_error("Video mode is NULL");
                 throw std::runtime_error("Video mode is NULL");
             }
 
@@ -218,7 +226,7 @@ namespace SGL
             if (!window)
             {
                 logger.log(LogLevel::ERROR, "Failed to create GLFW window");
-                glfwTerminate();
+                handle_error("Failed to create GLFW window");
                 throw std::runtime_error("GLFW window creation failed");
             }
 
@@ -230,8 +238,7 @@ namespace SGL
             if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
             {
                 logger.log(LogLevel::ERROR, "Failed to initialize GLAD");
-                glfwDestroyWindow(window);
-                glfwTerminate();
+                handle_error("GLAD initialization failed");
                 throw std::runtime_error("GLAD initialization failed");
             }
 
@@ -240,12 +247,12 @@ namespace SGL
         }
         catch (const std::exception &e)
         {
-            logger.log(LogLevel::ERROR, "Exception in preInit with version: " + std::string(e.what()));
+            logger.log(LogLevel::ERROR, "Exception in preInit: " + std::string(e.what()));
+            handle_error("Exception in preInit: " + std::string(e.what()));
             throw;
         }
     }
-    
-    
+
     void Window::unlockCursor()
     {
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -259,10 +266,10 @@ namespace SGL
     {
         try
         {
-            logger.log(LogLevel::WARN, "Pre-initializing window with OpenGL version: " + std::to_string(glVersionMajor) + "." + std::to_string(glVersionMinor));
             if (!glfwInit())
             {
                 logger.log(LogLevel::ERROR, "Failed to initialize GLFW");
+                handle_error("Failed to initialize GLFW");
                 throw std::runtime_error("GLFW initialization failed");
             }
 
@@ -279,7 +286,7 @@ namespace SGL
             if (!monitor)
             {
                 logger.log(LogLevel::ERROR, "Failed to get primary monitor");
-                glfwTerminate();
+                handle_error("Primary monitor is NULL");
                 throw std::runtime_error("Primary monitor is NULL");
             }
 
@@ -287,7 +294,7 @@ namespace SGL
             if (!mode)
             {
                 logger.log(LogLevel::ERROR, "Failed to get video mode");
-                glfwTerminate();
+                handle_error("Video mode is NULL");
                 throw std::runtime_error("Video mode is NULL");
             }
 
@@ -296,7 +303,7 @@ namespace SGL
             if (!window)
             {
                 logger.log(LogLevel::ERROR, "Failed to create GLFW window");
-                glfwTerminate();
+                handle_error("Failed to create GLFW window");
                 throw std::runtime_error("GLFW window creation failed");
             }
 
@@ -308,8 +315,7 @@ namespace SGL
             if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
             {
                 logger.log(LogLevel::ERROR, "Failed to initialize GLAD");
-                glfwDestroyWindow(window);
-                glfwTerminate();
+                handle_error("GLAD initialization failed");
                 throw std::runtime_error("GLAD initialization failed");
             }
 
@@ -318,7 +324,8 @@ namespace SGL
         }
         catch (const std::exception &e)
         {
-            logger.log(LogLevel::ERROR, "Exception in preInit with version: " + std::string(e.what()));
+            logger.log(LogLevel::ERROR, "Exception in preInit: " + std::string(e.what()));
+            handle_error("Exception in preInit: " + std::string(e.what()));
             throw;
         }
     }
@@ -373,6 +380,7 @@ namespace SGL
         catch (const std::exception &e)
         {
             logger.log(LogLevel::ERROR, "Exception in init: " + std::string(e.what()));
+            handle_error("Exception in init: " + std::string(e.what()));
             throw;
         }
     }

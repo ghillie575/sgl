@@ -12,6 +12,7 @@
 #include <random>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stbi/stb_image.h>
+#include <SGL/error_handler.h>
 using namespace SGL;
 GameObject::GameObject()
 {
@@ -27,6 +28,7 @@ void GameObject::loadModel(std::string modelName)
     std::ifstream file(path);
     if (!file.is_open())
     {
+        handle_error("failed to load model: " + path);
         throw std::runtime_error("Failed to open file: " + path);
     }
 
@@ -51,6 +53,7 @@ void GameObject::loadModel(std::string modelName)
     // Check if the number of values is a multiple of 8 (3 for vertex + 2 for texture coordinates + 3 for normals) + vertex attributes
     if (vert.size() % totalSize != 0)
     {
+        handle_error("Invalid .vmodel file format: Incorrect number of values: " + std::to_string(vert.size()) + " % " + std::to_string(totalSize) + " != 0");
         throw std::runtime_error("Invalid .vmodel file format: Incorrect number of values.");
     }
 
@@ -59,6 +62,7 @@ void GameObject::loadModel(std::string modelName)
     std::ifstream file1(path);
     if (!file1.is_open())
     {
+        handle_error("failed to load model: " + path);
         throw std::runtime_error("Failed to open file: " + path);
     }
 
@@ -110,6 +114,7 @@ void GameObject::useTexture(std::string texturePath)
     if (!std::ifstream("engine/textures/" + texturePath))
     {
         logger.log(LogLevel::ERROR, "Texture file does not exist: " + texturePath);
+        handle_error("Failed to load texture: " + texturePath);
         useTexture("blank.jpg");
         return;
     }
@@ -144,6 +149,7 @@ void GameObject::useTexture(std::string texturePath)
     else
     {
         logger.log(LogLevel::ERROR, "Failed to load texture " + texturePath);
+        handle_error("Failed to load texture: " + texturePath);
     }
     stbi_image_free(data);
 }
@@ -251,6 +257,9 @@ void GameObject::render(Window *window)
     }
 
     glm::mat4 model = transform.getTransformationMatrix();
+    if(!shader){
+        handle_error("Shader is null. Object " + id);
+    }
     shader->use();
     setColor(color);
     shader->setVec3("camPos", window->camera.cameraPos);

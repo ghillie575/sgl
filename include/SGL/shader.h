@@ -26,6 +26,7 @@ public:
      * @param fragmentPath Path to the fragment shader source file.
      */
     Shader(const char *vertexPath, const char *fragmentPath);
+    Shader(const char *vertexCode, const char *fragmentCode , bool rawCode);
 
     /**
      * @brief Default constructor for Shader.
