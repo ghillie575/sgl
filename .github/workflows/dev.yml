@@ -26,7 +26,16 @@ jobs:
         sudo cp -r phys/lib/* /usr/local/lib/
     - name : Install FreeType
       run: |
-        sudo apt install libfreetype6-dev libfreetype6 pkg-config
+        sudo apt install -y build-essential pkg-config libfreetype6-dev libbz2-dev libharfbuzz-dev libpng-dev zlib1g-dev libicu-dev libglib2.0-dev
+        git clone https://gitlab.freedesktop.org/freetype/freetype.git
+        cd freetype
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=/usr/local
+        make -j(nproc)
+        sudo make install
+        sudo ldconfig /usr/local/lib
+
     - name: Configure Project
       run: cmake -S . -B build -DCMAKE_INSTALL_RPATH="\$ORIGIN"
 
