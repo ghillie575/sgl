@@ -20,7 +20,7 @@
 
 using namespace SGL;
 
-std::string textFragmentShader = R"(
+ std::string textFragmentShader = R"(
 #version 330 core
 in vec2 TexCoords;
 out vec4 color;
@@ -31,7 +31,7 @@ void main() {
     color = vec4(textColor, 1.0) * sampled;
 }
 )";
-std::string textVertexShader = R"(
+    std::string textVertexShader = R"(
 #version 330 core
 layout (location = 0) in vec4 vertex; // <vec2 pos, vec2 tex>
 out vec2 TexCoords;
@@ -42,24 +42,24 @@ void main() {
 }
 )";
 
-// Structs
-struct Character
-{
-    unsigned int TextureID;
-    glm::ivec2 Size;
-    glm::ivec2 Bearing;
-    unsigned int Advance;
-};
-struct Font
-{
-    std::map<GLchar, Character> Characters;
-};
+    // Structs
+    struct Character
+    {
+        unsigned int TextureID;
+        glm::ivec2 Size;
+        glm::ivec2 Bearing;
+        unsigned int Advance;
+    };
+    struct Font
+    {
+        std::map<GLchar, Character> Characters;
+    };
 
-std::map<std::string, Font> fonts;
-unsigned int VAO, VBO;
+    std::map<std::string, Font> fonts;
+    unsigned int VAO, VBO;
 
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+    const unsigned int SCR_WIDTH = 800;
+    const unsigned int SCR_HEIGHT = 600;
 
 // Function Declarations
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);

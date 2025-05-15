@@ -29,7 +29,7 @@
 #include <SGL/components/physics/rb_dynamic.h>
 #include <SGL/components/physics/rb_static.h>
 #include <SGL/components/physics/coliders/colider_box.h>
-#include <SGL/error_handler.h>
+#include <SGL/utils/debug_screen.h>
 using namespace SGL;
 FreeFlyCam cam = FreeFlyCam();
 SceneData data = SceneData();
@@ -159,6 +159,8 @@ void Update(Window *window)
 }
 void fpsWatch(Window *window)
 {
+    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+
     while (!window->IsClosed())
     {
         int fps = window->getCurrentFps();
@@ -166,11 +168,12 @@ void fpsWatch(Window *window)
                   << "FPS: " << fps << std::endl
                   << "DeltaTime: " << window->time.getDeltaTime() << "/" << window->time.getDeltaTime() * 1000 << "ms" << std::endl
                   << "Time: " << glfwGetTime() << std::endl
-                  
+
                   << "Camera position: (" << window->camera.cameraPos.x << ", " << window->camera.cameraPos.y << ", " << window->camera.cameraPos.z << ")" << std::endl
                   << "Camera rotation: (" << window->camera.rotation.x << ", " << window->camera.rotation.y << ", " << window->camera.rotation.z << ")" << std::endl
                   << "Camera front: (" << window->camera.cameraFront.x << ", " << window->camera.cameraFront.y << ", " << window->camera.cameraFront.z << ")" << std::endl
                   << "Camera speed: " << cam.camSpeed << std::endl;
+
         ;
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
@@ -224,7 +227,7 @@ void buildLayout()
     layoutData.addObject(&obj);
     // speed bar
     LayoutManaging::LayoutObject obj1 = LayoutManaging::LayoutObject();
-    obj1.model = "ui/bo";
+    obj1.model = "ui/box";
     obj1.texture_str = "sgl-logo.jpg";
     obj1.id = "ui2";
     obj1.position = glm::vec2(1, 0);
@@ -285,7 +288,8 @@ void playStartAnimation(Window *window)
     SGL::UI::UIElement *startPanel = window->getUiElementById("ui3");
     startAnimationTrg->setColor(glm::vec4(1, 1, 1, 1));
     startAnimationTrg->setPosition(glm::vec2(0, 0));
-    while(startAnimationTrg->rotation > -90){
+    while (startAnimationTrg->rotation > -90)
+    {
         startAnimationTrg->rotation -= 60 * window->time.getDeltaTime();
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
@@ -294,11 +298,11 @@ void playStartAnimation(Window *window)
     {
         startAnimationTrg->position.x += 0.8 * window->time.getDeltaTime();
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
-
     }
     glm::vec4 panelColor = glm::vec4(0, 0, 0, 0);
     std::this_thread::sleep_for(std::chrono::milliseconds(300));
-    while(panelColor.r < 3){
+    while (panelColor.r < 3)
+    {
         panelColor += glm::vec4(1, 1, 1, 1) * window->time.getDeltaTime();
         startPanel->setColor(panelColor);
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -312,6 +316,8 @@ void playStartAnimation(Window *window)
 // main
 int main(int, char **)
 {
+    DebugWindow debugWindow;
+    debugWindow.showDebugScreen();
     std::cout << R"(
                                      
    _____    _____   _      
@@ -355,8 +361,6 @@ int main(int, char **)
     std::cout << "OpenGL vendor: " << glGetString(GL_VENDOR) << std::endl;
     std::cout << "\n"
               << std::endl;
-    std::cout << "Press enter to continue" << std::endl;
-    std::cin.get();
     std::cout << "---- Begin of engine init -----" << std::endl;
     glfwDestroyWindow(gwindow);
     cam.camSpeed = 10;
@@ -391,11 +395,15 @@ int main(int, char **)
     //  fps
     std::thread th1(fpsWatch, &window);
     std::thread th2(playStartAnimation, &window);
-    
+
     // main loop
     window.start();
     // wait for exit
     th1.join();
     th2.join();
+
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
     return 0;
 }

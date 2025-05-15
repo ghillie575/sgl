@@ -26,7 +26,7 @@ jobs:
         sudo cp -r phys/lib/* /usr/local/lib/
     - name : Install FreeType
       run: |
-        sudo apt install -y build-essential pkg-config libfreetype6-dev libbz2-dev libharfbuzz-dev libpng-dev zlib1g-dev libicu-dev libglib2.0-dev
+        sudo apt install -y build-essential pkg-config libfreetype6-dev libbz2-dev libharfbuzz-dev libpng-dev zlib1g-dev libicu-dev libglib2.0-dev bzip2
         git clone https://gitlab.freedesktop.org/freetype/freetype.git
         cd freetype
         mkdir build
