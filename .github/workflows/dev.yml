@@ -32,7 +32,7 @@ jobs:
         mkdir build
         cd build
         cmake .. -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DBUILD_SHARED_LIBS=OFF -DCMAKE_INSTALL_PREFIX=/usr/local
-        make -j$(nproc)
+        make -j(nproc)
         sudo make install
         sudo ldconfig /usr/local/lib
 
