@@ -10,6 +10,9 @@
 #include <SGL/material.h>
 #include <SGL/physics/phys_object.h>
 #include <SGL/vertex_attribute.h>
+#include <SGL/VAO.h>
+#include <SGL/VBO.h>
+#include <SGl/EBO.h>
 
 #ifndef OBJECT_H
 #define OBJECT_H
@@ -37,7 +40,9 @@ namespace SGL
         Logger logger = Logger("");                          // Logger instance for debugging
         std::string generateRandomID(int length);            // Generates a random ID for the object
         glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f); // Object color (RGBA)
-        unsigned int VBO, VAO, EBO;                          // OpenGL buffer objects: Vertex Buffer Object, Vertex Array Object, Element Buffer Object
+        VAO vao;   
+        VBO vbo;   
+        EBO ebo;                                      // Vertex Array Object
 
     public:
         std::vector<VertexAttribute> vertexAttributes;      // List of vertex attributes for the object
@@ -50,6 +55,7 @@ namespace SGL
         Shader *shader = nullptr;                           // Pointer to the shader used by the object
         std::string shaderName = "";                        // Name of the shader
         Material material;                                  // Material properties of the object
+
 
         Transform transform;             // Transform properties (position, rotation, scale)
         std::vector<unsigned int> ind;   // Indices for the model

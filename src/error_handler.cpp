@@ -56,7 +56,7 @@ void main() {
     };
 
     std::map<std::string, Font> fonts;
-    unsigned int VAO, VBO;
+    unsigned int ERROR_VAO, ERROR_VBO;
 
     const unsigned int SCR_WIDTH = 800;
     const unsigned int SCR_HEIGHT = 600;
@@ -113,10 +113,10 @@ int start_debug_window(std::string error)
         return -1;
 
     // Setup VAO/VBO
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glGenVertexArrays(1, &ERROR_VAO);
+    glGenBuffers(1, &ERROR_VBO);
+    glBindVertexArray(ERROR_VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, ERROR_VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
@@ -216,7 +216,7 @@ void RenderText(Shader &shader, const std::string &text, float x, float y, float
     shader.use();
     glUniform3f(glGetUniformLocation(shader.ID, "textColor"), color.x, color.y, color.z);
     glActiveTexture(GL_TEXTURE0);
-    glBindVertexArray(VAO);
+    glBindVertexArray(ERROR_VAO);
 
     const auto &Characters = fonts[fontName].Characters;
     for (auto c = text.begin(); c != text.end(); ++c)
@@ -238,7 +238,7 @@ void RenderText(Shader &shader, const std::string &text, float x, float y, float
             {xpos + w, ypos + h, 1.0f, 0.0f}};
 
         glBindTexture(GL_TEXTURE_2D, ch.TextureID);
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBindBuffer(GL_ARRAY_BUFFER, ERROR_VBO);
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 

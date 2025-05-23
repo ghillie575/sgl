@@ -156,49 +156,14 @@ void GameObject::useTexture(std::string texturePath)
 void GameObject::build()
 {
 
-    float vertices[vert.size()];
-    unsigned int indices[ind.size()];
-    std::copy(vert.begin(), vert.end(), vertices);
-    std::copy(ind.begin(), ind.end(), indices);
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    if (modelUsesEBO)
-    {
-        glGenBuffers(1, &EBO);
-    }
-
-    glBindVertexArray(VAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, vert.size() * sizeof(float), vertices, GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, ind.size() * sizeof(unsigned int), indices, GL_STATIC_DRAW);
-    int totalSize = 8;
-    for (size_t i = 0; i < vertexAttributes.size(); i++)
-    {
-        totalSize += vertexAttributes[i].size;
-    }
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, totalSize * sizeof(float), (void *)0); // Position
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, totalSize * sizeof(float), (void *)(3 * sizeof(float))); // Texture
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, totalSize * sizeof(float), (void *)(5 * sizeof(float))); // Normals
-    glEnableVertexAttribArray(2);
-    int offset = 8;
-    std::sort(vertexAttributes.begin(), vertexAttributes.end(),
-              [](const VertexAttribute &a, const VertexAttribute &b)
-              {
-                  return a.location < b.location;
-              });
-
-    for (size_t i = 0; i < vertexAttributes.size(); i++)
-    {
-        glVertexAttribPointer(vertexAttributes[i].location, vertexAttributes[i].size, GL_FLOAT, GL_FALSE, totalSize * sizeof(float), (void *)(offset * sizeof(float)));
-        glEnableVertexAttribArray(vertexAttributes[i].location);
-        offset += vertexAttributes[i].size;
-    }
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    vao.Bind();
+    ebo.Bind();
+    ebo.init(ind);
+    vbo.init(vert);
+    vao.init(vertexAttributes, polCount);
+    vao.Unbind();
+    ebo.Unbind();
+    vbo.Unbind();
 }
 
 void GameObject::useShader(const char *shaderName)
@@ -257,7 +222,8 @@ void GameObject::render(Window *window)
     }
 
     glm::mat4 model = transform.getTransformationMatrix();
-    if(!shader){
+    if (!shader)
+    {
         handle_error("Shader is null. Object " + id);
     }
     shader->use();
@@ -269,17 +235,23 @@ void GameObject::render(Window *window)
     shader->setFloat("material.shininess", material.shininess);
     shader->setMat4("model", model);
     shader->setMat4("view", window->camera.getViewMatrix());
-    glBindVertexArray(VAO);
     for (size_t i = 0; i < components.size(); i++)
     {
         components[i]->Update();
     }
-    glDrawElements(GL_TRIANGLES, polCount, GL_UNSIGNED_INT, 0);
+    vbo.Bind();
+    vao.Bind();
+    vao.Draw();
+    // glDrawElements(GL_TRIANGLES, polCount, GL_UNSIGNED_INT, 0);
 }
 void GameObject::freeResources()
 {
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
+    vao.Unbind();
+    vao.Destroy();
+    vbo.Unbind();
+    vbo.Destroy();
+    ebo.Unbind();
+    ebo.Destroy();
 }
 void GameObject::addComponent(Window *window, std::string type)
 {
