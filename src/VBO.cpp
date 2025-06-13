@@ -26,5 +26,10 @@ void VBO::Unbind()
 
 void VBO::Destroy()
 {
+    if (ID == 0)
+    {
+        return; // Avoid double deletion
+    }
     glDeleteBuffers(1, &ID);
+    ID = 0; // Set ID to 0 after deletion to avoid dangling pointer
 }

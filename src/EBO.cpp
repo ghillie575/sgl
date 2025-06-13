@@ -10,7 +10,10 @@ EBO::EBO()
 
 EBO::~EBO()
 {
-    glDeleteBuffers(1, &ID);
+    if (ID != 0) {
+        glDeleteBuffers(1, &ID);
+        ID = 0;
+    }
 }
 
 void EBO::Bind()
@@ -31,5 +34,8 @@ void EBO::Unbind()
 
 void EBO::Destroy()
 {
-    glDeleteBuffers(1, &ID);
+    if (ID != 0) {
+        glDeleteBuffers(1, &ID);
+        ID = 0;
+    }
 }

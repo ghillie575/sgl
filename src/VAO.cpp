@@ -9,7 +9,12 @@ VAO::VAO()
 }
 void VAO::Destroy()
 {
+    if (ID == 0)
+    {
+        return; // Avoid double deletion
+    }
     glDeleteVertexArrays(1, &ID);
+    ID = 0; // Set ID to 0 after deletion to avoid dangling pointer
 }
 void VAO::init(std::vector<VertexAttribute> vertexAttributes, int indCount)
 {
