@@ -111,47 +111,12 @@ void GameObject::printModelData()
 }
 void GameObject::useTexture(std::string texturePath)
 {
-    if (!std::ifstream("engine/textures/" + texturePath))
+    if (texture.loadTexture(texturePath) != 0)
     {
-        logger.log(LogLevel::ERROR, "Texture file does not exist: " + texturePath);
         handle_error("Failed to load texture: " + texturePath);
-        useTexture("blank.jpg");
-        return;
+        throw std::runtime_error("Failed to load texture: " + texturePath);
     }
-    logger.log(LogLevel::DEBUG, "Generating texture...");
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    logger.log(LogLevel::DEBUG, "Texture bound to GL_TEXTURE_2D");
-
-    // Setting texture wrapping parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    logger.log(LogLevel::DEBUG, "Texture wrapping parameters set to GL_REPEAT");
-
-    // Setting texture filtering parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    logger.log(LogLevel::DEBUG, "Texture filtering parameters set to GL_LINEAR");
-
-    // Load image, create texture and generate mipmaps
-    int width, height, nrChannels;
-    std::string texturePathStr = "engine/textures/";
-    texturePathStr.append(texturePath);
-    logger.log(LogLevel::DEBUG, "Loading texture from " + texturePathStr);
-    unsigned char *data = stbi_load(texturePathStr.c_str(), &width, &height, &nrChannels, 0);
-    if (data)
-    {
-        logger.log(LogLevel::DEBUG, "Texture loaded successfully");
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-        logger.log(LogLevel::DEBUG, "Texture image set and mipmaps generated");
-    }
-    else
-    {
-        logger.log(LogLevel::ERROR, "Failed to load texture " + texturePath);
-        handle_error("Failed to load texture: " + texturePath);
-    }
-    stbi_image_free(data);
+    logger.log(LogLevel::DEBUG, "Texture loaded successfully: " + texturePath);
 }
 void GameObject::build()
 {
@@ -208,7 +173,7 @@ void GameObject::start(Window *window)
 }
 void GameObject::render(Window *window)
 {
-    glBindTexture(GL_TEXTURE_2D, texture);
+    texture.useTexture();
     if (physObject->processPhysics)
     {
         physx::PxTransform physTransform = physObject->actor->getGlobalPose();
@@ -216,8 +181,7 @@ void GameObject::render(Window *window)
         PxQuat pxQ = physTransform.q;
         glm::quat q(pxQ.w, pxQ.x, pxQ.y, pxQ.z); // GLM uses (w, x, y, z)
 
-        glm::vec3 eulerRad = glm::eulerAngles(q);
-        glm::vec3 eulerDeg = glm::degrees(eulerRad); // Optional
+        glm::vec3 eulerDeg = glm::degrees(glm::eulerAngles(q)); // Optional
         transform.setRotation(eulerDeg);
     }
 

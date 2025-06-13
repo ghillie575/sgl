@@ -13,6 +13,7 @@
 #include <SGL/VAO.h>
 #include <SGL/VBO.h>
 #include <SGl/EBO.h>
+#include <SGL/texture.h>
 
 #ifndef OBJECT_H
 #define OBJECT_H
@@ -36,13 +37,13 @@ namespace SGL
     private:
         bool modelUsesEBO = true; // Indicates if the model uses an Element Buffer Object (EBO)
 
-        unsigned int texture;                                // Texture ID
         Logger logger = Logger("");                          // Logger instance for debugging
         std::string generateRandomID(int length);            // Generates a random ID for the object
         glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f); // Object color (RGBA)
-        VAO vao;   
-        VBO vbo;   
-        EBO ebo;                                      // Vertex Array Object
+        VAO vao;
+        VBO vbo;
+        EBO ebo; // Vertex Array Object
+        Texture texture; // Texture associated with the object
 
     public:
         std::vector<VertexAttribute> vertexAttributes;      // List of vertex attributes for the object
@@ -56,11 +57,10 @@ namespace SGL
         std::string shaderName = "";                        // Name of the shader
         Material material;                                  // Material properties of the object
 
-
-        Transform transform;             // Transform properties (position, rotation, scale)
-        std::vector<unsigned int> ind;   // Indices for the model
-        std::vector<float> vert;         // Vertices for the model
-        int polCount;                    // Polygon count
+        Transform transform;           // Transform properties (position, rotation, scale)
+        std::vector<unsigned int> ind; // Indices for the model
+        std::vector<float> vert;       // Vertices for the model
+        int polCount;                  // Polygon count
 
         // Constructor
         GameObject();

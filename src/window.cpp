@@ -455,6 +455,11 @@ namespace SGL
                     physicsWorld->step(time.getDeltaTime());
                 }
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                /*for (auto &[name, shader] : shaderRegistry)
+                {
+                    shader.setMat4("view", camera.getViewMatrix());
+                    shader.setVec3("camPos", camera.cameraPos);
+                }*/
                 for (auto &element : uiElements)
                 {
                     if (element->visible)

@@ -365,7 +365,7 @@ int main(int, char **)
     glfwDestroyWindow(gwindow);
     cam.camSpeed = 10;
     // create the window
-    Window window = Window(1000, 1000, "SGL", true);
+    Window window = Window(1000, 1000, "SGL", false);
     // strongly recommended to be set to true, setting it to false may cause graphical issues or window initialization failure
     window.setDobbleBuffering(true);
     // preinit with OpenGL 3.3
