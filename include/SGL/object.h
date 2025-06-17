@@ -12,7 +12,7 @@
 #include <SGL/vertex_attribute.h>
 #include <SGL/VAO.h>
 #include <SGL/VBO.h>
-#include <SGl/EBO.h>
+#include <SGL/EBO.h>
 #include <SGL/texture.h>
 
 #ifndef OBJECT_H
