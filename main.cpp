@@ -180,29 +180,58 @@ void fpsWatch(Window *window)
 }
 void createScene()
 {
-    Material m = Materials::plastic();
-    m.setColor(26, 232, 81);
+    //phys cube 1
     SceneObject sobj1 = SceneObject();
     Transform t1 = Transform();
     t1.setScaling(glm::vec3(1, 1, 1));
     t1.translate(glm::vec3(-5, 10, 0));
-    t1.setRotation(glm::vec3(60, 60, 60));
+    t1.setRotation(glm::vec3(0, 0, 0));
     sobj1.transform = t1;
     sobj1.model = "basic/3d/cube";
     sobj1.shader = "default_nt";
     sobj1.name = "cube";
-    sobj1.material = m;
-    data.addObject(&sobj1);
-    // sobj1.addComponent("TestComponent");
+    sobj1.material = Materials::plastic();;
     sobj1.addComponent("ColorChangeComponent");
     sobj1.addComponent("box_colider");
     sobj1.addComponent("rb_dynamic");
-    SceneObject sobj2 = SceneObject();
-    Transform t2 = Transform();
-    t2.setScaling(glm::vec3(100, 1, 100));
+    data.addObject(&sobj1);
+    //phys cube 2
+    SceneObject sobjCube1 = SceneObject();
+    t1 = Transform();
+    t1.setScaling(glm::vec3(1, 1, 1));
+    t1.translate(glm::vec3(-5, 15, 0));
     t1.setRotation(glm::vec3(0, 0, 0));
-    t2.translate(glm::vec3(0, -20, 0));
-    sobj2.transform = t2;
+    sobjCube1.transform = t1;
+    sobjCube1.model = "basic/3d/cube";
+    sobjCube1.shader = "default_nt";
+    sobjCube1.name = "cube";
+    sobjCube1.material = Materials::plastic();;
+    sobjCube1.addComponent("ColorChangeComponent");
+    sobjCube1.addComponent("box_colider");
+    sobjCube1.addComponent("rb_dynamic");
+    data.addObject(&sobjCube1);
+    //phys cube 3
+    SceneObject sobjCube2 = SceneObject();
+    t1 = Transform();
+    t1.setScaling(glm::vec3(1, 1, 1));
+    t1.translate(glm::vec3(-5, 20, 0));
+    t1.setRotation(glm::vec3(0, 0, 0));
+    sobjCube2.transform = t1;
+    sobjCube2.model = "basic/3d/cube";
+    sobjCube2.shader = "default_nt";
+    sobjCube2.name = "cube";
+    sobjCube2.material = Materials::plastic();;
+    sobjCube2.addComponent("ColorChangeComponent");
+    sobjCube2.addComponent("box_colider");
+    sobjCube2.addComponent("rb_dynamic");
+    data.addObject(&sobjCube2);
+    //floor
+    SceneObject sobj2 = SceneObject();
+    t1 = Transform();
+    t1.setScaling(glm::vec3(100, 1, 100));
+    t1.setRotation(glm::vec3(0, 0, 0));
+    t1.translate(glm::vec3(0, -20, 0));
+    sobj2.transform = t1;
     sobj2.model = "basic/3d/cube";
     sobj2.shader = "default_nt";
     sobj2.material = Materials::plastic();
@@ -236,7 +265,7 @@ void buildLayout()
     obj1.ZIndex = 1;
     obj1.color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     layoutData.addObject(&obj1);
-    LayoutManaging::LayoutObject obj2 = LayoutManaging::LayoutObject();
+    /*LayoutManaging::LayoutObject obj2 = LayoutManaging::LayoutObject();
     obj2.model = "ui/triangle";
     obj2.texture_str = "sgl-logo.jpg";
     obj2.id = "ui_trg";
@@ -248,9 +277,9 @@ void buildLayout()
     obj2.color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
     obj2.shader = "vertex_ui_color_test";
     obj2.addVertexAttribute(3, 2);
-    layoutData.addObject(&obj2);
+    layoutData.addObject(&obj2);*/
 
-    LayoutManaging::LayoutObject obj3 = LayoutManaging::LayoutObject();
+    /*LayoutManaging::LayoutObject obj3 = LayoutManaging::LayoutObject();
     obj3.model = "ui/box";
     obj3.texture_str = "sgl-logo.jpg";
     obj3.id = "ui3";
@@ -259,7 +288,7 @@ void buildLayout()
     obj3.scale = glm::vec2(30, 30);
     obj3.ZIndex = 1;
     obj3.color = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-    layoutData.addObject(&obj3);
+    layoutData.addObject(&obj3);*/
     LayoutManaging::saveLayout(&layoutData, "basic_layout");
 }
 void mouseCallback(Window *window, double xpos, double ypos)
@@ -293,6 +322,7 @@ void playStartAnimation(Window *window)
         startAnimationTrg->rotation -= 60 * window->time.getDeltaTime();
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
+    startAnimationTrg->rotation = -90;
     std::this_thread::sleep_for(std::chrono::milliseconds(300));
     while (startAnimationTrg->position.x < 2)
     {
@@ -365,7 +395,7 @@ int main(int, char **)
     glfwDestroyWindow(gwindow);
     cam.camSpeed = 10;
     // create the window
-    Window window = Window(1000, 1000, "SGL", false);
+    Window window = Window(1000, 1000, "SGL", true);
     // strongly recommended to be set to true, setting it to false may cause graphical issues or window initialization failure
     window.setDobbleBuffering(true);
     // preinit with OpenGL 3.3
@@ -394,13 +424,13 @@ int main(int, char **)
     rigidbody = cube->getComponent<RBDynamic>();
     //  fps
     std::thread th1(fpsWatch, &window);
-    std::thread th2(playStartAnimation, &window);
+    //std::thread th2(playStartAnimation, &window);
 
     // main loop
     window.start();
     // wait for exit
     th1.join();
-    th2.join();
+    //th2.join();
 
     std::cout << std::endl;
     std::cout << std::endl;

@@ -438,7 +438,14 @@ namespace SGL
         {
             for (const auto &obj : objects)
             {
-                obj->start(this);
+                if (obj)
+                {
+                    obj->start(this);
+                }
+                else
+                {
+                    logger.log(LogLevel::WARN, "Null object in objects list");
+                }
             }
             glClearColor(0.1529f, 0.1608f, 0.1686f, 1.0f);
             static double previousTime = glfwGetTime();
@@ -471,6 +478,7 @@ namespace SGL
                 for (auto &obj : objects)
                 {
                     obj->render(this);
+                    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
                 }
                 updateCallback(this);
                 glfwSwapBuffers(window);
@@ -546,7 +554,14 @@ namespace SGL
             }
             obj->window = this;
             obj->build();
-            objects.push_back(std::move(obj));
+            objects.push_back(obj);
+            for (size_t i = 0; i < objects.size(); ++i)
+            {
+                if (!objects[i])
+                {
+                    logger.log(LogLevel::ERROR, "Null object at index " + std::to_string(i) + " immediately after push");
+                }
+            }
         }
         catch (const std::exception &e)
         {

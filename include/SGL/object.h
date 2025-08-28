@@ -99,6 +99,7 @@ namespace SGL
 
         // Adds a component to the object
         void addComponent(Window *window, std::string type);
+        void addComponent(std::shared_ptr<Component> component);
 
         // Retrieves a component of a specific type
         template <typename T>

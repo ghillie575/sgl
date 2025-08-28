@@ -158,17 +158,31 @@ std::string GameObject::generateRandomID(int length)
 }
 void GameObject::start(Window *window)
 {
-    for (size_t i = 0; i < components.size(); i++)
+    if (!components.empty())
     {
-        components[i]->gameObject = this;
-        components[i]->transform = &transform;
-        components[i]->prepare();
+        // safe to use components
+
+        if (components.size() == 0)
+        {
+            logger.log(LogLevel::WARN, "GameObject " + id + " has no components.");
+        }
+        for (size_t i = 0; i < components.size(); i++)
+        {
+            components[i]->gameObject = this;
+            components[i]->transform = &transform;
+            components[i]->prepare();
+        }
+
+        for (size_t i = 0; i < components.size(); i++)
+        {
+            components[i]->Start();
+        }
+    }
+    else
+    {
+        logger.log(LogLevel::WARN, "GameObject " + id + " has no components.");
     }
 
-    for (size_t i = 0; i < components.size(); i++)
-    {
-        components[i]->Start();
-    }
     physObject->setup(window);
 }
 void GameObject::render(Window *window)
@@ -221,6 +235,10 @@ void GameObject::addComponent(Window *window, std::string type)
 {
     std::shared_ptr<Component> objc = window->factory.createComponent(type);
     components.push_back(objc);
+}
+void GameObject::addComponent(std::shared_ptr<Component> component)
+{
+    components.push_back(component);
 }
 void GameObject::debugger()
 {

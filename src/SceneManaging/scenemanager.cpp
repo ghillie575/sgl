@@ -6,6 +6,7 @@
 #include <SGL/object.h>
 #include <SGL/logger.h>
 #include <SGL/SceneManaging/scenemanager.h>
+#include <SGL/components/ColiderDebugComponent.h>
 #include <fstream>
 using namespace SGL;
 
@@ -39,7 +40,7 @@ void SGL::loadScene(Window *window, const std::string &json)
                 obj->debugger();
                 sceneManagerLogger.log(LogLevel::DEBUG, "Successfully created object of type: " + object.type);
                 sceneManagerLogger.log(LogLevel::DEBUG, "Set texture for object: " + object.texture);
-                obj->vertexAttributes =object.vertexAttributes;
+                obj->vertexAttributes = object.vertexAttributes;
                 obj->loadModel(object.model.c_str());
                 sceneManagerLogger.log(LogLevel::DEBUG, "Loaded model for object: " + object.name);
                 obj->useShader(object.shader.c_str());
@@ -57,6 +58,35 @@ void SGL::loadScene(Window *window, const std::string &json)
 
                 window->registerObject(obj);
                 sceneManagerLogger.log(LogLevel::INFO, "Registered object with ID: " + obj->id);
+                if (obj->physObject->processPhysics)
+                {
+                    if (window->debug)
+                    {
+                        std::shared_ptr<SGL::GameObject> obj1 = window->factory.createObject("default");
+
+                        obj1->debug = window->debug;
+                        obj1->debugger();
+                        obj1->vertexAttributes = std::vector<SGL::VertexAttribute>();
+                        obj1->loadModel("basic/3d/cube");
+                        obj1->useShader("wireframe");
+                        obj1->transform = SGL::Transform(obj->transform);
+                        obj1->transform.setScaling(obj->transform.getScaling() * 1.00001f); // Slightly larger for visibility
+                        obj1->id = std::string("wireframe_") + obj->id;
+                        obj1->name = std::string("wireframe"); // No physics for visualization
+                        obj1->components = std::vector<std::shared_ptr<SGL::Component>>();
+                        obj1->addComponent(std::make_shared<SGL::Components::ColiderDebugComponent>(obj.get()));
+                        obj1->physObject = new SGL::PhysObject();
+                        obj1->physObject->processPhysics = false;
+                        if (obj1)
+                        {
+                            window->registerObject(obj1);
+                        }
+                        else
+                        {
+                            std::cerr << "[ENGINE] [ERROR] Failed to create wireframe collider object!" << std::endl;
+                        }
+                    }
+                }
             }
             else
             {
