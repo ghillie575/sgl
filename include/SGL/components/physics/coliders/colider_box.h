@@ -3,8 +3,6 @@
 
 #include <PxPhysicsAPI.h>
 #include <SGL/component.h>
-#include <SGl/components/ColiderDebugComponent.h>
-
 using namespace physx;
 
 /**
