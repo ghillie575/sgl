@@ -43,8 +43,9 @@ add_library(glad SHARED ${CMAKE_SOURCE_DIR}/src/glad/glad.c)
 
 # Set output directories
 
-# Create executable
-add_executable(XandO main.cpp)
+# Create executables
+add_executable(test main.cpp)
+add_executable(crashhandler src/error_handler/main.cpp)
 
 # Link libraries
 target_link_libraries(sgl glfw OpenGL::GL glad freetype)
@@ -57,7 +58,7 @@ target_link_libraries(sgl
     PhysXExtensions_static_64
     PhysXCooking_static_64
 )
-target_link_libraries(XandO
+target_link_libraries(test
     PhysX_static_64
     PhysXCommon_static_64
     PhysXFoundation_static_64
@@ -66,11 +67,12 @@ target_link_libraries(XandO
 )
 
 
-target_link_libraries(XandO sgl)
+target_link_libraries(test sgl)
+target_link_libraries(crashhandler sgl)
 
 # Set installation prefix
 set(CMAKE_INSTALL_PREFIX ".")
-install(TARGETS sgl glad XandO
+install(TARGETS sgl glad test
     RUNTIME DESTINATION .
     LIBRARY DESTINATION .
 )

@@ -50,6 +50,7 @@ void SGL::loadScene(Window *window, const std::string &json)
                 obj->material = Material(object.material);
                 obj->name = std::string(object.name);
                 obj->physObject->properties = PhysProperties(object.properties);
+                obj->physObject->processPhysics = object.properties.processPhysics;
                 obj->useTexture(object.texture);
                 for (const auto &component : object.components)
                 {

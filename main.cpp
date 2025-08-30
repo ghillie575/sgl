@@ -30,6 +30,7 @@
 #include <SGL/components/physics/rb_static.h>
 #include <SGL/components/physics/coliders/colider_box.h>
 #include <SGL/utils/debug_screen.h>
+#include <SGL/log_writter.h>
 using namespace SGL;
 FreeFlyCam cam = FreeFlyCam();
 SceneData data = SceneData();
@@ -180,7 +181,7 @@ void fpsWatch(Window *window)
 }
 void createScene()
 {
-    //phys cube 1
+    // phys cube 1
     SceneObject sobj1 = SceneObject();
     Transform t1 = Transform();
     t1.setScaling(glm::vec3(1, 1, 1));
@@ -190,12 +191,13 @@ void createScene()
     sobj1.model = "basic/3d/cube";
     sobj1.shader = "default_nt";
     sobj1.name = "cube";
-    sobj1.material = Materials::plastic();;
+    sobj1.material = Materials::plastic();
+    ;
     sobj1.addComponent("ColorChangeComponent");
     sobj1.addComponent("box_colider");
     sobj1.addComponent("rb_dynamic");
     data.addObject(&sobj1);
-    //phys cube 2
+    // phys cube 2
     SceneObject sobjCube1 = SceneObject();
     t1 = Transform();
     t1.setScaling(glm::vec3(1, 1, 1));
@@ -205,12 +207,13 @@ void createScene()
     sobjCube1.model = "basic/3d/cube";
     sobjCube1.shader = "default_nt";
     sobjCube1.name = "cube";
-    sobjCube1.material = Materials::plastic();;
+    sobjCube1.material = Materials::plastic();
+    ;
     sobjCube1.addComponent("ColorChangeComponent");
     sobjCube1.addComponent("box_colider");
     sobjCube1.addComponent("rb_dynamic");
     data.addObject(&sobjCube1);
-    //phys cube 3
+    // phys cube 3
     SceneObject sobjCube2 = SceneObject();
     t1 = Transform();
     t1.setScaling(glm::vec3(1, 1, 1));
@@ -220,15 +223,55 @@ void createScene()
     sobjCube2.model = "basic/3d/cube";
     sobjCube2.shader = "default_nt";
     sobjCube2.name = "cube";
-    sobjCube2.material = Materials::plastic();;
+    sobjCube2.material = Materials::plastic();
+    ;
     sobjCube2.addComponent("ColorChangeComponent");
     sobjCube2.addComponent("box_colider");
     sobjCube2.addComponent("rb_dynamic");
     data.addObject(&sobjCube2);
-    //floor
+    // cube without physics
+    SceneObject cube = SceneObject();
+    t1 = Transform();
+    t1.setScaling(glm::vec3(1, 1, 1));
+    t1.translate(glm::vec3(-5, -5, 0));
+    t1.setRotation(glm::vec3(0, 0, 0));
+    cube.transform = t1;
+    cube.model = "basic/3d/cube";
+    cube.shader = "fun";
+    cube.name = "cube";
+    cube.properties.processPhysics = false;
+    cube.material = Materials::plastic();
+    data.addObject(&cube);
+    // cube 2
+    SceneObject cube1 = SceneObject();
+    t1 = Transform();
+    t1.setScaling(glm::vec3(1, 1, 1));
+    t1.translate(glm::vec3(-2.5, -5, 0));
+    t1.setRotation(glm::vec3(0, 0, 0));
+    cube1.transform = t1;
+    cube1.model = "basic/3d/cube";
+    cube1.shader = "random";
+    cube1.name = "cube";
+    cube1.properties.processPhysics = false;
+    cube1.material = Materials::plastic();
+    data.addObject(&cube1);
+    // cube 3
+    SceneObject cube2 = SceneObject();
+    t1 = Transform();
+    t1.setScaling(glm::vec3(1, 1, 1));
+    t1.translate(glm::vec3(0, -5, 0));
+    t1.setRotation(glm::vec3(0, 0, 0));
+    cube2.transform = t1;
+    cube2.model = "basic/3d/cube";
+    cube2.shader = "circles";
+    cube2.name = "cube";
+    cube2.properties.processPhysics = false;
+    cube2.material = Materials::plastic();
+    data.addObject(&cube2);
+    // floor
     SceneObject sobj2 = SceneObject();
     t1 = Transform();
-    t1.setScaling(glm::vec3(100, 1, 100));
+    t1.setScaling(glm::vec3(10, 1, 10));
     t1.setRotation(glm::vec3(0, 0, 0));
     t1.translate(glm::vec3(0, -20, 0));
     sobj2.transform = t1;
@@ -343,12 +386,17 @@ void playStartAnimation(Window *window)
     std::cout << "Start animation finished" << std::endl;
     return;
 }
-// main
-int main(int, char **)
+#include <sstream>
+#include <string>
+#include <iostream>
+#include <GLFW/glfw3.h>
+#include <glad/glad.h>
+
+std::string gatherEngineInfo()
 {
-    DebugWindow debugWindow;
-    debugWindow.showDebugScreen();
-    std::cout << R"(
+    std::ostringstream out;
+
+    out << R"(
                                      
    _____    _____   _      
   / ____|  / ____| | |     
@@ -359,40 +407,68 @@ int main(int, char **)
 
     simple game library                         
     )" << std::endl;
-    std::cout << "Using sgl version: " << SGL_VERSION << std::endl;
-    std::cout << "Using glfw version: " << GLFW_VERSION_MAJOR << "." << GLFW_VERSION_MINOR << "." << GLFW_VERSION_REVISION << std::endl;
-    std::cout << "Using PhysX version: " << PX_PHYSICS_VERSION_MAJOR << "." << PX_PHYSICS_VERSION_MINOR << "." << PX_PHYSICS_VERSION_BUGFIX << std::endl;
-    std::cout << "This is a test program\nThis program is designed to test comatibility of sgl engine with your hardware" << std::endl;
-    std::cout << "Running on: " << std::endl;
-    std::cout << "OS: ";
+
+    out << "Using sgl version: " << SGL_VERSION << std::endl;
+    out << "Using glfw version: " 
+        << GLFW_VERSION_MAJOR << "." 
+        << GLFW_VERSION_MINOR << "." 
+        << GLFW_VERSION_REVISION << std::endl;
+    out << "Using PhysX version: " 
+        << PX_PHYSICS_VERSION_MAJOR << "." 
+        << PX_PHYSICS_VERSION_MINOR << "." 
+        << PX_PHYSICS_VERSION_BUGFIX << std::endl;
+
+    out << "This is a test program\n"
+        << "This program is designed to test compatibility of sgl engine with your hardware" << std::endl;
+
+    out << "Running on: " << std::endl;
+    out << "OS: ";
 #ifdef _WIN32
-    std::cout << "Windows" << std::endl;
+    out << "Windows" << std::endl;
+#elif defined(__APPLE__)
+    out << "MacOS" << std::endl;
 #else
-#ifdef __APPLE__
-    std::cout << "MacOS" << std::endl;
-#else
-    std::cout << "Linux" << std::endl;
+    out << "Linux" << std::endl;
 #endif
-#endif
-    std::cout << "CPU Architecture: ";
+
+    out << "CPU Architecture: ";
 #ifdef __x86_64__
-    std::cout << "x64" << std::endl;
+    out << "x64" << std::endl;
 #else
-    std::cout << "x86" << std::endl;
+    out << "x86" << std::endl;
 #endif
+
     glfwInit();
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
     GLFWwindow *gwindow = glfwCreateWindow(1, 1, "Headless", NULL, NULL);
     glfwMakeContextCurrent(gwindow);
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-    std::cout << "GL: " << glGetString(GL_VERSION) << std::endl;
-    std::cout << "GLSL: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
-    std::cout << "OpenGL: " << glGetString(GL_RENDERER) << std::endl;
-    std::cout << "OpenGL vendor: " << glGetString(GL_VENDOR) << std::endl;
-    std::cout << "\n"
-              << std::endl;
-    std::cout << "---- Begin of engine init -----" << std::endl;
+
+    out << "GL: "    << glGetString(GL_VERSION) << std::endl;
+    out << "GLSL: "  << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+    out << "OpenGL: "<< glGetString(GL_RENDERER) << std::endl;
+    out << "OpenGL vendor: " << glGetString(GL_VENDOR) << std::endl;
+    out << "\n" << std::endl;
+
+
     glfwDestroyWindow(gwindow);
+
+    return out.str();
+}
+
+// main
+int main(int, char **)
+{
+    Logger logger = Logger("Main");
+    getLogWritterInstance()->init();
+    logger.log(LogLevel::INFO, "Logger initialized");
+    std::string engineInfo = gatherEngineInfo();
+    logger.log(LogLevel::INFO, engineInfo);
+    DebugWindow debugWindow;
+    debugWindow.showDebugScreen();
+    std::cout << engineInfo << std::endl;
+    std::cout << "--------------------------------" << std::endl;
+    std::cout << "Starting engine..." << std::endl;
     cam.camSpeed = 10;
     // create the window
     Window window = Window(1000, 1000, "SGL", true);
@@ -424,13 +500,13 @@ int main(int, char **)
     rigidbody = cube->getComponent<RBDynamic>();
     //  fps
     std::thread th1(fpsWatch, &window);
-    //std::thread th2(playStartAnimation, &window);
+    // std::thread th2(playStartAnimation, &window);
 
     // main loop
     window.start();
     // wait for exit
     th1.join();
-    //th2.join();
+    // th2.join();
 
     std::cout << std::endl;
     std::cout << std::endl;

@@ -1,6 +1,6 @@
 #ifndef LOGGER_H
 #define LOGGER_H
-
+#include <SGL/log_writter.h>
 #include <iostream>
 
 namespace SGL {
@@ -56,6 +56,21 @@ public:
      */
     Logger(const std::string &className, bool debug) : className(className) {
         this->debug = debug;
+        // Remove bash color codes from className
+        std::string cleanClassName;
+        bool inEscape = false;
+        for (char c : className) {
+            if (c == '\e') {
+            inEscape = true;
+            }
+            if (!inEscape) {
+            cleanClassName += c;
+            }
+            if (inEscape && c == 'm') {
+            inEscape = false;
+            }
+        }
+        this->rawClassName = cleanClassName;
         if(className == "ENGINE") {
             this->className = "\e[95m" + className + "\e[0m";
         }else if (className == "GameObject") {
@@ -90,26 +105,35 @@ public:
      */
     void log(LogLevel level, const std::string &message) {
         std::string levelStr;
+        std::string rawLevelStr;
         switch (level) {
         case INFO:
             levelStr = "\e[94mINFO\e[0m";
+            rawLevelStr = "INFO";
             break;
         case WARN:
             levelStr = "\e[30m\e[43mWARN\e[0m";
+            rawLevelStr = "WARN";
             break;
         case ERROR:
             levelStr = "\e[30m\e[41mERROR\e[0m";
+            rawLevelStr = "ERROR";
             break;
         case DEBUG:
             if (!debug) return;
             levelStr = "\e[90mDEBUG\e[0m";
+            rawLevelStr = "DEBUG";
             break;
         }
-        std::cout << "[\e[92m" << className << "\e[0m] [" << levelStr << "] " << message << std::endl;std::cout.flush();
+        std::string final_output = "[\e[92m" + className + "\e[0m] [" + levelStr + "] " + message + "\n";
+        std::string final_output_raw ="[" + rawClassName + "] [" + rawLevelStr + "] " + message + "\n";
+        std::cout << final_output;std::cout.flush();
+        getLogWritterInstance()->log(final_output_raw);
     }
 
 private:
     std::string className = ""; ///< The name of the class using the logger.
+    std::string rawClassName = "";//< The raw class name without color codes.
 };
 
 } // namespace SGL

@@ -211,6 +211,7 @@ void GameObject::render(Window *window)
     shader->setVec3("material.diffuse", material.diffuse);
     shader->setVec3("material.specular", material.specular);
     shader->setFloat("material.shininess", material.shininess);
+    shader->setFloat("time", (float)glfwGetTime());
     shader->setMat4("model", model);
     shader->setMat4("view", window->camera.getViewMatrix());
     for (size_t i = 0; i < components.size(); i++)

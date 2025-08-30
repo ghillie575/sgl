@@ -21,6 +21,7 @@ namespace SGL
         float dynamicFriction = 0.8; ///< The dynamic friction coefficient (default: 0.8).
         float restitution = 0.0; ///< The restitution (bounciness) of the object (default: 0.0).
         bool isKinematic = false; ///< Whether the object is kinematic (default: false).
+        bool processPhysics = true; ///< Whether to process physics for this object (default: true).
 
         /**
          * @brief Serializes the physical properties to a JSON object.
@@ -35,6 +36,7 @@ namespace SGL
             j["dynamicFriction"] = dynamicFriction;
             j["restitution"] = restitution;
             j["isKinematic"] = isKinematic;
+            j["processPhysics"] = processPhysics;
             return j;   
         }
 
@@ -50,6 +52,7 @@ namespace SGL
             j.at("dynamicFriction").get_to(dynamicFriction);
             j.at("restitution").get_to(restitution);
             j.at("isKinematic").get_to(isKinematic);
+            j.at("processPhysics").get_to(processPhysics);
         }
     };
 }

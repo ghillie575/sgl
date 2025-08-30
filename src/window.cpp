@@ -191,6 +191,7 @@ namespace SGL
     {
         try
         {
+           
             if (!glfwInit())
             {
                 logger.log(LogLevel::ERROR, "Failed to initialize GLFW");
