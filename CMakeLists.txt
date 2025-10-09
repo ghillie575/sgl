@@ -8,7 +8,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/thirdparty-install)
 
 # Include the bgfx.cmake project
-add_subdirectory(external/bgfx.cmake)
 
 # Now, targets bgfx, bx, bimg are available
 
