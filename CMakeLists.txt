@@ -1,42 +1,92 @@
 cmake_minimum_required(VERSION 3.10)
-project(sgl VERSION 0.1.0 LANGUAGES CXX)
+project(sgl VERSION 0.1.0 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+include(FetchContent)
+find_package(OpenGL REQUIRED)
 
-# Optionally set where bgfx should install (if you want to install it)
-# set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/thirdparty-install)
+# ----------------------------------------------------------
+# GLFW
+# ----------------------------------------------------------
+find_package(glfw3 QUIET)
+if(NOT glfw3_FOUND)
+    message(STATUS "GLFW not found, fetching via FetchContent...")
+    FetchContent_Declare(
+        glfw
+        GIT_REPOSITORY https://github.com/glfw/glfw.git
+        GIT_TAG        3.4
+    )
+    FetchContent_MakeAvailable(glfw)
+endif()
 
-# Include the bgfx.cmake project
-
-# Now, targets bgfx, bx, bimg are available
-
-# Find GLFW from system packages
-find_package(PkgConfig REQUIRED)
-pkg_search_module(GLFW REQUIRED glfw3)
-
-# Your include dirs
-include_directories(
-    ${CMAKE_SOURCE_DIR}/include
-    ${GLFW_INCLUDE_DIRS}
+# ----------------------------------------------------------
+# GLM (header-only)
+# ----------------------------------------------------------
+find_package(glm QUIET)
+if(NOT glm_FOUND)
+    message(STATUS "GLM not found, fetching via FetchContent...")
+    FetchContent_Declare(
+        glm
+        GIT_REPOSITORY https://github.com/g-truc/glm.git
+        GIT_TAG        1.0.1
+    )
+    FetchContent_MakeAvailable(glm)
+endif()
+# ----------------------------------------------------------
+# STB Image (header-only)
+# ----------------------------------------------------------
+FetchContent_Declare(
+    stb
+    GIT_REPOSITORY https://github.com/nothings/stb.git
+    GIT_TAG        master
 )
-
-# SGL static library
+FetchContent_MakeAvailable(stb)
+add_library(stb_image INTERFACE)
+target_include_directories(stb_image INTERFACE ${stb_SOURCE_DIR})
+# ----------------------------------------------------------
+# GLAD
+# ----------------------------------------------------------
+add_library(glad src/glad/glad.c)
+target_include_directories(glad PUBLIC include)
+set_target_properties(glad PROPERTIES POSITION_INDEPENDENT_CODE ON)
+# ----------------------------------------------------------
+# SGL shared library
+# ----------------------------------------------------------
 file(GLOB_RECURSE SGL_SOURCES "${CMAKE_SOURCE_DIR}/src/sgl/*.cpp")
+file(GLOB_RECURSE SGL_ENGINE_SOURCES "${CMAKE_SOURCE_DIR}/src/sgl/engine/*.cpp")
+add_library(sgl SHARED ${SGL_SOURCES} ${SGL_ENGINE_SOURCES})
 
-add_library(sgl SHARED ${SGL_SOURCES})
+target_link_libraries(sgl PUBLIC
+    glfw
+    glm::glm
+    glad
+    stb_image
+    OpenGL::GL
+)
 target_include_directories(sgl PUBLIC
     ${CMAKE_SOURCE_DIR}/include
-    ${GLFW_INCLUDE_DIRS}
+)
+target_include_directories(sgl PUBLIC
+    ${VULKAN_INCLUDE_DIRS}
 )
 
-# Link to bx, bimg, bgfx
-target_link_libraries(sgl PUBLIC
-    bx
-    bimg
-    bgfx
-)
-
+# ----------------------------------------------------------
 # Main executable
+# ----------------------------------------------------------
 add_executable(main main.cpp)
-target_link_libraries(main PRIVATE sgl ${GLFW_LIBRARIES})
+target_link_libraries(main PRIVATE
+    sgl
+)
+# ----------------------------------------------------------
+# Copy engine resources after build
+# ----------------------------------------------------------
+add_custom_command(TARGET main PRE_BUILD
+    COMMAND ${CMAKE_COMMAND} -E remove_directory
+    "$<TARGET_FILE_DIR:main>/engine"
+)
+add_custom_command(TARGET main POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "${CMAKE_SOURCE_DIR}/engine"
+    "$<TARGET_FILE_DIR:main>/engine"
+)
