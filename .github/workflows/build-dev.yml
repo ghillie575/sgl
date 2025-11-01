@@ -37,7 +37,7 @@ jobs:
         cp -r engine release_package/
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact
       with:
         name: sgl-release
         path: release_package/
