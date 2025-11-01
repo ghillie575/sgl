@@ -1,0 +1,43 @@
+name: Dev build
+
+on:
+  push:
+    branches: [ "dev" ]
+  pull_request:
+    branches: [ "dev" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake git libglfw3-dev libfreetype6-dev libglm-dev
+
+    - name: Create build directory
+      run: mkdir -p build
+
+    - name: Configure CMake
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build project
+      run: cmake --build build --config Release -- -j$(nproc)
+
+    - name: Prepare artifact folder
+      run: |
+        mkdir -p release_package
+        # Copy executable
+        cp build/main release_package/
+        # Copy engine folder
+        cp -r engine release_package/
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: sgl-release
+        path: release_package/

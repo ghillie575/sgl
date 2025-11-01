@@ -1,4 +1,4 @@
-#include <sgl/engine/shader_loader.h>
+#include <sgl/loaders/shader_loader.h>
 #include <sgl/logger.h>
 #include <fstream>
 #include <sstream>
@@ -40,6 +40,8 @@ int loadShader(const std::string &name)
                     return 0;
             }
             getLogger()->log("Shader", "Compiling: " + name);
+            getLogger()->debug("ShaderLoader", "Vertex Path: " + shaderInfos[i].vertex.path);
+            getLogger()->debug("ShaderLoader", "Fragment Path: " + shaderInfos[i].fragment.path);
             Shader *shader = new Shader(shaderInfos[i].vertex.path.c_str(), shaderInfos[i].fragment.path.c_str());
             shaders.push_back(shader);
             shader->name = name;
@@ -54,7 +56,7 @@ void loadShaderHeaders()
 
     namespace fs = std::filesystem;
     std::string shadersDir = "engine/shaders";
-
+    getLogger()->log("ShaderLoader", "Loading shader headers from directory: " + shadersDir);
     for (const auto &entry : fs::directory_iterator(shadersDir))
     {
         if (!entry.is_regular_file())
@@ -86,14 +88,12 @@ void loadShaderHeaders()
                 info.loader_version = value;
             else if (key == "type")
                 info.type = value;
-            else if (key == "path")
-                info.path = value;
             else if (key == "name")
                 info.name = value;
         }
-        if (info.loader_version != SGL_LOADER_VERSION)
+        if (info.loader_version != SGL_SHADER_LOADER_VERSION)
         {
-            getLogger()->warn("ShaderLoader", "Incompatible loader version for shader: " + info.name + ". Expected " + SGL_LOADER_VERSION + ", got " + info.loader_version + ". Skipping.");
+            getLogger()->warn("ShaderLoader", "Incompatible loader version for shader: " + info.name + ". Expected " + SGL_SHADER_LOADER_VERSION + ", got " + info.loader_version + ". Skipping.");
             continue;
         }
         if (info.type != "vertex" && info.type != "fragment")
@@ -101,12 +101,13 @@ void loadShaderHeaders()
             getLogger()->warn("ShaderLoader", "Unknown shader type for shader: " + info.name + ": " + info.type + ". Skipping.");
             continue;
         }
+        info.path = entry.path().string();
         if (info.path.empty() || info.name.empty())
         {
             getLogger()->warn("ShaderLoader", "Incomplete shader metadata in file: " + entry.path().string() + ". Skipping.");
             continue;
         }
-        getLogger()->log("ShaderLoader", "Loaded shader metadata: " + info.name + " (" + info.type + ")");
+        getLogger()->debug("ShaderLoader", "Loaded shader metadata: " + info.name + " (" + info.type + ")");
         bool found = false;
         for (auto &existingInfo : shaderInfos)
         {
@@ -142,15 +143,19 @@ void loadShaderHeaders()
         shaderInfos.push_back(minfo);
     }
     getLogger()->log("ShaderLoader", "Total shaders loaded: " + std::to_string(shaderInfos.size()));
-    for (const auto &si : shaderInfos)
+    // Remove incomplete shaders and log them
+    auto it = shaderInfos.begin();
+    while (it != shaderInfos.end())
     {
-        if (si.valid)
+        if (it->valid)
         {
-            getLogger()->log("ShaderLoader", "Shader ready: " + si.name + " (Vertex: " + si.vertex.path + ", Fragment: " + si.fragment.path + ")" + " loader version: " + si.vertex.loader_version);
+            getLogger()->debug("ShaderLoader", "Shader ready: " + it->name + " (Vertex: " + it->vertex.path + ", Fragment: " + it->fragment.path + ")" + " loader version: " + it->vertex.loader_version);
+            ++it;
         }
         else
         {
-            getLogger()->warn("ShaderLoader", "Shader incomplete: " + si.name);
+            getLogger()->warn("ShaderLoader", "Shader incomplete: " + it->name);
+            it = shaderInfos.erase(it);
         }
     }
 }

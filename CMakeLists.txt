@@ -3,6 +3,7 @@ project(sgl VERSION 0.1.0 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 include(FetchContent)
 find_package(OpenGL REQUIRED)
 
@@ -33,6 +34,7 @@ if(NOT glm_FOUND)
     )
     FetchContent_MakeAvailable(glm)
 endif()
+
 # ----------------------------------------------------------
 # STB Image (header-only)
 # ----------------------------------------------------------
@@ -44,12 +46,28 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(stb)
 add_library(stb_image INTERFACE)
 target_include_directories(stb_image INTERFACE ${stb_SOURCE_DIR})
+
+# ----------------------------------------------------------
+# FreeType2
+# ----------------------------------------------------------
+find_package(Freetype QUIET)
+if(NOT Freetype_FOUND)
+    message(STATUS "FreeType2 not found, fetching via FetchContent...")
+    FetchContent_Declare(
+        freetype
+        GIT_REPOSITORY https://gitlab.freedesktop.org/freetype/freetype.git
+        GIT_TAG        VER-2-14-1
+    )
+    FetchContent_MakeAvailable(freetype)
+endif()
+
 # ----------------------------------------------------------
 # GLAD
 # ----------------------------------------------------------
 add_library(glad src/glad/glad.c)
 target_include_directories(glad PUBLIC include)
 set_target_properties(glad PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
 # ----------------------------------------------------------
 # SGL shared library
 # ----------------------------------------------------------
@@ -63,6 +81,7 @@ target_link_libraries(sgl PUBLIC
     glad
     stb_image
     OpenGL::GL
+    Freetype::Freetype
 )
 target_include_directories(sgl PUBLIC
     ${CMAKE_SOURCE_DIR}/include
@@ -78,6 +97,7 @@ add_executable(main main.cpp)
 target_link_libraries(main PRIVATE
     sgl
 )
+
 # ----------------------------------------------------------
 # Copy engine resources after build
 # ----------------------------------------------------------

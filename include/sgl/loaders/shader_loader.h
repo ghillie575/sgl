@@ -1,8 +1,8 @@
 #ifndef SHADER_LOADER_H
 #define SHADER_LOADER_H
-#define SGL_LOADER_VERSION "1.0"
+#define SGL_SHADER_LOADER_VERSION "1.0"
 #include <string>
-#include <sgl/engine/shader.h>
+#include <sgl/core/shader.h>
 struct ShaderPartInfo {
     std::string loader_version;
     std::string path;

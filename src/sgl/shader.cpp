@@ -1,4 +1,4 @@
-#include <sgl/engine/shader.h>
+#include <sgl/core/shader.h>
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -29,7 +29,7 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath)
     }
     catch (std::ifstream::failure &e)
     {
-        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+       getLogger()->error("Shader","ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ");
     }
     const char *vShaderCode = vertexCode.c_str();
     const char *fShaderCode = fragmentCode.c_str();
@@ -54,6 +54,10 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath)
 
     glDeleteShader(vertex);
     glDeleteShader(fragment);
+    getLogger()->debug("Shader", "Shader compiled and linked successfully: " + name);
+    getLogger()->debug("Shader", "Shader program ID: " + std::to_string(ID));
+    getLogger()->debug("Shader", "Vertex Shader: " + std::string(vertexCode));
+    getLogger()->debug("Shader", "Fragment Shader: " + std::string(fragmentCode));
 }
 void Shader::use()
 {
@@ -74,7 +78,10 @@ void Shader::setFloat(const std::string &name, float value) const
 {
     glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
 }
-
+void Shader::setMat4(const std::string &name, glm::mat4 value) const
+{
+    glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
+}
 void Shader::checkCompileErrors(unsigned int shader, std::string type)
 {
     int success;
