@@ -33,6 +33,7 @@ jobs:
         mkdir -p release_package
         # Copy executable
         cp build/main release_package/
+        cp build/libsgl.so release_package/
         # Copy engine folder
         cp -r engine release_package/
 
