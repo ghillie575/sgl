@@ -97,7 +97,35 @@ add_executable(main main.cpp)
 target_link_libraries(main PRIVATE
     sgl
 )
+# ----------------------------------------------------------
+# Make main load shared libs from its own directory
+# ----------------------------------------------------------
+if(WIN32)
+    # On Windows, set PATH in the executable's runtime environment
+    set_target_properties(main PROPERTIES
+        VS_DEBUGGER_ENVIRONMENT "PATH=%PATH%;$<TARGET_FILE_DIR:sgl>"
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+    )
 
+    # Optionally copy DLLs next to the exe
+    add_custom_command(TARGET main POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "$<TARGET_FILE:sgl>"
+            "$<TARGET_FILE_DIR:main>"
+    )
+elseif(APPLE)
+    # macOS: use @rpath or @loader_path for relative loading
+    set_target_properties(sgl PROPERTIES
+        INSTALL_RPATH "@loader_path"
+        BUILD_WITH_INSTALL_RPATH TRUE
+    )
+else()
+    # Linux: use $ORIGIN for relative path to the executable
+    set_target_properties(sgl PROPERTIES
+        INSTALL_RPATH "$ORIGIN"
+        BUILD_WITH_INSTALL_RPATH TRUE
+    )
+endif()
 # ----------------------------------------------------------
 # Copy engine resources after build
 # ----------------------------------------------------------
