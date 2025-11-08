@@ -47,11 +47,27 @@ jobs:
           path: release_package/
 
       # -------------------------------
-      # Upload Artifact (Gitea)
+      # Upload Artifact (Gitea via API)
       # -------------------------------
-      - name: Upload artifact (Gitea)
+      - name: Upload artifact to Gitea
         if: ${{ !startsWith(github.server_url, 'https://github.com') }}
-        uses: actions/upload-artifact@v3
-        with:
-          name: sgl-release
-          path: release_package/
+        run: |
+          curl -X POST \
+            "${{ github.server_url }}/api/v1/repos/${{ github.repository }}/releases" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"tag_name\": \"build-${{ github.run_number }}\",
+              \"name\": \"Build #${{ github.run_number }}\",
+              \"body\": \"Automated build from commit ${{ github.sha }}\",
+              \"draft\": false,
+              \"prerelease\": true
+            }" > release.json
+          
+          RELEASE_ID=$(cat release.json | grep -o '"id":[0-9]*' | head -1 | grep -o '[0-9]*')
+          
+          curl -X POST \
+            "${{ github.server_url }}/api/v1/repos/${{ github.repository }}/releases/${RELEASE_ID}/assets?name=sgl-release.zip" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/zip" \
+            --data-binary @sgl-release.zip
